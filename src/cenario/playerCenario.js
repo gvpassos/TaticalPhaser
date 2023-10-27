@@ -14,60 +14,41 @@ export class PlayerCenario extends Phaser.Physics.Arcade.Sprite {
         this.graphics = this.scene.add.graphics();
         this.travaAndar = false;
     }
-    move( path, mover, Config, estagio){
-        this.travaAndar = true;
-
-        if(path.length == 0){
-            this.travaAndar = false;
-            return;
-        }
+    move( path, mover, onFinish){
 
         const color = 0x000050; 
         const lineWidth = 5;
-        const totalMov = Config.players[Config.playerActive].acoes.find((element) => element.tipo == 'Andar').dados.speed
-        
-        if(path.length > totalMov){
-            path.splice(totalMov)
-        }
 
         for (let i = 0; i  < path.length;  i++) {
             path[i].x = path[i].x*32;
             path[i].y = path[i].y*32;
-            path[i].duration =  100,
+            path[i].duration =  20;
 
-            this.graphics.lineStyle(lineWidth, color);
-            if(i==0){
-                const line = new Phaser.Geom.Line(Math.floor(this.x/32)*32+16, Math.floor(this.y/32).y*32+16,path[i].x+16, path[i].y+16);
-                this.graphics.strokeLineShape(line);
-            }else{
-                const line = new Phaser.Geom.Line(path[i-1].x+16, path[i-1].y+16,path[i].x+16, path[i].y+16);
-                this.graphics.strokeLineShape(line);
-            }
+           
         }
 
-        
+        this.scene = this.scene;
+        if(mover){
+            mover.stop();
+            this.graphics.clear();
+        } 
+        this.graphics.lineStyle(lineWidth, color);
+        this.graphics.strokeRect(path[path.length-1].x, path[path.length-1].y, 32, 32);
 
-        this.graphics.strokeRect(path[path.length-1].x, path[path.length-1].y, 32, 32); 
-
-        if( mover ){
-            let scene = this.scene;
-                const tween = this.scene.tweens.chain({
-                    targets: this,
-                    tweens:path,
-                    onComplete: () => {
-                    this.graphics.clear();
-                    Config.marcadorEtapa = scene.trocarTurno(estagio);
-                    scene.scene.restart();
-                    Config.players[Config.playerActive].x = this.x;
-                    Config.players[Config.playerActive].y = this.y;
-                    },
-                });
-        }
-        
+        const tween = this.scene.tweens.chain({
+            targets: this,
+            tweens:path,
+            onComplete: () => {
+                this.graphics.clear();   
+                if(onFinish) onFinish();
+            },
+        });
 
         
+
         
-        return true;
+        
+        return tween;
     }
 
    

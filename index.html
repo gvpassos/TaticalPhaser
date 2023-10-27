@@ -93,7 +93,7 @@
             ]
         };
         const faseCombate = new FaseCombate(Config)
-        const Cidade = new Cenario (Config,"cidade");
+        const Cidade = new Cenario (Config,"entrada");
 
         const config = {
             type: Phaser.AUTO,
@@ -112,6 +112,12 @@
         const Game = new Phaser.Game(config);
         Game.scene.start('Cidade');
     </script>
+    <style>
+        canvas{
+            width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
     <div id="root"></div>
