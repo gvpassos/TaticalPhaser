@@ -30,23 +30,44 @@ export class Cenario extends Phaser.Scene {
             .setInteractive()
             .on('pointerup',  (pointer)=>{this.onLayerClick(pointer)} , this);
         
+        map.setCollisionBetween(0, 2);
 
         const detalhes = map.createLayer('detalhes', tileset, 0, 0);
 
         //* interações */
         const interacoes = map.getObjectLayer("interacoes");
-        criarInteracoes(this,interacoes.objects);
+        this.Objs = criarInteracoes(this,interacoes.objects);
 
 
         /* PLAYER CREATION */
         let x = 23*32;
         let y = 42*32;
-        interacoes.objects.forEach(element => {
-            if(this.ultimoMapa == element.properties.find(element => element.name == 'mapa')['value']){
-                x = element.x;
-                y = element.y;
+        if(this.ultimoMapa){
+            for (let i = 0; i < interacoes.objects.length; i++) {
+                const element = interacoes.objects[i];
+                if(element.name == 'playerPoint'){
+                    if(element.properties.find(el => el.name == "mapa")['value'] == this.ultimoMapa[0]){
+                        if(element.properties.some(el => el.name == "spawnNumber")){
+                            if(element.properties.find(el => el.name == "spawnNumber")['value'] == this.ultimoMapa[1]){
+                                x = element.x;
+                                y = element.y;
+                                console.log(element)
+                            }                          
+                        }else{
+                            x = element.x
+                            y = element.y
+                        }
+                    }
+                }
             }
-        });
+        }else if(this.ultimoMapa){
+            if(localStorage.getItem("playerPos")){
+                let playerPos = JSON.parse(localStorage.getItem("playerPos"));
+                x = playerPos.x;
+                y = playerPos.y;
+            }
+        }
+
         this.player = new PlayerCenario({
             scene:this,
             x:x,
@@ -57,6 +78,21 @@ export class Cenario extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, this.width, this.height);
         this.cameras.main.startFollow(this.player);
         this.onMove = false;
+
+        /* COLISIONS */
+        
+        this.physics.add.collider(this.player, this.groundLayer);
+        this.physics.add.overlap(this.player, this.Objs, (p,t)=>{
+            if(p.name == "player"){
+                if(t.funcColide)
+                    t.funcColide();
+            }
+            
+            if(t.name = 'player'){
+                if(p.funcColide)
+                    p.teleport();
+            } 
+        });
 
 
     }

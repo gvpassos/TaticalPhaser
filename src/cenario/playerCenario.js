@@ -13,6 +13,18 @@ export class PlayerCenario extends Phaser.Physics.Arcade.Sprite {
         this.name = config.name
         this.graphics = this.scene.add.graphics();
         this.travaAndar = false;
+
+
+        config.scene.input.keyboard.on('keydown', (input) => {
+            if(this.tecladoMove[input.key])this.tecladoMove[input.key](800);
+        })
+        config.scene.input.keyboard.on('keyup', (input) => {
+            if(this.tecladoMove[input.key])this.tecladoMove[input.key](0);
+            
+            this.x = (Math.floor( this.x / 32 ) * 32);
+            this.y = (Math.floor( this.y / 32 ) * 32);
+              
+        })
     }
     move( path, mover, onFinish){
 
@@ -51,7 +63,20 @@ export class PlayerCenario extends Phaser.Physics.Arcade.Sprite {
         return tween;
     }
 
-   
+    tecladoMove={
+        "ArrowRight":(speed)=>{
+            this.body.setVelocityX(speed);
+        },
+        "ArrowLeft":(speed)=>{
+            this.body.setVelocityX(-speed);
+        },
+        "ArrowUp":(speed)=>{
+            this.body.setVelocityY(-speed);
+        },
+        "ArrowDown":(speed)=>{
+            this.body.setVelocityY(speed);
+        },
+    }
 
     update(){
         

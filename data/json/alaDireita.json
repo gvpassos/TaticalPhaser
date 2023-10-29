@@ -192,132 +192,6 @@
          "objects":[
                 {
                  "height":0,
-                 "id":18,
-                 "name":"portal",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"mapa",
-                         "type":"string",
-                         "value":"jardim"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":1408,
-                 "y":32
-                }, 
-                {
-                 "height":0,
-                 "id":19,
-                 "name":"portal",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"mapa",
-                         "type":"string",
-                         "value":"jardim"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":1440,
-                 "y":32
-                }, 
-                {
-                 "height":0,
-                 "id":20,
-                 "name":"portal",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"mapa",
-                         "type":"string",
-                         "value":"jardim"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":1472,
-                 "y":32
-                }, 
-                {
-                 "height":0,
-                 "id":21,
-                 "name":"portal",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"mapa",
-                         "type":"string",
-                         "value":"jardim"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":1504,
-                 "y":32
-                }, 
-                {
-                 "height":0,
-                 "id":22,
-                 "name":"portal",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"mapa",
-                         "type":"string",
-                         "value":"jardim"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":1536,
-                 "y":32
-                }, 
-                {
-                 "height":0,
-                 "id":24,
-                 "name":"portal",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"mapa",
-                         "type":"string",
-                         "value":"jardim"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":1568,
-                 "y":32
-                }, 
-                {
-                 "height":0,
-                 "id":25,
-                 "name":"portal",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"mapa",
-                         "type":"string",
-                         "value":"jardim"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":1600,
-                 "y":32
-                }, 
-                {
-                 "height":0,
                  "id":26,
                  "name":"playerPoint",
                  "point":true,
@@ -336,78 +210,6 @@
                 }, 
                 {
                  "height":0,
-                 "id":29,
-                 "name":"portal",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"mapa",
-                         "type":"string",
-                         "value":"mansao"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":3136,
-                 "y":1472
-                }, 
-                {
-                 "height":0,
-                 "id":30,
-                 "name":"portal",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"mapa",
-                         "type":"string",
-                         "value":"mansao"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":3136,
-                 "y":1504
-                }, 
-                {
-                 "height":0,
-                 "id":31,
-                 "name":"portal",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"mapa",
-                         "type":"string",
-                         "value":"mansao"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":3136,
-                 "y":1536
-                }, 
-                {
-                 "height":0,
-                 "id":32,
-                 "name":"portal",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"mapa",
-                         "type":"string",
-                         "value":"mansao"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":3136,
-                 "y":1568
-                }, 
-                {
-                 "height":0,
                  "id":35,
                  "name":"playerPoint",
                  "point":true,
@@ -416,85 +218,18 @@
                          "name":"mapa",
                          "type":"string",
                          "value":"mansao"
+                        }, 
+                        {
+                         "name":"spawnNumber",
+                         "type":"int",
+                         "value":1
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":3072,
+                 "x":2912,
                  "y":1536
-                }, 
-                {
-                 "height":0,
-                 "id":36,
-                 "name":"portal",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"mapa",
-                         "type":"string",
-                         "value":"mansao"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":3136,
-                 "y":512
-                }, 
-                {
-                 "height":0,
-                 "id":37,
-                 "name":"portal",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"mapa",
-                         "type":"string",
-                         "value":"mansao"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":3136,
-                 "y":544
-                }, 
-                {
-                 "height":0,
-                 "id":38,
-                 "name":"portal",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"mapa",
-                         "type":"string",
-                         "value":"mansao"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":3136,
-                 "y":576
-                }, 
-                {
-                 "height":0,
-                 "id":39,
-                 "name":"portal",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"mapa",
-                         "type":"string",
-                         "value":"mansao"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":3136,
-                 "y":608
                 }, 
                 {
                  "height":0,
@@ -506,13 +241,79 @@
                          "name":"mapa",
                          "type":"string",
                          "value":"mansao"
+                        }, 
+                        {
+                         "name":"spawnNumber",
+                         "type":"int",
+                         "value":0
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":3072,
+                 "x":2912,
                  "y":576
+                }, 
+                {
+                 "height":32,
+                 "id":42,
+                 "name":"portal",
+                 "properties":[
+                        {
+                         "name":"mapa",
+                         "type":"string",
+                         "value":"jardim"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":224,
+                 "x":1408,
+                 "y":32
+                }, 
+                {
+                 "height":128,
+                 "id":43,
+                 "name":"portal",
+                 "properties":[
+                        {
+                         "name":"mapa",
+                         "type":"string",
+                         "value":"mansao"
+                        }, 
+                        {
+                         "name":"spawnNumber",
+                         "type":"int",
+                         "value":0
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":3136,
+                 "y":512
+                }, 
+                {
+                 "height":128,
+                 "id":44,
+                 "name":"portal",
+                 "properties":[
+                        {
+                         "name":"mapa",
+                         "type":"string",
+                         "value":"mansao"
+                        }, 
+                        {
+                         "name":"spawnNumber",
+                         "type":"int",
+                         "value":1
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":3136,
+                 "y":1472
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -521,7 +322,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":41,
+ "nextobjectid":45,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",
@@ -540,10 +341,6 @@
          "tileheight":32,
          "tilewidth":32,
          "transparentcolor":"#ffffff"
-        }, 
-        {
-         "firstgid":129,
-         "source":"tiles.tsx"
         }],
  "tilewidth":32,
  "type":"map",
