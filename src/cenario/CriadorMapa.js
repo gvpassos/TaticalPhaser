@@ -5,7 +5,7 @@ import { criarInteracoes } from "./interaçoes.js";
 let Config = null;
 export class Cenario extends Phaser.Scene {
     constructor(config,mapa) {
-        super("faseCombate");
+        super("Cenario");
         Config = config;
         this.mapaKey = mapa;
     }
@@ -16,9 +16,9 @@ export class Cenario extends Phaser.Scene {
 
         this.load.spritesheet('player', 'data/player/player.png', { frameWidth: 32, frameHeight: 32 });
 
-        this.load.image('espada', 'data/player/arminha.png');
+        this.load.spritesheet('monstro1', 'data/npc/enemy.png', { frameWidth: 32, frameHeight: 32 });
 
-     
+        this.load.image('espada', 'data/player/arminha.png');
 
     }
 
@@ -90,11 +90,16 @@ export class Cenario extends Phaser.Scene {
             
             if(t.name = 'player'){
                 if(p.funcColide)
-                    p.teleport();
+                    p.funcColide();
             } 
         });
 
 
+        /* BOTOES */
+
+        this.addBotoes();
+        
+        console.log(this.groundLayer)
     }
     onLayerClick(pointer) {
             let path = pathFinder(
@@ -111,5 +116,33 @@ export class Cenario extends Phaser.Scene {
 
     }
 
+
+    addBotoes(){
+        let w = this.cameras.main.width;
+        let h = this.cameras.main.height;
+
+        this.add.sprite(w*0.8, h*0.1, 'espada')
+            .setScrollFactor(0, 0)
+            .setInteractive()
+            .on('pointerup', this.callMenus['playerManager']);
+        this.add.circle(w*0.9, h*0.1, 25, 0xff0000)
+            .setScrollFactor(0, 0)
+            .setInteractive()
+            .on('pointerup', this.callMenus['settings'])
+    }
+
+    callMenus = {
+        "settings": ()=>{
+            this.scene.pause();
+            this.scene.manager.scenes.find(el => el.id == 'menuCreator').ui =  "settings";
+            this.scene.launch('MenuCreator');
+        },
+        "playerManager": ()=>{
+            this.scene.pause();
+            this.scene.manager.scenes.find(el => el.id == 'menuCreator').ui =  "playerManager";
+            this.scene.launch('MenuCreator');
+        }
+
+    }
 }
 

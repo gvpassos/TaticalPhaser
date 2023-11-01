@@ -6,6 +6,10 @@ export const criarInteracoes = function (scene,interacoes){
         switch (object.name) {
             case 'portal':
                objs.push(makePortal(scene,object));
+                break;
+            case 'inimigo':
+                objs.push(makeInimigo(scene,object));
+                break;
         }
     });
     return objs;
@@ -35,3 +39,44 @@ function makePortal(scene,object){
     scene.physics.add.existing(portal);     
     return portal;
 }
+
+function makeInimigo(scene,object){
+    
+    const spriteName = object.properties.find(el => el.name == "sprite")['value'];
+    let tweenIDLE=[];
+    object.polygon.forEach((laco,ind) => {
+        const dist = ind>0 ?
+            Phaser.Math.Distance.BetweenPoints(laco, object.polygon[ind-1]):
+            Phaser.Math.Distance.BetweenPoints(laco, object.polygon[object.polygon.length-1]);
+        tweenIDLE.push({
+            x: laco.x + object.x,
+            y: laco.y + object.y,
+            duration: dist*5,
+            onStart: ()=>{
+                console.log("start",laco);
+            }
+        })
+
+    });
+
+
+    const inimigo = scene.add.sprite(object.x, object.y, spriteName);
+        inimigo.setOrigin(0,0);
+        inimigo.funcColide = ()=>{
+            console.log("colidiu");
+            inimigo.tween.stop();
+        }
+
+        inimigo.tween = scene.tweens.chain({
+            targets: inimigo,
+            tweens:tweenIDLE,
+            onComplete: () => {
+                console.log("fim");
+            },
+            loop: -1
+        });
+    scene.physics.add.existing(inimigo);
+    return inimigo;
+}
+
+
