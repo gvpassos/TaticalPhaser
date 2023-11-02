@@ -21,10 +21,7 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
         config.scene.input.keyboard.on('keyup', (input) => {
             
             if(this.tecladoMove[input.key])this.tecladoMove[input.key](0);
-            
-            this.x = (Math.floor( this.x / 32 ) * 32);
-            this.y = (Math.floor( this.y / 32 ) * 32);
-              
+
         })
 
         this.interact = config.scene.add.rectangle(config.x-2, config.y-2,36,36,0xffffff);
@@ -82,30 +79,42 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
 
     tecladoMove={
         "ArrowRight":(speed)=>{
-            this.body.setVelocityX(speed);            
+            this.body.setVelocityX(speed);
         },
         "ArrowLeft":(speed)=>{
-            this.body.setVelocityX(-speed);            
+            this.body.setVelocityX(-speed);  
         },
         "ArrowUp":(speed)=>{
-            this.body.setVelocityY(-speed);        
+            this.body.setVelocityY(-speed);    
         },
         "ArrowDown":(speed)=>{
             this.body.setVelocityY(speed);
         },
         "x":(speed)=>{
-
-           this.interactTigger = !(speed > 0);            
+            this.interactTigger = !(speed > 0);            
             console.log(this.interactTigger);
         }
     }
 
-    stopTween(){
+    stopTween(porta){
         this.graphics.clear();
         if(this.tweens){
             this.tweens.stop();
-            this.x = this.ultimaPos.x;
-            this.y = this.ultimaPos.y;
+        }
+
+        console.log("stop");
+
+        if(porta.frame.name==4){
+            if(this.x > porta.x)
+                this.x = porta.x+32;
+            if(this.x < porta.x)
+                this.x = porta.x-32;            
+        }else {
+            console.log(porta.y,this.y);
+             if(this.y > porta.y)
+                this.y = porta.y+64;
+            if(this.y < porta.y)
+                this.y = porta.y-32;      
         }
     }
 

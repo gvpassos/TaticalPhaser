@@ -97,7 +97,7 @@ function makePorta(scene,object){
     inimigo.setOrigin(0,0); 
     inimigo.funcColide = ()=>{
         if(!inimigo.isOpen){
-            scene.player.stopTween();
+            scene.player.stopTween(inimigo);
         }
     }
 
