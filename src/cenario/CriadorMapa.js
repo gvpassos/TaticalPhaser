@@ -15,6 +15,9 @@ export class Cenario extends Phaser.Scene {
         this.load.tilemapTiledJSON(`${this.mapaKey}`, `data/json/${this.mapaKey}.json`);	
 
         this.load.spritesheet('player', 'data/player/player.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('porta', 'data/tileds/portaMadeira.png', { frameWidth: 32, frameHeight: 64 });
+
+
 
         this.load.spritesheet('monstro1', 'data/npc/enemy.png', { frameWidth: 32, frameHeight: 32 });
 
@@ -35,16 +38,15 @@ export class Cenario extends Phaser.Scene {
         const detalhes = map.createLayer('detalhes', tileset, 0, 0);
 
         //* interações */
-        const interacoes = map.getObjectLayer("interacoes");
-        this.Objs = criarInteracoes(this,interacoes.objects);
-
+        this.interacoes = map.getObjectLayer("interacoes");
+        this.Objs = criarInteracoes(this,this.interacoes.objects);
 
         /* PLAYER CREATION */
         let x = 23*32;
         let y = 42*32;
         if(this.ultimoMapa){
-            for (let i = 0; i < interacoes.objects.length; i++) {
-                const element = interacoes.objects[i];
+            for (let i = 0; i < this.interacoes.objects.length; i++) {
+                const element = this.interacoes.objects[i];
                 if(element.name == 'playerPoint'){
                     if(element.properties.find(el => el.name == "mapa")['value'] == this.ultimoMapa[0]){
                         if(element.properties.some(el => el.name == "spawnNumber")){
@@ -54,8 +56,8 @@ export class Cenario extends Phaser.Scene {
                                 console.log(element)
                             }                          
                         }else{
-                            x = element.x
-                            y = element.y
+                            x = element.x;
+                            y = element.y;
                         }
                     }
                 }
@@ -82,17 +84,16 @@ export class Cenario extends Phaser.Scene {
         /* COLISIONS */
         
         this.physics.add.collider(this.player, this.groundLayer);
+        
         this.physics.add.overlap(this.player, this.Objs, (p,t)=>{
-            if(p.name == "player"){
                 if(t.funcColide)
                     t.funcColide();
-            }
-            
-            if(t.name = 'player'){
-                if(p.funcColide)
-                    p.funcColide();
-            } 
         });
+        this.physics.add.overlap(this.player.interact, this.Objs, (p,t)=>{
+            if(p.funcColide)
+                p.funcColide(t);
+        });
+
 
 
         /* BOTOES */
@@ -105,14 +106,13 @@ export class Cenario extends Phaser.Scene {
             let path = pathFinder(
                 this.player,
                 { x: pointer.worldX, y: pointer.worldY },
-                this.groundLayer,[]
-
-            )
-           
+                this.groundLayer,this.interacoes.objects
+            )           
             this.onMove = this.player.move(path, this.onMove,false);
     }
 
     update() {
+        this.player.update()    
 
     }
 

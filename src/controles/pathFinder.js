@@ -20,9 +20,9 @@ export function pathFinder(posInicial, posFinal,map, sprites) {
     for (let i = 0; i < sprites.length; i++) {
       const element = sprites[i];
       if(element.x != inicial.x && element.y != inicial.y){
-        obstaculos.push({x:element.x/32,y:element.y/32});
+        let receiver = criarObstaculo(element);
+          if(receiver != null) obstaculos.push( receiver );
       }
-      
     }
     
     
@@ -119,7 +119,7 @@ export function findPath(initial, final, map ) {
           neighbor.y < 0 ||
           neighbor.y >= mapHeight ||
           map.some(cell => cell.x === neighbor.x && cell.y === neighbor.y && cell.index <= 2) ||
-          obstacles.some(obstacle => obstacle.x === neighbor.x && obstacle.y === neighbor.y)
+          obstacles.some(obstacle => obstacle.x === neighbor.x && obstacle.y === neighbor.y && obstacle.index)
         ) {
           continue; 
         }
@@ -146,16 +146,17 @@ export function findPath(initial, final, map ) {
   }
 
 
-  var WaitEvent = function (eventEmitter, eventName) {
-    return new Promise(function (resolve, reject) {
-        eventEmitter.once(eventName, function () {
-            resolve();
-        });
-    });
-}
+function criarObstaculo(obstaculo){
+  if(obstaculo.name == "porta"){
 
-var WaitComplete = function (eventEmitter) {
-    return WaitEvent(eventEmitter, 'complete');
-}
+    let p1 = {x:Math.floor(obstaculo.x/32),y:Math.floor(obstaculo.y/32),index:obstaculo.properties.find(el => el.name == 'isLock')['value']};
 
-export { WaitEvent, WaitComplete };
+    if(obstaculo.properties.find(el => el.name == 'pos')['value'] == '4'){
+      let p2 = {x:Math.floor(obstaculo.x/32),y:Math.floor(obstaculo.y/32)+1,index:obstaculo.properties.find(el => el.name == 'isLock')['value']}
+      return (p1,p2);
+    }
+    return p1;
+  }
+  return null;
+
+}

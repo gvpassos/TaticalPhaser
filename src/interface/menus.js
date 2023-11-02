@@ -34,7 +34,6 @@ export class MenuCreator extends Phaser.Scene {
         const box = this.add.rectangle(this.w*0.2, this.h*0.2,this.w*0.6, this.h*0.8, 0xfff0f0)
             .setScrollFactor(0, 0)
             .setOrigin(0, 0);
-
         
         const close = this.add.circle(this.w*0.6, this.h*0.2, 50, 0xff0000)
             .setScrollFactor(0, 0)   

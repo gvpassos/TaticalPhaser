@@ -10,8 +10,13 @@ export const criarInteracoes = function (scene,interacoes){
             case 'inimigo':
                 objs.push(makeInimigo(scene,object));
                 break;
+            case 'porta':
+                objs.push(makePorta(scene,object));
+                break;
         }
     });
+
+    console.log(objs);
     return objs;
 }
 
@@ -37,6 +42,7 @@ function makePortal(scene,object){
     });
 
     scene.physics.add.existing(portal);     
+    
     return portal;
 }
 
@@ -53,7 +59,7 @@ function makeInimigo(scene,object){
             y: laco.y + object.y,
             duration: dist*5,
             onStart: ()=>{
-                console.log("start",laco);
+                
             }
         })
 
@@ -79,4 +85,50 @@ function makeInimigo(scene,object){
     return inimigo;
 }
 
+function makePorta(scene,object){
+    console.log(object);
+    const spriteN = object.properties.find(el => el.name == "pos")['value'];
+    const isLock = object.properties.find(el => el.name == "isLock")['value'];
+    const isOpen = object.properties.find(el => el.name == "isOpen")['value'];
+
+    const inimigo = scene.add.sprite(object.x, object.y, 'porta', isOpen ? spriteN+1 : spriteN );
+    inimigo.isLock = isLock;
+    inimigo.isOpen = isOpen;
+    inimigo.setOrigin(0,0); 
+    inimigo.funcColide = ()=>{
+        if(!inimigo.isOpen){
+            scene.player.stopTween();
+        }
+    }
+
+    inimigo.setInteractive();
+    
+    inimigo.activeInteraction = () => {
+        if( isLock ) return;
+        if( inimigo.isOpen ){
+            inimigo.setFrame(spriteN);
+            inimigo.isOpen = false;
+        } 
+        else{
+            inimigo.setFrame(spriteN+1);
+            inimigo.isOpen = true;
+        }
+        
+    }
+    inimigo.on('pointerup', ()=>{
+        let path = pathFinder(
+            scene.player,
+            { x: inimigo.x, y: inimigo.y },
+            scene.groundLayer,[]);
+        if(path.length>1)path.pop();
+        scene.player.move(path, scene.onMove,inimigo.activeInteraction);
+        
+    });
+    scene.physics.add.existing(inimigo);
+
+    inimigo.body.setImmovable();
+
+    return (inimigo);
+
+}
 
