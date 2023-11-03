@@ -33,9 +33,20 @@ export function pathFinder(posInicial, posFinal,map, sprites) {
 
 
 
-export function findPath(initial, final, map ) {
+export function findPath(posInicial, posFinal, map ,sprites) {
+    const final =  {x:Math.floor(posFinal.x/32),y: Math.floor(posFinal.y/32)};
+    const inicial = {x:Math.floor(posInicial.x/32),y: Math.floor(posInicial.y/32)};
+    let obstaculos = [];
+    for (let i = 0; i < sprites.length; i++) {
+      const element = sprites[i];
+      if(element.x != inicial.x && element.y != inicial.y){
+        let receiver = criarObstaculo(element);
+          if(receiver != null) obstaculos.push( receiver );
+      }
+    }
+    
     const path = [];
-    let current = { ...initial };
+    let current = { ...inicial };
   
     while (current.x !== final.x || current.y !== final.y) {
       
@@ -49,9 +60,10 @@ export function findPath(initial, final, map ) {
       // Verifica se a próxima célula está no mapa
       const nextX = current.x + directionX;
       const nextY = current.y + directionY;
-  
+        
       const nextCell = map.find(
-        cell => cell.x === nextX && cell.y === nextY && cell.index <= 2
+        cell => cell.x === nextX && cell.y === nextY && cell.index >= 2 
+        && !obstaculos.some(obstacle => obstacle.x === cell.x && cell.y === neighbor.y && obstacle.index)
       );
   
       if (nextCell) {
@@ -59,7 +71,7 @@ export function findPath(initial, final, map ) {
         current = { x: nextX, y: nextY };
       } else {
         // Não é possível mover nessa direção
-        break;
+        return false;
       }
     }
     

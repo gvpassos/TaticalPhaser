@@ -649,12 +649,12 @@
                         {
                          "name":"sprite",
                          "type":"string",
-                         "value":"monstro1"
+                         "value":"monstro2"
                         }, 
                         {
                          "name":"tipo",
                          "type":"string",
-                         "value":"ouvinte"
+                         "value":"observador"
                         }],
                  "rotation":0,
                  "type":"",

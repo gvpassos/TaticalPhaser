@@ -121,7 +121,7 @@
          "objects":[
                 {
                  "height":0,
-                 "id":62,
+                 "id":1,
                  "name":"playerPoint",
                  "point":true,
                  "properties":[
@@ -139,7 +139,7 @@
                 }, 
                 {
                  "height":0,
-                 "id":71,
+                 "id":2,
                  "name":"playerPoint",
                  "point":true,
                  "properties":[
@@ -157,7 +157,7 @@
                 }, 
                 {
                  "height":0,
-                 "id":73,
+                 "id":3,
                  "name":"playerPoint",
                  "point":true,
                  "properties":[
@@ -175,7 +175,7 @@
                 }, 
                 {
                  "height":0,
-                 "id":86,
+                 "id":4,
                  "name":"playerPoint",
                  "point":true,
                  "properties":[
@@ -193,7 +193,7 @@
                 }, 
                 {
                  "height":32,
-                 "id":107,
+                 "id":5,
                  "name":"portal",
                  "properties":[
                         {
@@ -210,7 +210,7 @@
                 }, 
                 {
                  "height":128,
-                 "id":109,
+                 "id":6,
                  "name":"portal",
                  "properties":[
                         {
@@ -227,7 +227,7 @@
                 }, 
                 {
                  "height":160,
-                 "id":111,
+                 "id":7,
                  "name":"portal",
                  "properties":[
                         {
@@ -244,7 +244,7 @@
                 }, 
                 {
                  "height":128,
-                 "id":112,
+                 "id":8,
                  "name":"portal",
                  "properties":[
                         {
@@ -261,7 +261,7 @@
                 }, 
                 {
                  "height":0,
-                 "id":115,
+                 "id":9,
                  "name":"npc",
                  "point":true,
                  "properties":[
@@ -299,7 +299,7 @@
                 }, 
                 {
                  "height":0,
-                 "id":119,
+                 "id":10,
                  "name":"inimigo",
                  "polygon":[
                         {
@@ -392,6 +392,110 @@
                  "width":0,
                  "x":704,
                  "y":160
+                }, 
+                {
+                 "height":0,
+                 "id":121,
+                 "name":"inimigo",
+                 "polygon":[
+                        {
+                         "x":0,
+                         "y":0
+                        }, 
+                        {
+                         "x":-544,
+                         "y":0
+                        }, 
+                        {
+                         "x":-544,
+                         "y":-512
+                        }, 
+                        {
+                         "x":-704,
+                         "y":-512
+                        }, 
+                        {
+                         "x":-704,
+                         "y":-320
+                        }, 
+                        {
+                         "x":-1184,
+                         "y":-320
+                        }, 
+                        {
+                         "x":-704,
+                         "y":-320
+                        }, 
+                        {
+                         "x":-704,
+                         "y":512
+                        }, 
+                        {
+                         "x":-1152,
+                         "y":512
+                        }, 
+                        {
+                         "x":-1152,
+                         "y":544
+                        }, 
+                        {
+                         "x":-704,
+                         "y":544
+                        }, 
+                        {
+                         "x":-704,
+                         "y":704
+                        }, 
+                        {
+                         "x":-544,
+                         "y":704
+                        }, 
+                        {
+                         "x":-544,
+                         "y":480
+                        }, 
+                        {
+                         "x":-640,
+                         "y":480
+                        }, 
+                        {
+                         "x":-640,
+                         "y":64
+                        }, 
+                        {
+                         "x":-480,
+                         "y":64
+                        }, 
+                        {
+                         "x":-480,
+                         "y":96
+                        }, 
+                        {
+                         "x":0,
+                         "y":96
+                        }],
+                 "properties":[
+                        {
+                         "name":"frame",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"sprite",
+                         "type":"string",
+                         "value":"monstro2"
+                        }, 
+                        {
+                         "name":"tipo",
+                         "type":"string",
+                         "value":"observador"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1376,
+                 "y":672
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -400,7 +504,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":120,
+ "nextobjectid":122,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

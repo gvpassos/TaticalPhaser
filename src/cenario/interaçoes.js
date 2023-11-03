@@ -1,4 +1,6 @@
-import { pathFinder } from "../controles/pathFinder.js"	
+import { pathFinder,findPath } from "../controles/pathFinder.js"	
+
+
 export const criarInteracoes = function (scene,interacoes){
     let objs = [];
     //create a foreach loop for all the interacoes objects , and create a sprite for each one with a name 
@@ -47,94 +49,125 @@ function makePortal(scene,object){
 }
 
 function makeInimigo(scene,object){
-    
+    console.log(object.id)
     const spriteName = object.properties.find(el => el.name == "sprite")['value'];
-    let tweenIDLE=[];
+    let tweenIDLE=[];    
+
+
+    const inimigo = scene.add.sprite(object.x+16, object.y+16, spriteName);
+    inimigo.setOrigin(0.5,0.5);
+    inimigo.funcColide = ()=>{
+        console.log("colidiu");
+        inimigo.tween.stop();
+    };
+
     object.polygon.forEach((laco,ind) => {
         const dist = ind>0 ?
             Phaser.Math.Distance.BetweenPoints(laco, object.polygon[ind-1]):
             Phaser.Math.Distance.BetweenPoints(laco, object.polygon[object.polygon.length-1]);
+        let angulo = ind>0 ?
+            Phaser.Math.Angle.Between(object.polygon[ind-1].x,object.polygon[ind-1].y,laco.x, laco.y,):
+            Phaser.Math.Angle.Between(object.polygon[object.polygon.length-1].x,object.polygon[object.polygon.length-1].y,laco.x, laco.y,);
+
+            angulo = Phaser.Math.RadToDeg(angulo);
         tweenIDLE.push({
-            x: laco.x + object.x,
-            y: laco.y + object.y,
+            x: laco.x + object.x+16,
+            y: laco.y + object.y+16,
             duration: dist*5,
-            onStart: ()=>{
-                
+            onStart:()=>{
+                inimigo.angulo = angulo
             }
         })
 
     });
 
-
-    const inimigo = scene.add.sprite(object.x, object.y, spriteName);
-        inimigo.setOrigin(0,0);
-        inimigo.funcColide = ()=>{
-            console.log("colidiu");
-            inimigo.tween.stop();
-        }
-        inimigo.idle = tweenIDLE;
-        inimigo.track = true;
+    inimigo.idle = tweenIDLE;
+    inimigo.track = false;
+    inimigo.tween = scene.tweens.chain({
+        targets: inimigo,
+        tweens:tweenIDLE,
+        loop: -1
+    });
+    inimigo.followPlayer = () => {
+        const path = pathFinder(
+            inimigo,
+            scene.player,
+            scene.groundLayer,[]
+        );
+        path.forEach((laco) => {
+            laco.x = laco.x *32 + 16;
+            laco.y = laco.y *32 + 16;
+            laco.duration =  200;
+            onStart: ()=>{
+                console.log("RUN")
+            }
+        });
         inimigo.tween = scene.tweens.chain({
             targets: inimigo,
-            tweens:tweenIDLE,
+            tweens:path,
             onComplete: () => {
-                console.log("fim");
+                inimigo.followPlayer(); 
             },
-            loop: -1
         });
-        scene.physics.add.existing(inimigo);
-        inimigo.followPlayer = () => {
-            const path = pathFinder(
-                inimigo,
-                scene.player,
-                scene.groundLayer,[]
-            );
-            path.forEach((laco) => {
-                laco.x = laco.x *32 ;
-                laco.y = laco.y *32 ;
-                laco.duration =  200;
-                onStart: ()=>{
-                    console.log("RUN")
+    }
+    scene.physics.add.existing(inimigo);
+
+    
+    switch (object.properties.find(el => el.name == "tipo")['value']) {
+        case 'ouvinte':
+            const distanciaMaxima = 150;
+            inimigo.update = () => {
+                const distancia = Phaser.Math.Distance.BetweenPoints(inimigo, scene.player);
+                if(inimigo.lastPlayerPos && !inimigo.track){
+                    if(inimigo.lastPlayerPos.x != scene.player.x ||
+                        inimigo.lastPlayerPos.y != scene.player.y){
+                        inimigo.track = true;
+                        inimigo.tween.stop();
+                        inimigo.followPlayer();
+                    }  
+                }else {
+                if(distancia < distanciaMaxima){
+                    inimigo.lastPlayerPos = {x: scene.player.x, y: scene.player.y};
+                }else{
+                    inimigo.lastPlayerPos = false;
+                    inimigo.track = false;
                 }
-            });
-            inimigo.tween = scene.tweens.chain({
-                targets: inimigo,
-                tweens:path,
-                onComplete: () => {
-                    inimigo.followPlayer()
-                },
-            });
-        }
-        switch (object.properties.find(el => el.name == "tipo")['value']) {
-            case 'ouvinte':
-                inimigo.update = () => {
-                    const distancia = Phaser.Math.Distance.BetweenPoints(inimigo, scene.player);
-                    if(inimigo.lastPlayerPos && inimigo.track){
-                        if(inimigo.lastPlayerPos.x != scene.player.x ||
-                            inimigo.lastPlayerPos.y != scene.player.y){
-                            inimigo.track = false;
+                }   
+
+
+            }
+            break; 
+        case 'observador':
+            const visionAngle = 30;
+            const visionDistance = 300;
+
+            inimigo.update = () => {
+                if(!inimigo.track){
+                    const directionToPlayer = Phaser.Math.Angle.Between(inimigo.x, inimigo.y, scene.player.x, scene.player.y);
+                    const distanceToPlayer = Phaser.Math.Distance.Between(inimigo.x, inimigo.y, scene.player.x, scene.player.y);
+                        
+                    if (inimigo.angulo > Phaser.Math.RadToDeg(directionToPlayer) - visionAngle &&
+                        inimigo.angulo < Phaser.Math.RadToDeg(directionToPlayer) + visionAngle &&
+                        distanceToPlayer < visionDistance
+                        ) {
+                        const path = findPath(inimigo,scene.player,scene.groundLayer.culledTiles,scene.Objs);
+                        console.log(path != false );
+                        if(path) {
+                            inimigo.track = true;
                             inimigo.tween.stop();
                             inimigo.followPlayer();
-                        }  
+                        }
                     }
-                    if(distancia < 100){
-                        inimigo.lastPlayerPos = {x: scene.player.x, y: scene.player.y};
-                        console.log(distancia)
-                    }else{
-                        inimigo.lastPlayerPos = false;
-                        inimigo.track = true;
-                    }
+                }                
 
-
-                }
-                break; 
-        }
+            }
+            break;s
+    }
 
     return inimigo;
 }
 
 function makePorta(scene,object){
-    console.log(object);
     const spriteN = object.properties.find(el => el.name == "pos")['value'];
     const isLock = object.properties.find(el => el.name == "isLock")['value'];
     const isOpen = object.properties.find(el => el.name == "isOpen")['value'];
@@ -229,6 +262,7 @@ function makeNpc(scene,object){
         }
         
     });
+
     scene.physics.add.existing(npc);
     npc.body.setImmovable();
 
