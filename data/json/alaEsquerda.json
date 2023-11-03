@@ -542,9 +542,19 @@
                         }],
                  "properties":[
                         {
+                         "name":"frame",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
                          "name":"sprite",
                          "type":"string",
                          "value":"monstro1"
+                        }, 
+                        {
+                         "name":"tipo",
+                         "type":"string",
+                         "value":"ouvinte"
                         }],
                  "rotation":0,
                  "type":"",

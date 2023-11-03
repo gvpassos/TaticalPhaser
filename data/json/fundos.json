@@ -470,9 +470,19 @@
                         }],
                  "properties":[
                         {
+                         "name":"frame",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
                          "name":"sprite",
                          "type":"string",
                          "value":"monstro1"
+                        }, 
+                        {
+                         "name":"tipo",
+                         "type":"string",
+                         "value":"ouvinte"
                         }],
                  "rotation":0,
                  "type":"",
@@ -511,7 +521,7 @@
                          "y":-2.66666666666666
                         }, 
                         {
-                         "x":1190.66666666667,
+                         "x":1222.66666666667,
                          "y":1405.33333333333
                         }, 
                         {
@@ -588,9 +598,19 @@
                         }],
                  "properties":[
                         {
+                         "name":"frame",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
                          "name":"sprite",
                          "type":"string",
-                         "value":"monstro2"
+                         "value":"monstro1"
+                        }, 
+                        {
+                         "name":"tipo",
+                         "type":"string",
+                         "value":"ouvinte"
                         }],
                  "rotation":0,
                  "type":"",
@@ -622,15 +642,25 @@
                         }],
                  "properties":[
                         {
+                         "name":"frame",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
                          "name":"sprite",
                          "type":"string",
-                         "value":"humano3"
+                         "value":"monstro1"
+                        }, 
+                        {
+                         "name":"tipo",
+                         "type":"string",
+                         "value":"ouvinte"
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":1408,
+                 "x":1376,
                  "y":416
                 }],
          "opacity":1,
