@@ -13,10 +13,10 @@ export const criarInteracoes = function (scene,interacoes){
             case 'porta':
                 objs.push(makePorta(scene,object));
                 break;
+            case 'npc':
+                objs.push(makeNpc(scene,object));
         }
     });
-
-    console.log(objs);
     return objs;
 }
 
@@ -72,7 +72,8 @@ function makeInimigo(scene,object){
             console.log("colidiu");
             inimigo.tween.stop();
         }
-
+        inimigo.idle = tweenIDLE;
+        inimigo.track = true;
         inimigo.tween = scene.tweens.chain({
             targets: inimigo,
             tweens:tweenIDLE,
@@ -81,7 +82,54 @@ function makeInimigo(scene,object){
             },
             loop: -1
         });
-    scene.physics.add.existing(inimigo);
+        scene.physics.add.existing(inimigo);
+        inimigo.followPlayer = () => {
+            const path = pathFinder(
+                inimigo,
+                scene.player,
+                scene.groundLayer,[]
+            );
+            path.forEach((laco) => {
+                laco.x = laco.x *32 ;
+                laco.y = laco.y *32 ;
+                laco.duration =  200;
+                onStart: ()=>{
+                    console.log("RUN")
+                }
+            });
+            inimigo.tween = scene.tweens.chain({
+                targets: inimigo,
+                tweens:path,
+                onComplete: () => {
+                    inimigo.followPlayer()
+                },
+            });
+        }
+        switch (object.properties.find(el => el.name == "tipo")['value']) {
+            case 'ouvinte':
+                inimigo.update = () => {
+                    const distancia = Phaser.Math.Distance.BetweenPoints(inimigo, scene.player);
+                    if(inimigo.lastPlayerPos && inimigo.track){
+                        if(inimigo.lastPlayerPos.x != scene.player.x ||
+                            inimigo.lastPlayerPos.y != scene.player.y){
+                            inimigo.track = false;
+                            inimigo.tween.stop();
+                            inimigo.followPlayer();
+                        }  
+                    }
+                    if(distancia < 100){
+                        inimigo.lastPlayerPos = {x: scene.player.x, y: scene.player.y};
+                        console.log(distancia)
+                    }else{
+                        inimigo.lastPlayerPos = false;
+                        inimigo.track = true;
+                    }
+
+
+                }
+                break; 
+        }
+
     return inimigo;
 }
 
@@ -120,8 +168,12 @@ function makePorta(scene,object){
             scene.player,
             { x: inimigo.x, y: inimigo.y },
             scene.groundLayer,[]);
-        if(path.length>1)path.pop();
-        scene.player.move(path, scene.onMove,inimigo.activeInteraction);
+        if(path.length>1){
+            path.pop();
+            scene.player.move(path, scene.onMove,inimigo.activeInteraction);    
+        }else{
+            inimigo.activeInteraction();
+        }
         
     });
     scene.physics.add.existing(inimigo);
@@ -132,3 +184,53 @@ function makePorta(scene,object){
 
 }
 
+function makeNpc(scene,object){
+     
+    const spriteName = object.properties.find(el => el.name == "sprite")['value'];
+    const spriteFrame = object.properties.find(el => el.name == "frame")['value'];
+    
+    const tipo = object.properties.find(el => el.name == "tipo")['value'];
+    let posInicial,posFinal;
+    if(tipo){
+        posInicial = object.properties.find(el => el.name == "posInicial")['value'];
+        posFinal = object.properties.find(el => el.name == "posFinal")['value'];
+    }
+    
+    const npc = scene.add.sprite(object.x, object.y, spriteName);
+    npc.setOrigin(0,0);
+    npc.setFrame(spriteFrame);
+    npc.funcColide = ()=>{
+        scene.player.stopTween(npc);
+    }
+    npc.activeInteraction = () => {
+        if(tipo){
+            scene.scene.pause();
+            scene.scene.manager.scenes.find(el => el.id == 'menuCreator').ui =  "dialog";
+            scene.scene.manager.scenes.find(el => el.id == 'menuCreator').fala =  tipo;
+            scene.scene.manager.scenes.find(el => el.id == 'menuCreator').pos =  posInicial;
+            scene.scene.manager.scenes.find(el => el.id == 'menuCreator').posFinal =  posFinal;
+            scene.scene.launch('MenuCreator');
+        }
+    }
+    npc.setInteractive();
+    npc.on('pointerup', ()=>{
+        console.log( scene.player,
+            { x: npc.x, y: npc.y },
+            scene.groundLayer,[]);
+        let path = pathFinder(
+            scene.player,
+            { x: npc.x, y: npc.y },
+            scene.groundLayer,[]);
+        if(path.length>1){
+            path.pop();
+            scene.player.move(path, scene.onMove,npc.activeInteraction);
+        }else{
+            npc.activeInteraction();
+        }
+        
+    });
+    scene.physics.add.existing(npc);
+    npc.body.setImmovable();
+
+    return npc;
+}

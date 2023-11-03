@@ -10,6 +10,9 @@ export class MenuCreator extends Phaser.Scene {
     }
     preload() {
         this.load.image({key: 'espada', url: 'data/player/arminha.png'});
+        //falas
+        if(this.ui == 'dialog')
+            this.load.json('falas', 'data/json/falas.json');
     }
 
     create() {
@@ -23,6 +26,9 @@ export class MenuCreator extends Phaser.Scene {
             case 'playerManager':
                 const elements = this.menuPlayerManager();
                 break;
+            case 'dialog':
+                this.menuDialog();
+
         }
       
         
@@ -203,6 +209,58 @@ export class MenuCreator extends Phaser.Scene {
         
         
     }
+
+    menuDialog(){
+        this.travaMovimento = false;
+        const dialog = this.add.container(this.w*0.1, this.h*0.7);
+
+        const retangulo = this.add.rectangle(0, 0, this.w*0.8, this.h*0.25, 0x1522ac)
+        retangulo.setOrigin(0,0);
+        retangulo.setInteractive();
+        retangulo.on('pointerup', ()=>{
+            if(this.travaMovimento){
+                this.scene.restart();
+            }else{
+                this.travaMovimento = true;
+            }
+                
+                
+            });
+        this.input.keyboard.on('keyup', (input) => {
+                if(input.key == 'x' || input.key == 'space'){
+                    if(this.travaMovimento){
+                        this.travaMovimento = false;
+                        this.scene.restart();
+                    }else{
+                        this.travaMovimento = true;
+                    }
+                }
+            });
+
+        dialog.add(retangulo);
+
+        const data = this.cache.json.get('falas');
+        
+        if(this.pos >= this.posFinal){ ///ultimo termina
+            this.scene.stop();
+            this.scene.resume('Cenario');
+        } 
+
+        const text = this.add.dom(
+            0 ,0 , 'div',
+            `border: 1px solid white;
+             width: ${this.w*0.77}px; height: ${this.h*0.18}px;
+              font: 2vmax Arial;color: white;
+            `,
+            data[this.fala][this.pos]);
+        text.setOrigin(0,0);
+        
+        dialog.add(text);
+
+        this.pos++;
+
+    }
+
     criarMiniaturaEsquerda(){
 
     }

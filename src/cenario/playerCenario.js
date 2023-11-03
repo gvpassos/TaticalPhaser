@@ -24,8 +24,8 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
 
         })
 
-        this.interact = config.scene.add.rectangle(config.x-2, config.y-2,36,36,0xffffff);
-        this.interact.setAlpha(0.5); 
+        this.interact = config.scene.add.rectangle(config.x, config.y,64,64,0xffffff);
+        this.interact.setAlpha(0); 
         this.interact.setOrigin(0,0);
         this.interact.funcColide = (obj) => {
             if(this.interactTigger){
@@ -91,8 +91,7 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
             this.body.setVelocityY(speed);
         },
         "x":(speed)=>{
-            this.interactTigger = !(speed > 0);            
-            console.log(this.interactTigger);
+            this.interactTigger = speed > 0;            
         }
     }
 
@@ -101,18 +100,15 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
         if(this.tweens){
             this.tweens.stop();
         }
-
-        console.log("stop");
-
-        if(porta.frame.name==4){
+        if(this.y <= porta.y+porta.height && this.y >= porta.y){
             if(this.x > porta.x)
-                this.x = porta.x+32;
+                this.x = porta.x+porta.width+32;
             if(this.x < porta.x)
                 this.x = porta.x-32;            
-        }else {
-            console.log(porta.y,this.y);
+        }
+        if(this.x <= porta.x+porta.width && this.x >= porta.x){
              if(this.y > porta.y)
-                this.y = porta.y+64;
+                this.y = porta.y+porta.height+32;
             if(this.y < porta.y)
                 this.y = porta.y-32;      
         }
@@ -120,7 +116,7 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
 
 
     update(){
-        this.interact.x = this.x-2;
-        this.interact.y = this.y-2;
+        this.interact.x = this.x-16;
+        this.interact.y = this.y-16;
     }
 }
