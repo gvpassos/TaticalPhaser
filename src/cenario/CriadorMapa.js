@@ -2,11 +2,10 @@ import { PlayerCenario } from "./playerCenario.js";
 import { pathFinder } from "../controles/pathFinder.js"
 import { criarInteracoes } from "./interaçoes.js";
 
-let Config = null;
 export class Cenario extends Phaser.Scene {
     constructor(config,mapa) {
         super("Cenario");
-        Config = config;
+        this.Config = config;
         this.mapaKey = mapa;
     }
     preload() {
@@ -41,6 +40,10 @@ export class Cenario extends Phaser.Scene {
             .on('pointerup',  (pointer)=>{this.onLayerClick(pointer)} , this);
         
         map.setCollisionBetween(0, 2);
+
+            const zoom = 0.7 + (1.2 - 0.7) * (window.innerWidth - 600) / (2880 - 600);
+            console.log(zoom);
+            this.cameras.main.setZoom(zoom);
 
         const detalhes = map.createLayer('detalhes', tileset, 0, 0);
 
@@ -84,7 +87,7 @@ export class Cenario extends Phaser.Scene {
             name:"player"
             
         })
-        this.cameras.main.setBounds(0, 0, this.width, this.height);
+        
         this.cameras.main.startFollow(this.player);
         this.onMove = false;
 

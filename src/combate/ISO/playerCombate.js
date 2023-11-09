@@ -1,4 +1,3 @@
-import { ITEMS } from "../interface/item.js";
 
 export class PlayerCombate extends Phaser.Physics.Arcade.Sprite {
     constructor (config)    {
@@ -7,7 +6,7 @@ export class PlayerCombate extends Phaser.Physics.Arcade.Sprite {
         config.scene.add.existing(this);
         config.scene.physics.add.existing(this);
         
-        this.setOrigin(0,0);
+        this.setOrigin(0.5,0);
         this.body.onWorldBounds = true;
         this.target = {x:0,y:0};
         
@@ -88,27 +87,10 @@ export class PlayerCombate extends Phaser.Physics.Arcade.Sprite {
 
             },
             Atacar:(dados)=> {               
-                console.log("Atacar",dados);
-
-                // dano da habilidade mais o dano da arma
-                let weaponDamage = 0;
-                if(dados.equip['weapon'] != null){
-                    weaponDamage = ITEMS.find(item => item.id == dados.equip.find((element) => element.name == 'weapon')).damage
-                }
-                const danoTotal = dados.acoes.find((element) => element.name == 'Atacar').dados.damage + weaponDamage
-
-                return danoTotal;
+                console.log("magia",this)
             }, 
             Magia:(dados)=> {
-                console.log("magia",dados)
-                // dano da habilidade mais o dano da arma
-                let weaponDamage = 0;
-                if(dados.equip['weapon'] != null){
-                    weaponDamage = ITEMS.find(item => item.id == dados.equip.find((element) => element.name == 'weapon')).damage
-                }
-                const danoTotal = dados.acoes.find((element) => element.name == 'Atacar').dados.damage + weaponDamage
-
-                return danoTotal;
+                console.log("magia",this)
             },  
             Defender:(dados)=> {
                 console.log("defender",this)
@@ -119,7 +101,7 @@ export class PlayerCombate extends Phaser.Physics.Arcade.Sprite {
     receberDano(pontosVida,Damage){
         if(pontosVida < Damage ){
             console.log("PLAYER MORTO");
-            this.destroy();
+            return 0;
         }
         return(pontosVida - Damage);
     }

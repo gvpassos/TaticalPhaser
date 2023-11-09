@@ -31,7 +31,12 @@ export function pathFinder(posInicial, posFinal,map, sprites) {
     
 }
 
-
+export function pathFinderISO(posInicial, posFinal,map, sprites) {
+  let obstaculos = [];
+  const path = findPathAStar(posInicial, posFinal, map.culledTiles, obstaculos, map.width, map.height);
+  return path;
+  
+}
 
 export function findPath(posInicial, posFinal, map ,sprites) {
     const final =  {x:Math.floor(posFinal.x/32),y: Math.floor(posFinal.y/32)};

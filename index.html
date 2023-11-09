@@ -11,12 +11,23 @@
         import { MenuCreator } from "./src/interface/menus.js";
 
         ///instancia de fase de combate
-        let Config = {
+        var Config = {
             marcadorEtapa: "escolhaDoJogador",
-            quantJogadasP: 1,
+            quantJogadasP: 3,
+            inventario:[0,1,2,3,4,5,6,6,7,8,0,0,9],
             players: [
                 { 
-                    name: 'player1', x: 3*32, y: 4*32,
+                    name: 'player1',
+                    equip:{
+                        'head':null,
+                        'body':null,
+                        'legs':null,
+                        'hands':null,
+                        'weapon':null,
+                        'acessories1':null,
+                        'acessories2':null,
+                        'acessories3':null
+                    },
                     stats: {
                         vida: 25,vidaMax:25,
                         mana: 5,manaMax:15,
@@ -25,13 +36,23 @@
                     acoes: [
                         { tipo:'Atacar', name: 'Atacar', dados:{ damage :2}},
                         { tipo:'Magia', name: 'Magia de Raio', dados:{ raio:2, damage :2}},    
-                        { tipo:'Andar', name: 'Andar', dados: { speed :25}},
+                        { tipo:'Andar', name: 'Andar', dados: { speed :7}},
                         { tipo:'Defender', name: 'Defender', dados:{ defesa :5}},
 
                     ],
                 },
                 { 
-                    name: 'player2', x: 6*32, y: 5*32,
+                    name: 'player2',
+                    equip:{
+                        'head':null,
+                        'body':null,
+                        'legs':null,
+                        'hands':null,
+                        'weapon':null,
+                        'acessories1':null,
+                        'acessories2':null,
+                        'acessories3':null
+                    },
                     stats: {
                         vida: 15,vidaMax:15,
                         mana: 25,manaMax:25,
@@ -50,48 +71,7 @@
             playerActive:0,
 
 
-            inimigos : [
-                { name: 'inimigo3', x: 24*32, y: 9*32,
-                    stats: {
-                        vida: 20,
-                    },
-                    acoes: [
-                        { name: 'Atacar', dados:{ damage :1 }  },
-                        { name: 'Andar', dados: { speed :3}  },
-                    ]},
-                { name: 'inimigo1', x: 8*32, y: 9*32 ,
-                    stats: {
-                        vida: 20,
-                    },
-                    acoes: [
-                        { name: 'Atacar', dados: { damage : 1}  },
-                        { name: 'Andar', dados: { speed : 3}  },
-                    ]},
-                { name: 'inimigo2', x: 15*32, y: 8*32, 
-                    stats: {
-                        vida: 20,
-                    },
-                    acoes: [
-                        { name: 'Atacar', dados:{ damage :1}  },
-                        { name: 'Andar', dados: { speed :6}  },
-                    ]},
-                { name: 'inimigo3', x: 20*32, y: 9*32,
-                    stats: {
-                        vida: 20,
-                    },
-                    acoes: [
-                        { name: 'Atacar', dados:{ damage :1}  },
-                        { name: 'Andar', dados: { speed :3}  },
-                    ]},
-                { name: 'inimigo3', x: 10*32, y: 2*32,
-                    stats: {
-                        vida: 20,
-                    },
-                    acoes: [
-                        { name: 'Atacar', dados:{ damage :1}  },
-                        { name: 'Andar', dados: { speed :3}  },
-                    ]},
-            ]
+          
         };
         const faseCombate = new FaseCombate(Config)
         const Jogo = new Cenario(Config,"entrada");
@@ -110,12 +90,12 @@
                     debug: true
                 }
             },
-            scene: [Jogo,Menus],
+            scene: [Jogo,Menus,faseCombate],
             parent: 'root',
         }
 
         const Game = new Phaser.Game(config);
-        Game.scene.start('Jogo');
+        Game.scene.start('Cenario');
     </script>
     <style>
         canvas{

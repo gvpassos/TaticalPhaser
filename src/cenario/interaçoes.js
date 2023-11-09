@@ -49,7 +49,7 @@ function makePortal(scene,object){
 }
 
 function makeInimigo(scene,object){
-    console.log(object.id)
+    
     const spriteName = object.properties.find(el => el.name == "sprite")['value'];
     let tweenIDLE=[];    
 
@@ -57,8 +57,24 @@ function makeInimigo(scene,object){
     const inimigo = scene.add.sprite(object.x+16, object.y+16, spriteName);
     inimigo.setOrigin(0.5,0.5);
     inimigo.funcColide = ()=>{
-        console.log("colidiu");
-        inimigo.tween.stop();
+        scene.Config['inimigos'] =  
+            [
+                { name: 'monstro', 
+                stats: {
+                    vida: 10,
+                },
+                acoes: [
+                    { name: 'Atacar', dados: { damage : 1}  },
+                    { name: 'Andar', dados: { speed : 3}  },
+                ]}
+            ];
+            
+        scene.scene.pause();
+        scene.scene.manager.scenes.find(el => el.scene.key == 'faseCombate').Config = scene.Config;
+        scene.scene.launch('faseCombate');
+        
+        inimigo.destroy();
+
     };
 
     object.polygon.forEach((laco,ind) => {
