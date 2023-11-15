@@ -10,11 +10,10 @@
 		[
 			"Nada de util aqui",
 			"Nada aqui,<br>melhor continuar procurando "
-			
-
 		],
-	"bauGenerico":
+	"bauGenerica":
 	[
+		"Nada de util aqui",
 		"Trancado"
 	],
 	"janelaGenerica":
@@ -24,6 +23,20 @@
 	"portaTrancada":
 	[
 		"está trancada","não consigo abrir"
+	],
+	"quest1":
+	[
+		"eu não acredito que está assim,<br>mas eu acredito que estou aqui",
+		"estou aqui, devo comecar a trabalhar",
+		"primeiro vamos entender o que esta acontecendo com esse lugar",
+		"o que trouxe esses seres a este castelo?",
+		"porque tanta atividade paranormal",
+		"agora que entrei este lugar parece diferente",
+		"esse bau esta aberto mais nao tem nada dentro",
+		"ou nao tem nada ainda?",
+		"porque ainda estou olhando para o bau"
+
 	]
 
+	
 	}

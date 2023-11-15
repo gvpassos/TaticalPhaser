@@ -792,7 +792,7 @@
                         {
                          "name":"tipo",
                          "type":"string",
-                         "value":"bauItem"
+                         "value":"bauN2"
                         }],
                  "rotation":0,
                  "type":"",
@@ -830,7 +830,7 @@
                         {
                          "name":"tipo",
                          "type":"string",
-                         "value":"bauGenerico"
+                         "value":"bauGenerica"
                         }],
                  "rotation":0,
                  "type":"",
@@ -868,7 +868,7 @@
                         {
                          "name":"tipo",
                          "type":"string",
-                         "value":"bauGenerico"
+                         "value":"bauGenerica"
                         }],
                  "rotation":0,
                  "type":"",
@@ -906,7 +906,7 @@
                         {
                          "name":"tipo",
                          "type":"string",
-                         "value":"bauGenerico"
+                         "value":"bauGenerica"
                         }],
                  "rotation":0,
                  "type":"",
@@ -944,7 +944,7 @@
                         {
                          "name":"tipo",
                          "type":"string",
-                         "value":"bauGenerico"
+                         "value":"bauGenerica"
                         }],
                  "rotation":0,
                  "type":"",

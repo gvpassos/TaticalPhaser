@@ -1,5 +1,5 @@
 import { pathFinder,findPath } from "../controles/pathFinder.js"	
-import { activeIntaracoes } from "../controles/manager.js";
+import { activeInteracoes } from "../controles/manager.js";
 
 export const criarInteracoes = function (scene,interacoes){
     let objs = [];
@@ -216,9 +216,9 @@ function makePorta(scene,object){
             scene.groundLayer,[]);
         if(path.length>1){
             path.pop();
-            scene.player.move(path, scene.onMove,porta.activeInteraction);    
+            scene.player.move(path, scene.onMove,()=>{activeInteracoes({interactTigger:true},porta,scene)});    
         }else{
-            porta.activeInteraction();
+            activeInteracoes({interactTigger:true},porta,scene);
         }
         
     });
@@ -257,9 +257,10 @@ function makeNpc(scene,object){
             scene.groundLayer,[]);
         if(path.length>1){
             path.pop();
-            scene.player.move(path, scene.onMove,activeIntaracoes({interactTigger:true},npc,scene));
+            console.info(path)
+            scene.player.move(path, scene.onMove,()=>{activeInteracoes({interactTigger:true},npc,scene)});
         }else{
-            activeIntaracoes({interactTigger:true},npc,scene)
+            activeInteracoes({interactTigger:true},npc,scene)
         }
         
     });

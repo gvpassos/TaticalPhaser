@@ -2067,8 +2067,8 @@
                         }, 
                         {
                          "name":"tipo",
-                         "type":"bool",
-                         "value":false
+                         "type":"string",
+                         "value":"false"
                         }],
                  "rotation":0,
                  "type":"",
@@ -2095,8 +2095,8 @@
                         }, 
                         {
                          "name":"tipo",
-                         "type":"bool",
-                         "value":false
+                         "type":"string",
+                         "value":"false"
                         }],
                  "rotation":0,
                  "type":"",
@@ -2123,8 +2123,8 @@
                         }, 
                         {
                          "name":"tipo",
-                         "type":"bool",
-                         "value":false
+                         "type":"string",
+                         "value":"false"
                         }],
                  "rotation":0,
                  "type":"",
@@ -2151,8 +2151,8 @@
                         }, 
                         {
                          "name":"tipo",
-                         "type":"bool",
-                         "value":false
+                         "type":"string",
+                         "value":"false"
                         }],
                  "rotation":0,
                  "type":"",
@@ -2179,8 +2179,8 @@
                         }, 
                         {
                          "name":"tipo",
-                         "type":"bool",
-                         "value":false
+                         "type":"string",
+                         "value":"false"
                         }],
                  "rotation":0,
                  "type":"",
@@ -2207,8 +2207,8 @@
                         }, 
                         {
                          "name":"tipo",
-                         "type":"bool",
-                         "value":false
+                         "type":"string",
+                         "value":"false"
                         }],
                  "rotation":0,
                  "type":"",
@@ -2235,8 +2235,8 @@
                         }, 
                         {
                          "name":"tipo",
-                         "type":"bool",
-                         "value":false
+                         "type":"string",
+                         "value":"false"
                         }],
                  "rotation":0,
                  "type":"",
@@ -2263,8 +2263,8 @@
                         }, 
                         {
                          "name":"tipo",
-                         "type":"bool",
-                         "value":false
+                         "type":"string",
+                         "value":"false"
                         }],
                  "rotation":0,
                  "type":"",
@@ -2291,8 +2291,8 @@
                         }, 
                         {
                          "name":"tipo",
-                         "type":"bool",
-                         "value":false
+                         "type":"string",
+                         "value":"false"
                         }],
                  "rotation":0,
                  "type":"",
@@ -2319,8 +2319,8 @@
                         }, 
                         {
                          "name":"tipo",
-                         "type":"bool",
-                         "value":false
+                         "type":"string",
+                         "value":"false"
                         }],
                  "rotation":0,
                  "type":"",
@@ -2347,8 +2347,8 @@
                         }, 
                         {
                          "name":"tipo",
-                         "type":"bool",
-                         "value":false
+                         "type":"string",
+                         "value":"false"
                         }],
                  "rotation":0,
                  "type":"",
@@ -2375,8 +2375,8 @@
                         }, 
                         {
                          "name":"tipo",
-                         "type":"bool",
-                         "value":false
+                         "type":"string",
+                         "value":"false"
                         }],
                  "rotation":0,
                  "type":"",

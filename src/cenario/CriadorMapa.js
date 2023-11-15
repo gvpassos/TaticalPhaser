@@ -1,7 +1,7 @@
 import { PlayerCenario } from "./playerCenario.js"; 
 import { pathFinder } from "../controles/pathFinder.js"
 import { criarInteracoes } from "./interaçoes.js";
-import { controladorInteracoes, activeIntaracoes } from "../controles/manager.js";
+import { controladorInteracoes, activeInteracoes,  manager } from "../controles/manager.js";
 
 export class Cenario extends Phaser.Scene {
     constructor(config,mapa) {
@@ -25,7 +25,7 @@ export class Cenario extends Phaser.Scene {
         this.load.spritesheet('bau', 'data/tileds/bau.png', { frameWidth: 32, frameHeight: 32 });       
          this.load.spritesheet('porta', 'data/tileds/portaMadeira.png', { frameWidth: 32, frameHeight: 64 });
          this.load.spritesheet('cama', 'data/tileds/cama.png', { frameWidth: 32, frameHeight: 96 });
-        this.load.spritesheet('janela', 'data/tileds/janela.png', { frameWidth: 27, frameHeight: 64 });
+        this.load.spritesheet('janela', 'data/tileds/janela.png', { frameWidth: 27, frameHeight: 42 });
         
 
         this.load.image('espada', 'data/player/arminha.png');
@@ -96,7 +96,7 @@ export class Cenario extends Phaser.Scene {
             controladorInteracoes(t,this)
         });
         this.physics.add.overlap(this.player.interact, this.Objs, (p,t)=>{
-            activeIntaracoes(this.player,t,this)
+            activeInteracoes(this.player,t,this)
         });
 
 
@@ -105,7 +105,7 @@ export class Cenario extends Phaser.Scene {
 
         this.addBotoes();
         
-        console.log(this.groundLayer)
+         manager.QuestVerificator({mapakey:this.mapaKey},this)
     }
     onLayerClick(pointer) {
             let path = pathFinder(
