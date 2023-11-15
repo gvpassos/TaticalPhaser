@@ -1,6 +1,7 @@
 import { PlayerCenario } from "./playerCenario.js"; 
 import { pathFinder } from "../controles/pathFinder.js"
 import { criarInteracoes } from "./interaçoes.js";
+import { controladorInteracoes, activeIntaracoes } from "../controles/manager.js";
 
 export class Cenario extends Phaser.Scene {
     constructor(config,mapa) {
@@ -14,17 +15,17 @@ export class Cenario extends Phaser.Scene {
         this.load.tilemapTiledJSON(`${this.mapaKey}`, `data/json/${this.mapaKey}.json`);	
 
         this.load.spritesheet('player', 'data/player/player.png', { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet('porta', 'data/tileds/portaMadeira.png', { frameWidth: 32, frameHeight: 64 });
-
-
 
         this.load.spritesheet('monstro1', 'data/npc/enemy.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('monstro2', 'data/npc/guarda/homem.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('humano3', 'data/npc/vendedor/vendedorMulher.png', { frameWidth: 32, frameHeight: 32 });
 
-        this.load.spritesheet('estante', 'data/tileds/estante.png', { frameWidth: 64, frameHeight: 64 });
+        this.load.spritesheet('estante', 'data/tileds/estante.png', { frameWidth: 32, frameHeight: 64 });
         this.load.spritesheet('mesaCentral', 'data/tileds/mesaCentral.png', { frameWidth: 128, frameHeight: 256 });
-        this.load.spritesheet('bau', 'data/tileds/bau.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('bau', 'data/tileds/bau.png', { frameWidth: 32, frameHeight: 32 });       
+         this.load.spritesheet('porta', 'data/tileds/portaMadeira.png', { frameWidth: 32, frameHeight: 64 });
+         this.load.spritesheet('cama', 'data/tileds/cama.png', { frameWidth: 32, frameHeight: 96 });
+        this.load.spritesheet('janela', 'data/tileds/janela.png', { frameWidth: 27, frameHeight: 64 });
         
 
         this.load.image('espada', 'data/player/arminha.png');
@@ -40,10 +41,6 @@ export class Cenario extends Phaser.Scene {
             .on('pointerup',  (pointer)=>{this.onLayerClick(pointer)} , this);
         
         map.setCollisionBetween(0, 2);
-
-            const zoom = 0.7 + (1.2 - 0.7) * (window.innerWidth - 600) / (2880 - 600);
-            console.log(zoom);
-            this.cameras.main.setZoom(zoom);
 
         const detalhes = map.createLayer('detalhes', tileset, 0, 0);
 
@@ -96,12 +93,10 @@ export class Cenario extends Phaser.Scene {
         this.physics.add.collider(this.player, this.groundLayer);
         
         this.physics.add.overlap(this.player, this.Objs, (p,t)=>{
-                if(t.funcColide)
-                    t.funcColide();
+            controladorInteracoes(t,this)
         });
         this.physics.add.overlap(this.player.interact, this.Objs, (p,t)=>{
-            if(p.funcColide)
-                p.funcColide(t);
+            activeIntaracoes(this.player,t,this)
         });
 
 
@@ -133,11 +128,11 @@ export class Cenario extends Phaser.Scene {
         let w = this.cameras.main.width;
         let h = this.cameras.main.height;
 
-        this.add.sprite(w*0.8, h*0.1, 'espada')
+        this.add.sprite(w*0.6, h*0.2, 'espada')
             .setScrollFactor(0, 0)
             .setInteractive()
             .on('pointerup', this.callMenus['playerManager']);
-        this.add.circle(w*0.9, h*0.1, 25, 0xff0000)
+        this.add.circle(w*0.5, h*0.2, 25, 0xff0000)
             .setScrollFactor(0, 0)
             .setInteractive()
             .on('pointerup', this.callMenus['settings'])

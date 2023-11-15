@@ -56,7 +56,7 @@ export class InimigoCombate extends Phaser.Physics.Arcade.Sprite {
             if (path.length > 5) {
                 path = path.slice(0, 5); // Mantém apenas os primeiros 5 elementos
             }
-            if(path[path.length-1].x == this.x && path[path.length-1].y == this.y){
+            if(path[path.length-1].x == player.x && path[path.length-1].y == player.y){
                 path = path.slice(path.length-1,1);
             }
 

@@ -53,22 +53,26 @@ export function CameraMain(scene,x,y,name){
 export function btnPlayer(scene,x,y,index,Config){
     const colorBg = index == Config.playerActive ? 0x0b0ba1 : 0x6666ff;
     const alphaBg = index == Config.playerActive ? 0.8 : 0.5;
-    const bg = scene.add.rectangle(0, 0, 150, 50, colorBg)
+
+    const width = scene.cameras.main.width;
+    const height = scene.cameras.main.height;
+
+    const bg = scene.add.rectangle(0, 0, width*0.1, height*0.08, colorBg)
         .setScrollFactor(0, 0)
         .setOrigin(0, 0)
         .setAlpha(alphaBg);
-
-    const sizeBarraVida = (150 * Config.players[index].stats['vida']) / Config.players[index].stats['vidaMax'];
-    const barradeVida = scene.add.rectangle(0, 25, sizeBarraVida, 15, 0x228b22)
+    console.log(Config.players[index],index,Config)
+    const sizeBarraVida = ((width*0.1) * Config.players[index].stats['vida']) / Config.players[index].stats['vidaMax'];
+    const barradeVida = scene.add.rectangle(0, height*0.05, sizeBarraVida, height*0.02, 0x228b22)
         .setScrollFactor(0, 0)
         .setOrigin(0, 0);
 
-    const sizeBarraMana = (150 * Config.players[index].stats['mana']) / Config.players[index].stats['manaMax'];
-    const barradeMana = scene.add.rectangle(0, 40, sizeBarraMana, 10, 0x75e2e6)
+    const sizeBarraMana = ((width*0.1) * Config.players[index].stats['mana']) / Config.players[index].stats['manaMax'];
+    const barradeMana = scene.add.rectangle(0, height*0.07, sizeBarraMana, height*0.01, 0x75e2e6)
         .setScrollFactor(0, 0)
         .setOrigin(0, 0);
-
-    const text2 = scene.add.text(5, 5, Config.players[index].name, { fontSize: '16px', fill: '#ff1122', fontWeight: 'bold', fontFamily: 'Impact' });
+        
+    const text2 = scene.add.text((width*0.005), (height*0.003), Config.players[index].name, { fontSize: '1.5vmax', fill: '#ff1122', fontWeight: 'bold', fontFamily: 'Impact' });
 
     const container = scene.add.container(x, y, [ bg, text2, barradeMana, barradeVida ])
         .setScrollFactor(0, 0)
@@ -105,7 +109,7 @@ const botao = this.add.text(100, 100 + 50 * i, this.players[i].name, { fontSize:
     
 export function btnAcaoPlayer(scene,x,y,acao,Config){
     const cor = '#ff1122';
-    const botao = scene.add.text(0, 0, acao.name , { fontSize: '16px', fill: cor, fontWeight: 'bold', fontFamily: 'Impact' })
+    const botao = scene.add.text(0, 0, acao.name , { fontSize: '2vmax', fill: cor, fontWeight: 'bold', fontFamily: 'Impact' })
         .setScrollFactor(0, 0)
         .setOrigin(0.5, 0.5)
         .setInteractive()

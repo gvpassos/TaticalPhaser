@@ -10,7 +10,7 @@ export class FaseCombate extends Phaser.Scene {
 
         this.players = [];
         this.inimigos = [];
-        this.naoIniciado = true;
+        this.isStart = true;
     }
     preload() {
         this.load.spritesheet('Atlas', 'data/tileds/Atlas.png', { frameWidth: 32, frameHeight: 32 });
@@ -40,9 +40,16 @@ export class FaseCombate extends Phaser.Scene {
 
         this.detalhes = map.createLayer("detalhes", tiles, 0, 0);
         this.interacao = map.getObjectLayer("interacoes", 0, 0);
-
+        
         /// ---------   PLAYERS     ----------------
-        if(this.players.length == 0){
+        if(this.isStart){
+            this.players.forEach(element => {element.destroy();});
+            this.players = [];
+
+            this.inimigos.forEach(element => {element.destroy();});
+            this.inimigos = [];
+        }
+        if(this.players.length == 0 || this.isStart ){
             for (let i = 0; i < this.Config.players.length; i++) {
                 const playerDados = this.interacao.objects.find(item => item.name == "playerPoint" && item.properties.find(el => el.name == "pos")['value'] == i);
                 if(this.Config.players[i].stats.vida > 0 ){
@@ -74,7 +81,7 @@ export class FaseCombate extends Phaser.Scene {
         this.cameras.main.startFollow(this.players[this.Config.playerActive]);
         /// ---------   inimigos     ----------------
 
-        if(this.inimigos.length == 0){
+        if(this.inimigos.length == 0 || this.isStart){
             const inimigosDados = [];
             this.interacao.objects.forEach(elemento => {
                 if(elemento.name == "inimigo"){
@@ -93,8 +100,7 @@ export class FaseCombate extends Phaser.Scene {
                     })
                 );
             }
-            this.naoIniciado = false;
-            
+            this.isStart = false;
         }
         else{
             for (let i = 0; i < this.inimigos.length; i++) {
@@ -121,8 +127,9 @@ export class FaseCombate extends Phaser.Scene {
     }
 
     update() {
-        if(this.inimigos.length == 0 && this.naoIniciado){
+        if( !this.Config.inimigos.some(element => element.stats.vida > 0)){
             console.log("vitoria")
+            this.isStart = true;
             setTimeout(()=>{
                 this.scene.resume('Cenario');
                 this.scene.stop();
@@ -155,23 +162,25 @@ export class FaseCombate extends Phaser.Scene {
         let btns = [];
         const x = this.Config.players[this.Config.playerActive].x;
         const y = this.Config.players[this.Config.playerActive].y;
+        this.w = this.cameras.main.width;
+        this.h = this.cameras.main.height;
         switch (marcadorEtapa) {
             case "escolhaDoJogador":
                 const acoes = this.Config.players[this.Config.playerActive].acoes;
                 for (let i = 0; i < acoes.length; i++) {
-                    const botao = btnAcaoPlayer( this,200 + 100 * i, 80,acoes[i],this.Config);
-
+                    
+                    const botao = btnAcaoPlayer( this,this.w*0.1+(i*this.w*0.12), this.h*0.12,acoes[i],this.Config);
                     btns.push(botao);
 
                 }
 
                 for (let i = 0; i < this.players.length; i++) {
-                    const botao =  btnPlayer(this,20, 90 + 150 * i,i,this.Config);
+                    const botao =  btnPlayer(this,this.w*0.03, this.h*0.28+(i*this.h*0.1),i,this.Config);
                     btns.push(botao);
                 }
-                const botao = this.add.text(750, 10, this.Config.quantJogadasP, { fontSize: '32px', fill: '#1f5fc4', fontWeight: 'bold', fontFamily: 'Impact' })
+                const QuantJogadas = this.add.text(this.w*0.8, this.h*0.1, this.Config.quantJogadasP, { fontSize: '32px', fill: '#1f5fc4', fontWeight: 'bold', fontFamily: 'Impact' })
                     .setScrollFactor(0, 0);
-                btns.push(botao);
+                btns.push(QuantJogadas);
                 break;
             case "Andar":
                 this.players[this.Config.playerActive].acoes["Andar"]
@@ -244,7 +253,7 @@ export class FaseCombate extends Phaser.Scene {
                         if (inimigo.x == point.x && inimigo.y == point.y) {
 
                             const inimigoStats = this.Config.inimigos.find(element => inimigo.name.includes(element.name));
-                            const playerAtaque = this.players[this.Config.playerActive].acoes["Magia"](this.Config.players);
+                            const playerAtaque = this.players[this.Config.playerActive].acoes["Magia"](this.Config.players[this.Config.playerActive]);
                             
                             inimigoStats.stats.vida = inimigo.receberDano(inimigoStats.stats.vida,playerAtaque);
 

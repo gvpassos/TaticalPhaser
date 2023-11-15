@@ -54,7 +54,7 @@ export const ITEMS = [
         sprite: 41,
         type: 'weapon',
         desc:' Espada velha',
-        damage:2,
+        damage:25,
     },
     {
         id:8,

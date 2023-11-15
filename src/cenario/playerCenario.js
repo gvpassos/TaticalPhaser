@@ -8,6 +8,7 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
         
         this.setOrigin(0,0);
         this.body.onWorldBounds = true;
+        this.body.setSize(25,25);
         this.target = {x:0,y:0};
         
         this.name = config.name
@@ -27,12 +28,8 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
         this.interact = config.scene.add.rectangle(config.x, config.y,64,64,0xffffff);
         this.interact.setAlpha(0); 
         this.interact.setOrigin(0,0);
-        this.interact.funcColide = (obj) => {
-            if(this.interactTigger){
-                obj.activeInteraction();
-                this.interactTigger = false;
-            }
-        }
+        
+        this.interactTigger = false;
 
         config.scene.physics.add.existing(this.interact);
     }

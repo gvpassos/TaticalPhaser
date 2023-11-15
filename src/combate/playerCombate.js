@@ -93,7 +93,7 @@ export class PlayerCombate extends Phaser.Physics.Arcade.Sprite {
                 // dano da habilidade mais o dano da arma
                 let weaponDamage = 0;
                 if(dados.equip['weapon'] != null){
-                    weaponDamage = ITEMS.find(item => item.id == dados.equip.find((element) => element.name == 'weapon')).damage
+                    weaponDamage = ITEMS.find(item => item.id == dados.equip['weapon']).damage
                 }
                 const danoTotal = dados.acoes.find((element) => element.name == 'Atacar').dados.damage + weaponDamage
 

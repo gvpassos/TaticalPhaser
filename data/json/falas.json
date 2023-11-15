@@ -16,6 +16,14 @@
 	"bauGenerico":
 	[
 		"Trancado"
-	]	
+	],
+	"janelaGenerica":
+	[
+		"está tudo embaçado","não consigo ver nada la fora"
+	],
+	"portaTrancada":
+	[
+		"está trancada","não consigo abrir"
+	]
 
 	}
