@@ -1,3 +1,4 @@
+import { pathFinder } from "./pathFinder.js";
 import { progressJSON } from "./quests.js";
 class gameManager {
     constructor(json) {
@@ -5,45 +6,117 @@ class gameManager {
         this.quests = json.quests;
     }
     QuestVerificator(dados, scene) {
+        console.warn(this.posicaoQuest);
         const actualQuest = this.quests[this.posicaoQuest];
-        if (dados.mapakey && actualQuest.tipoTrigger == 'scenario') {
+        if (dados.mapakey && actualQuest.tipoTrigger == 'scenario') { /// interacao por Cenario 
             console.assert(dados.mapakey == actualQuest.trigger, `outro cenario aguardado, ${dados.mapakey} esperado ${actualQuest.trigger}`);
             if (dados.mapakey == actualQuest.trigger) {
-                const inter = actualQuest.interacoes;
                 this.posicaoQuest++;
-                this.acao[inter.tipo](inter.dialog, inter.pos, inter.posFinal, scene);
+                const interacts = actualQuest.interacoes;
+                let next = false
+                if(interacts.length > 1){
+                    console.log('interação de múltiplas interações');
+                    next = interacts.slice(1);
+                }
+                this.acao[interacts[0].tipo](interacts[0],scene,next);
+                
                 return true;
             }
             return false
 
         }
-        if (dados.interacao && actualQuest.tipoTrigger == 'contact') {
+        if (dados.interacao && actualQuest.tipoTrigger == 'contact') {/// interacao por contato 
             console.warn(dados.interacao, this.posicaoQuest);
             return false;
         }
-        if (dados.activeInteracoes && actualQuest.tipoTrigger == 'activeContact') {
-            console.log(dados.activeInteracoes.tipo == actualQuest.trigger, `outro objeto aguardado, ${dados.activeInteracoes.tipo} esperado ${actualQuest.tipoTrigger}`);
+        if (dados.activeInteracoes && actualQuest.tipoTrigger == 'activeContact') { /// interacao por contato Ativado
+            console.assert(dados.activeInteracoes.tipo == actualQuest.trigger, `outro objeto aguardado, ${dados.activeInteracoes.tipo} esperado ${actualQuest.trigger}`);
             
             if (dados.activeInteracoes.tipo == actualQuest.trigger) {
-                const inter = actualQuest.interacoes;
                 this.posicaoQuest++;
-                this.acao[inter.tipo](inter.dialog, inter.pos, inter.posFinal, scene);
+                const interacts = actualQuest.interacoes;
+                let next = false;
+                if(interacts.length > 1){
+                    console.log('interação de múltiplas interações');
+                    next = interacts.slice(1);
+                }
+                this.acao[interacts[0].tipo](interacts[0],scene,next);
                 return true;
             }
             return false
         }
 
     }
+    picked = [];
+    entregador(object,scene) {
+        if(this.picked.some(e => e == object.id)){
+            return false;
+        }
+        scene.Config.inventario.push(object.itemCode);
+        this.picked.push(object.id);
+        return true;
+    }
 
     acao = {
-        'falas':(dialog,pos,final,scene)=>{
+        'falas':(interact,scene,next)=>{
+            const onFinish = this.acao['repeat'](next,scene);
             scene.scene.pause();
             scene.scene.manager.scenes.find(el => el.id == 'menuCreator').ui = "dialog";
-            scene.scene.manager.scenes.find(el => el.id == 'menuCreator').fala = dialog;
-            scene.scene.manager.scenes.find(el => el.id == 'menuCreator').pos = pos;
-            scene.scene.manager.scenes.find(el => el.id == 'menuCreator').posFinal = final;
+            scene.scene.manager.scenes.find(el => el.id == 'menuCreator').fala = interact.dialog;
+            scene.scene.manager.scenes.find(el => el.id == 'menuCreator').pos = interact.pos;
+            scene.scene.manager.scenes.find(el => el.id == 'menuCreator').posFinal = interact.posFinal;
+            scene.scene.manager.scenes.find(el => el.id == 'menuCreator').onDialogFinish = onFinish;
             scene.scene.launch('MenuCreator');
+        },
+        'movimento':(interact,scene,next)=>{
+            let target;
+            if(interact.target == 'player'){
+                target = scene.player;
+            }else if(interact.target.includes('inimigo')){
+                const pos = interact.target.split(',')[1];
+                target = scene.inimigo[pos];
+            }else if(interact.target.includes('objeto')){
+                const pos = interact.target.split(',')[1];
+                target = scene.Objs[pos];
+            }
+            let path = pathFinder(target, interact.posFinal, scene.groundLayer,scene.interacoes.objects);
+            const onFinish = this.acao['repeat'](next,scene);
+            target.move(path,false,onFinish);
+
+        },
+        'item':(interact,scene,next)=>{
+            const onFinish = this.acao['repeat'](next,scene);
+
+            if(this.entregador(interact,scene)){
+                this
+            }
+            onFinish();
+        },
+
+        'repeat':(actual,scene)=>{
+            let next = false;
+            if(actual.length > 1){
+                next = actual.slice(1);
+            }
+            return (() => {this.acao[actual[0].tipo](actual[0], scene,next)});
+           
         }
+
+        
+    }
+
+
+    getQuests() {
+        let string = "";
+        for (let i = 1; i <= this.posicaoQuest; i++) {
+            string += `Quest ${i}: ${this.quests[i].name}<br>`;
+        }
+
+        if(this.posicaoQuest == this.quests.length-1){
+            string += 'Você completou todas as quests,Parabens<br>';
+        }
+        
+        return string;
     }
 }
 
@@ -130,12 +203,24 @@ const listaActiveInteracoes = {
             let newdialogs = interacao.tipo;
             let pos = interacao.posInicial;
             let final = interacao.posFinal;
+
             if(newdialogs.includes("N")){
                 newdialogs = newdialogs.split("N")[0]+"Generica";
                 pos = 0;
                 final = 1;
             }
-            manager.acao['falas'](newdialogs, pos, final, scene);
+            if(newdialogs.includes("Item")){
+                console.log(">",interacao.itemCode);
+                pos = 0;
+                final = 1;
+                if(!manager.entregador(interacao,scene)){// adicona item no inventario se ja tiver fala outra fala
+                    pos = 1;
+                    final = 2;
+                }
+            }
+            manager.acao['falas']({dialog:newdialogs, pos:pos,posFinal:final}, scene,false);
+
+            
         }
     },
     'item': (interacao, scene) => {

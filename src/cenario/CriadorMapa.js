@@ -93,7 +93,9 @@ export class Cenario extends Phaser.Scene {
         this.physics.add.collider(this.player, this.groundLayer);
         
         this.physics.add.overlap(this.player, this.Objs, (p,t)=>{
+            
             controladorInteracoes(t,this)
+
         });
         this.physics.add.overlap(this.player.interact, this.Objs, (p,t)=>{
             activeInteracoes(this.player,t,this)

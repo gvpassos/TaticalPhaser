@@ -1,3 +1,4 @@
+import { manager } from "../controles/manager.js";
 import { ITEMS } from "./item.js";
 
 export class MenuCreator extends Phaser.Scene {
@@ -81,7 +82,6 @@ export class MenuCreator extends Phaser.Scene {
             });
 
     }
-
     menuPlayerManager(){;
         this.groupMenu = this.add.container(this.w*0.05, this.h*0.05);
         const box = this.add.rectangle(0, 0,this.w*0.6, this.h*0.9, 0x1522ac)
@@ -343,7 +343,6 @@ export class MenuCreator extends Phaser.Scene {
 
                 break;
             case 'status':
-                
                 const HTML = document.createElement('div');
                 HTML.style = 
                     `border: 1px solid white;
@@ -388,6 +387,21 @@ export class MenuCreator extends Phaser.Scene {
                 this.groupSubMenu.add(btnd2);
                 break;
             case 'historico':
+                const HTMLHistorico = document.createElement('div');
+                HTMLHistorico.style = 
+                    `border: 1px solid white;
+                    padding: 10px;
+                    width: ${this.w*0.45}px;
+                    height: ${this.h*0.55}px;
+                    font: 2vmax Arial;
+                    color: white;`;
+
+                HTMLHistorico.innerHTML = `Quests:<br>`;
+                HTMLHistorico.innerHTML += manager.getQuests();
+
+                const displayHist = this.add.dom(this.w*0.02 ,this.h*0.025 ,HTMLHistorico);
+                displayHist.setOrigin(0,0);
+                this.groupSubMenu.add(displayHist);
                 break;
             case 'quest':
                 break; 
@@ -430,8 +444,13 @@ export class MenuCreator extends Phaser.Scene {
         const data = this.cache.json.get('falas');
         
         if(this.pos >= this.posFinal){ ///ultimo termina
+            if(this.onDialog){
+                this.onDialog();
+                this.onDialog = null;
+            }
             this.scene.stop();
             this.scene.resume('Cenario');
+
         }
         
         const HTML = document.createElement('div');
@@ -446,6 +465,7 @@ export class MenuCreator extends Phaser.Scene {
         dialog.add(text);
 
         this.pos++;
+
 
     }
 

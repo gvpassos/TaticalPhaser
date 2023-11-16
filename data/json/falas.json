@@ -7,36 +7,47 @@
 			"Essa fala nao é visivel em qualuqer um"
 		],
 	"estanteGenerica":
-		[
-			"Nada de util aqui",
-			"Nada aqui,<br>melhor continuar procurando "
-		],
+	[
+		"Posso usar isso aqui",
+		"Ja olhei nesta Estante"
+	],
+	"estanteItem":
+	[
+		"Nada de util aqui",
+		"Nada aqui,<br>melhor continuar procurando "
+	],
 	"bauGenerica":
 	[
 		"Nada de util aqui",
 		"Trancado"
 	],
+	"bauItem":
+	[
+		"Parece que isso eu posso usar",
+		"Ja procurei neste Bau"
+	],
 	"janelaGenerica":
 	[
-		"está tudo embaçado","não consigo ver nada la fora"
+		"Está tudo embaçado","não consigo ver nada la fora"
 	],
 	"portaTrancada":
 	[
-		"está trancada","não consigo abrir"
+		"Está trancada","não consigo abrir"
 	],
 	"quest1":
 	[
-		"eu não acredito que está assim,<br>mas eu acredito que estou aqui",
-		"estou aqui, devo comecar a trabalhar",
-		"primeiro vamos entender o que esta acontecendo com esse lugar",
-		"o que trouxe esses seres a este castelo?",
-		"porque tanta atividade paranormal",
-		"agora que entrei este lugar parece diferente",
-		"esse bau esta aberto mais nao tem nada dentro",
-		"ou nao tem nada ainda?",
-		"porque ainda estou olhando para o bau"
+		"Eu não acredito que está assim,<br>mas eu acredito que estou aqui",
+		"Estou aqui, devo comecar a trabalhar",
+		"Primeiro vamos entender o que esta acontecendo com esse lugar",
+		"O que trouxe esses seres a este castelo?",
+		"Porque tanta atividade paranormal",
+		"Agora que entrei este lugar parece diferente",
+		"Esse bau esta aberto mais nao tem nada dentro",
+		"Ou nao tem nada ainda?",
+		"Porque ainda estou olhando para o bau",
+		"ué, agora tem algo dentro do bau"
 
 	]
 
-	
+
 	}

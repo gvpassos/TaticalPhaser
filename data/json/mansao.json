@@ -450,6 +450,11 @@
                          "value":"0"
                         }, 
                         {
+                         "name":"itemCode",
+                         "type":"int",
+                         "value":6
+                        }, 
+                        {
                          "name":"posFinal",
                          "type":"int",
                          "value":1
@@ -467,7 +472,7 @@
                         {
                          "name":"tipo",
                          "type":"string",
-                         "value":"bauGenerica"
+                         "value":"bauItem"
                         }],
                  "rotation":0,
                  "type":"",
@@ -524,6 +529,11 @@
                          "name":"frame",
                          "type":"string",
                          "value":"0"
+                        }, 
+                        {
+                         "name":"itemCode",
+                         "type":"int",
+                         "value":5
                         }, 
                         {
                          "name":"posFinal",
