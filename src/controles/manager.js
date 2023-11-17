@@ -149,7 +149,11 @@ const Colide = {
         scene.scene.launch('faseCombate');
         inimigo.tween.stop();
         scene.player.stopTween(inimigo);
+        if(inimigo.area)inimigo.area.destroy();
+        if(inimigo.triangle)inimigo.triangle.destroy();
         inimigo.destroy();
+
+        
     },
     portal: (scene, interacao) => {
         scene.ultimoMapa = [scene.mapaKey];
@@ -184,7 +188,7 @@ export function activeInteracoes(player, objeto, scene) {
 const listaActiveInteracoes = {
     "porta": (interacao, scene) => {
         if (interacao.isLock) {
-            manager.acao['falas']("portaTrancada", 0, 1, scene);
+            manager.acao['falas']({dialog:"portaTrancada", pos:0, posFinal:1}, scene,false);
             return;
         };
         if (interacao.isOpen) {

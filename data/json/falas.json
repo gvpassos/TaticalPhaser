@@ -1,5 +1,5 @@
 {
-	"generico":
+	"npcGenerica":
 		[
 			"Como posso ajudar ? ",
 			"Estou testando as falas no jogo",
@@ -8,13 +8,13 @@
 		],
 	"estanteGenerica":
 	[
-		"Posso usar isso aqui",
-		"Ja olhei nesta Estante"
+		"Nada de util aqui",
+		"Nada aqui,<br>melhor continuar procurando "
 	],
 	"estanteItem":
 	[
-		"Nada de util aqui",
-		"Nada aqui,<br>melhor continuar procurando "
+		"Posso usar isso aqui",
+		"Ja olhei nesta Estante"
 	],
 	"bauGenerica":
 	[

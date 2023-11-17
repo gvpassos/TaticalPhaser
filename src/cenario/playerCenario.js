@@ -118,22 +118,72 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
         }
     }
 
-    stopTween(porta){
+    joystickMove(joyStick){
+        let cursorKeys = joyStick.createCursorKeys();
+        for (let name in cursorKeys) {
+            if (cursorKeys[name].isDown) {
+                this.joyStickMove[name](600);
+                break;  
+                
+            }
+        }
+       
+        if(joyStick.angle == 0){
+            this.body.setVelocity(0);
+            this.anims.stop();
+        }
+
+    }
+    joyStickMove={
+        "right":(speed)=>{
+            this.body.setVelocityX(speed);
+            if(this.anims.currentAnim.key!='right' && speed > 0)this.play('right');
+            else if (!this.anims.isPlaying && speed > 0) this.play('right');
+            else if(speed==0) this.anims.stop();
+            
+        },
+        "left":(speed)=>{
+            this.body.setVelocityX(-speed);  
+            if(this.anims.currentAnim.key!='left' && speed > 0)this.play('left');
+            else if (!this.anims.isPlaying && speed > 0) this.play('left');
+            else if(speed==0) this.anims.stop();
+        },
+        "up":(speed)=>{
+            this.body.setVelocityY(-speed);    
+            if(this.anims.currentAnim.key!='up' && speed > 0)this.play('up');
+            else if (!this.anims.isPlaying && speed > 0) this.play('up');
+            else if(speed==0) this.anims.stop();
+        },
+        "down":(speed)=>{
+            this.body.setVelocityY(speed);
+            if(this.anims.currentAnim.key !='down' && speed > 0)this.play('down');
+            else if (!this.anims.isPlaying && speed > 0) this.play('down');
+            else if(speed==0) this.anims.stop();
+        },
+        "x":(speed)=>{
+            this.interactTigger = speed > 0;            
+        }
+    }
+
+
+    stopTween(objInteracted){
         this.graphics.clear();
         if(this.tweens){
             this.tweens.stop();
+            this.anims.stop();
         }
-        if(this.y <= porta.y+porta.height && this.y >= porta.y){
-            if(this.x > porta.x)
-                this.x = porta.x+porta.width+32;
-            if(this.x < porta.x)
-                this.x = porta.x-32;            
+        if(this.y <= objInteracted.y+objInteracted.height && this.y >= objInteracted.y){
+            if(this.x > objInteracted.x)
+                this.x = objInteracted.x+objInteracted.width+1;
+            if(this.x < objInteracted.x)
+                this.x = objInteracted.x-33;            
         }
-        if(this.x <= porta.x+porta.width && this.x >= porta.x){
-             if(this.y > porta.y)
-                this.y = porta.y+porta.height+32;
-            if(this.y < porta.y)
-                this.y = porta.y-32;      
+
+        if(this.x <= objInteracted.x+objInteracted.width && this.x >= objInteracted.x){
+             if(this.y > objInteracted.y)
+                this.y = objInteracted.y+objInteracted.height+1;
+            if(this.y < objInteracted.y)
+                this.y = objInteracted.y-33;      
         }
     }
 
@@ -142,8 +192,6 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
         this.interact.x = this.x-16;
         this.interact.y = this.y-16;
     }
-
-
 
     animacoes(){
         this.up = this.anims.create({

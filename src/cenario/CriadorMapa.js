@@ -30,6 +30,9 @@ export class Cenario extends Phaser.Scene {
 
         this.load.image('espada', 'data/player/arminha.png');
 
+
+        this.load.plugin('rexvirtualjoystickplugin', 'src/phaser/rexvirtualjoystickplugin.min.js', true);
+
     }
 
     create() {
@@ -43,6 +46,15 @@ export class Cenario extends Phaser.Scene {
         map.setCollisionBetween(0, 2);
 
         const detalhes = map.createLayer('detalhes', tileset, 0, 0);
+
+        if(this.cameras.main.width < 600){
+            this.cameras.main.setZoom(0.5);
+            this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+
+        }else if(this.cameras.main.width < 800){
+            this.cameras.main.setZoom(0.7);
+            this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+        }
 
         //* interações */
         this.interacoes = map.getObjectLayer("interacoes");
@@ -91,14 +103,11 @@ export class Cenario extends Phaser.Scene {
         /* COLISIONS */
         
         this.physics.add.collider(this.player, this.groundLayer);
-        
-        this.physics.add.overlap(this.player, this.Objs, (p,t)=>{
-            
-            controladorInteracoes(t,this)
-
+        this.physics.add.overlap(this.player, this.Objs, (player,objeto)=>{
+            controladorInteracoes(objeto,this);
         });
-        this.physics.add.overlap(this.player.interact, this.Objs, (p,t)=>{
-            activeInteracoes(this.player,t,this)
+        this.physics.add.overlap(this.player.interact, this.Objs, (player,objeto)=>{
+            activeInteracoes(this.player,objeto,this)
         });
 
 
@@ -106,8 +115,17 @@ export class Cenario extends Phaser.Scene {
         /* BOTOES */
 
         this.addBotoes();
+        this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
+            x: this.cameras.main.width*0.08,
+            y: this.cameras.main.height*0.78,
+            radius: this.cameras.main.width*0.1,
+            base: this.add.circle(0, 0, 100, 0x888888,0.4).setStrokeStyle(1.5, 0xaa0000),
+            thumb: this.add.circle(0, 0, 50, 0xcccccc,0.2).setStrokeStyle(1.5, 0xaa0000),
+        })
+        this.joyStick.on('update', () => { this.player.joystickMove(this.joyStick) });
         
-         manager.QuestVerificator({mapakey:this.mapaKey},this)
+        //fim da criação
+        manager.QuestVerificator({mapakey:this.mapaKey},this)
     }
     onLayerClick(pointer) {
             let path = pathFinder(
@@ -130,11 +148,11 @@ export class Cenario extends Phaser.Scene {
         let w = this.cameras.main.width;
         let h = this.cameras.main.height;
 
-        this.add.sprite(w*0.6, h*0.2, 'espada')
+        this.add.sprite(w*0.8, h*0.2, 'espada')
             .setScrollFactor(0, 0)
             .setInteractive()
             .on('pointerup', this.callMenus['playerManager']);
-        this.add.circle(w*0.5, h*0.2, 25, 0xff0000)
+        this.add.circle(w*0.7, h*0.2, 25, 0xff0000)
             .setScrollFactor(0, 0)
             .setInteractive()
             .on('pointerup', this.callMenus['settings'])

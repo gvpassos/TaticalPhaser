@@ -128,7 +128,7 @@
                         {
                          "name":"mapa",
                          "type":"string",
-                         "value":"jardim"
+                         "value":"jardimInterno"
                         }],
                  "rotation":0,
                  "type":"",
@@ -191,7 +191,7 @@
                         {
                          "name":"mapa",
                          "type":"string",
-                         "value":"jardim"
+                         "value":"jardimInterno"
                         }],
                  "rotation":0,
                  "type":"",
