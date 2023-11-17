@@ -15,7 +15,6 @@ class gameManager {
                 const interacts = actualQuest.interacoes;
                 let next = false
                 if(interacts.length > 1){
-                    console.log('interação de múltiplas interações');
                     next = interacts.slice(1);
                 }
                 this.acao[interacts[0].tipo](interacts[0],scene,next);
@@ -37,7 +36,6 @@ class gameManager {
                 const interacts = actualQuest.interacoes;
                 let next = false;
                 if(interacts.length > 1){
-                    console.log('interação de múltiplas interações');
                     next = interacts.slice(1);
                 }
                 this.acao[interacts[0].tipo](interacts[0],scene,next);
