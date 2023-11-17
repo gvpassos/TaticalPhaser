@@ -23,13 +23,13 @@ export class Cenario extends Phaser.Scene {
         this.load.spritesheet('estante', 'data/tileds/estante.png', { frameWidth: 32, frameHeight: 64 });
         this.load.spritesheet('mesaCentral', 'data/tileds/mesaCentral.png', { frameWidth: 128, frameHeight: 256 });
         this.load.spritesheet('bau', 'data/tileds/bau.png', { frameWidth: 32, frameHeight: 32 });       
-         this.load.spritesheet('porta', 'data/tileds/portaMadeira.png', { frameWidth: 32, frameHeight: 64 });
-         this.load.spritesheet('cama', 'data/tileds/cama.png', { frameWidth: 32, frameHeight: 96 });
+        this.load.spritesheet('porta', 'data/tileds/portaMadeira.png', { frameWidth: 32, frameHeight: 64 });
+        this.load.spritesheet('cama', 'data/tileds/cama.png', { frameWidth: 32, frameHeight: 96 });
         this.load.spritesheet('janela', 'data/tileds/janela.png', { frameWidth: 27, frameHeight: 42 });
         
 
         this.load.image('espada', 'data/player/arminha.png');
-
+        this.load.spritesheet('fullscreen', 'data/ui/fullscreen.png', { frameWidth: 64, frameHeight: 64 });
 
         this.load.plugin('rexvirtualjoystickplugin', 'src/phaser/rexvirtualjoystickplugin.min.js', true);
 
@@ -113,7 +113,23 @@ export class Cenario extends Phaser.Scene {
 
 
         /* BOTOES */
+        const fullscreenBtn = this.add.image(this.cameras.main.width*0.9, this.cameras.main.height*0.1, 'fullscreen', 0)
+        .setInteractive()
+        .setScrollFactor(0,0)
 
+        fullscreenBtn.on('pointerup', function ()
+        {
+            if (this.scale.isFullscreen)
+            {
+                fullscreenBtn.setFrame(0);
+                this.scale.stopFullscreen();
+            }
+            else
+            {
+                fullscreenBtn.setFrame(1);
+                this.scale.startFullscreen();
+            }
+        }, this);
         this.addBotoes();
         this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
             x: this.cameras.main.width*0.08,
@@ -123,6 +139,8 @@ export class Cenario extends Phaser.Scene {
             thumb: this.add.circle(0, 0, 50, 0xcccccc,0.2).setStrokeStyle(1.5, 0xaa0000),
         })
         this.joyStick.on('update', () => { this.player.joystickMove(this.joyStick) });
+
+        
         
         //fim da criação
         manager.QuestVerificator({mapakey:this.mapaKey},this)
