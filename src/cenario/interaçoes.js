@@ -188,50 +188,65 @@ const make = {
         switch (object.properties.find(el => el.name == "tipo")['value']) {
             case 'ouvinte':
                 const distanciaMaxima = 150;
+                inimigo.area = scene.add.circle(0, 0, distanciaMaxima, 0xff0000);
+                inimigo.area.setStrokeStyle(1.5, 0xaa0000);
                 inimigo.update = () => {
-                    //const distancia = Phaser.Math.Distance.BetweenPoints(inimigo, scene.player);
-                    const distancia = 200; 
+                    const distancia = Phaser.Math.Distance.BetweenPoints(inimigo, scene.player);
                     if(inimigo.lastPlayerPos && !inimigo.track){
                         if(inimigo.lastPlayerPos.x != scene.player.x ||
                             inimigo.lastPlayerPos.y != scene.player.y){
                             inimigo.track = true;
                             inimigo.tween.stop();
                             inimigo.followPlayer();
+
+                            inimigo.area.setAlpha(0);
                         }  
-                    }else {
-                    if(distancia < distanciaMaxima){
-                        inimigo.lastPlayerPos = {x: scene.player.x, y: scene.player.y};
-                    }else{
-                        inimigo.lastPlayerPos = false;
-                        inimigo.track = false;
+                        
                     }
-                    }   
-    
-    
+                        if(distancia < distanciaMaxima){
+                            inimigo.lastPlayerPos = {x: scene.player.x, y: scene.player.y};
+                            inimigo.area.setAlpha(0.4);
+                        }else{
+                            inimigo.lastPlayerPos = false;
+                            inimigo.track = false;
+                            inimigo.area.setAlpha(0.2);
+                        }
+                     
+                    inimigo.area.x = inimigo.x;
+                    inimigo.area.y = inimigo.y;
                 }
                 break; 
             case 'observador':
-                const visionAngle = 30;
+                const visionAngle = 15;
                 const visionDistance = 300;
-    
+                inimigo.triangle = scene.add.triangle(200, 200, 0, 0, 300, 80, 300, -80, 0xff0000);
+                inimigo.triangle.setStrokeStyle(1.5, 0xaa0000);
+                inimigo.triangle.setOrigin(0,0);
+                inimigo.triangle.setAlpha(0.2);
                 inimigo.update = () => {
                     if(!inimigo.track){
                         const directionToPlayer = Phaser.Math.Angle.Between(inimigo.x, inimigo.y, scene.player.x, scene.player.y);
-                        //const distanceToPlayer = Phaser.Math.Distance.Between(inimigo.x, inimigo.y, scene.player.x, scene.player.y);
-                        const distanceToPlayer = 320;    
+                        const distanceToPlayer = Phaser.Math.Distance.Between(inimigo.x, inimigo.y, scene.player.x, scene.player.y);
+                         
                         if (inimigo.angulo > Phaser.Math.RadToDeg(directionToPlayer) - visionAngle &&
                             inimigo.angulo < Phaser.Math.RadToDeg(directionToPlayer) + visionAngle &&
                             distanceToPlayer < visionDistance
                             ) {
                             const path = findPath(inimigo,scene.player,scene.groundLayer.culledTiles,scene.Objs);
-                            console.log(path != false );
                             if(path) {
                                 inimigo.track = true;
                                 inimigo.tween.stop();
                                 inimigo.followPlayer();
+                                inimigo.triangle.setAlpha(0);
                             }
+                        }else{
+                            inimigo.track = false;
+                            inimigo.triangle.setAlpha(0.2);
                         }
-                    }                
+                    }
+                    inimigo.triangle.x = inimigo.x;
+                    inimigo.triangle.y = inimigo.y;
+                    inimigo.triangle.angle = inimigo.angulo           
     
                 }
                 break;s
