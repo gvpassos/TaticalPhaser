@@ -191,7 +191,7 @@
          "objects":[
                 {
                  "height":0,
-                 "id":6,
+                 "id":4,
                  "name":"playerPoint",
                  "point":true,
                  "properties":[
@@ -209,7 +209,7 @@
                 }, 
                 {
                  "height":0,
-                 "id":10,
+                 "id":5,
                  "name":"playerPoint",
                  "point":true,
                  "properties":[
@@ -226,31 +226,8 @@
                  "y":2304
                 }, 
                 {
-                 "height":0,
-                 "id":18,
-                 "name":"playerPoint",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"mapa",
-                         "type":"string",
-                         "value":"alaEsquerda"
-                        }, 
-                        {
-                         "name":"spawnNumber",
-                         "type":"int",
-                         "value":0
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":416,
-                 "y":480
-                }, 
-                {
                  "height":126,
-                 "id":22,
+                 "id":6,
                  "name":"portal",
                  "properties":[
                         {
@@ -267,7 +244,7 @@
                 }, 
                 {
                  "height":128,
-                 "id":23,
+                 "id":7,
                  "name":"portal",
                  "properties":[
                         {
@@ -283,75 +260,8 @@
                  "y":2240
                 }, 
                 {
-                 "height":32,
-                 "id":25,
-                 "name":"portal",
-                 "properties":[
-                        {
-                         "name":"mapa",
-                         "type":"string",
-                         "value":"alaEsquerda"
-                        }, 
-                        {
-                         "name":"spawnNumber",
-                         "type":"int",
-                         "value":0
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":128,
-                 "x":352,
-                 "y":576
-                }, 
-                {
                  "height":0,
-                 "id":27,
-                 "name":"playerPoint",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"mapa",
-                         "type":"string",
-                         "value":"alaEsquerda"
-                        }, 
-                        {
-                         "name":"spawnNumber",
-                         "type":"int",
-                         "value":1
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":1056,
-                 "y":480
-                }, 
-                {
-                 "height":32,
-                 "id":28,
-                 "name":"portal",
-                 "properties":[
-                        {
-                         "name":"mapa",
-                         "type":"string",
-                         "value":"alaEsquerda"
-                        }, 
-                        {
-                         "name":"spawnNumber",
-                         "type":"int",
-                         "value":1
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":128,
-                 "x":992,
-                 "y":576
-                }, 
-                {
-                 "height":0,
-                 "id":29,
+                 "id":8,
                  "name":"playerPoint",
                  "point":true,
                  "properties":[
@@ -374,7 +284,7 @@
                 }, 
                 {
                  "height":32,
-                 "id":30,
+                 "id":9,
                  "name":"portal",
                  "properties":[
                         {
@@ -396,7 +306,7 @@
                 }, 
                 {
                  "height":0,
-                 "id":31,
+                 "id":10,
                  "name":"playerPoint",
                  "point":true,
                  "properties":[
@@ -419,7 +329,7 @@
                 }, 
                 {
                  "height":32,
-                 "id":32,
+                 "id":11,
                  "name":"portal",
                  "properties":[
                         {
@@ -441,191 +351,11 @@
                 }, 
                 {
                  "height":0,
-                 "id":35,
+                 "id":12,
                  "name":"inimigo",
                  "polygon":[
                         {
-                         "x":0,
-                         "y":0
-                        }, 
-                        {
-                         "x":0,
-                         "y":320
-                        }, 
-                        {
-                         "x":736,
-                         "y":320
-                        }, 
-                        {
-                         "x":736,
-                         "y":1120
-                        }, 
-                        {
-                         "x":928,
-                         "y":1120
-                        }, 
-                        {
-                         "x":928,
-                         "y":0
-                        }],
-                 "properties":[
-                        {
-                         "name":"frame",
-                         "type":"int",
-                         "value":0
-                        }, 
-                        {
-                         "name":"sprite",
-                         "type":"string",
-                         "value":"monstro1"
-                        }, 
-                        {
-                         "name":"tipo",
-                         "type":"string",
-                         "value":"ouvinte"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":1952,
-                 "y":160
-                }, 
-                {
-                 "height":0,
-                 "id":36,
-                 "name":"inimigo",
-                 "polygon":[
-                        {
-                         "x":0,
-                         "y":0
-                        }, 
-                        {
-                         "x":-1529.33333333333,
-                         "y":-2.66666666666666
-                        }, 
-                        {
-                         "x":-1529.33333333333,
-                         "y":189.333333333333
-                        }, 
-                        {
-                         "x":230.666666666667,
-                         "y":189.333333333333
-                        }, 
-                        {
-                         "x":230.666666666667,
-                         "y":-2.66666666666666
-                        }, 
-                        {
-                         "x":1222.66666666667,
-                         "y":-2.66666666666666
-                        }, 
-                        {
-                         "x":1222.66666666667,
-                         "y":1405.33333333333
-                        }, 
-                        {
-                         "x":902.666666666667,
-                         "y":1405.33333333333
-                        }, 
-                        {
-                         "x":902.666666666667,
-                         "y":1437.33333333333
-                        }, 
-                        {
-                         "x":-153.333333333333,
-                         "y":1437.33333333333
-                        }, 
-                        {
-                         "x":-153.333333333333,
-                         "y":1789.33333333333
-                        }, 
-                        {
-                         "x":326.666666666667,
-                         "y":1789.33333333333
-                        }, 
-                        {
-                         "x":326.666666666667,
-                         "y":2333.33333333333
-                        }, 
-                        {
-                         "x":870.666666666667,
-                         "y":2333.33333333333
-                        }, 
-                        {
-                         "x":870.666666666667,
-                         "y":1533.33333333333
-                        }, 
-                        {
-                         "x":1126.66666666667,
-                         "y":1533.33333333333
-                        }, 
-                        {
-                         "x":1126.66666666667,
-                         "y":1309.33333333333
-                        }, 
-                        {
-                         "x":710.666666666667,
-                         "y":1309.33333333333
-                        }, 
-                        {
-                         "x":710.666666666667,
-                         "y":925.333333333333
-                        }, 
-                        {
-                         "x":-57.3333333333333,
-                         "y":925.333333333333
-                        }, 
-                        {
-                         "x":-57.3333333333333,
-                         "y":541.333333333333
-                        }, 
-                        {
-                         "x":422.666666666667,
-                         "y":541.333333333333
-                        }, 
-                        {
-                         "x":422.666666666667,
-                         "y":221.333333333333
-                        }, 
-                        {
-                         "x":198.666666666667,
-                         "y":221.333333333333
-                        }, 
-                        {
-                         "x":198.666666666667,
-                         "y":-2.66666666666666
-                        }],
-                 "properties":[
-                        {
-                         "name":"frame",
-                         "type":"int",
-                         "value":0
-                        }, 
-                        {
-                         "name":"sprite",
-                         "type":"string",
-                         "value":"monstro1"
-                        }, 
-                        {
-                         "name":"tipo",
-                         "type":"string",
-                         "value":"ouvinte"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":1753.33333333333,
-                 "y":130.666666666667
-                }, 
-                {
-                 "height":0,
-                 "id":37,
-                 "name":"inimigo",
-                 "polygon":[
-                        {
-                         "x":0,
+                         "x":32,
                          "y":0
                         }, 
                         {
@@ -662,6 +392,234 @@
                  "width":0,
                  "x":1376,
                  "y":416
+                }, 
+                {
+                 "height":0,
+                 "id":13,
+                 "name":"inimigo",
+                 "polygon":[
+                        {
+                         "x":32,
+                         "y":0
+                        }, 
+                        {
+                         "x":32,
+                         "y":1696
+                        }, 
+                        {
+                         "x":512,
+                         "y":1696
+                        }, 
+                        {
+                         "x":512,
+                         "y":0
+                        }],
+                 "properties":[
+                        {
+                         "name":"frame",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"sprite",
+                         "type":"string",
+                         "value":"monstro2"
+                        }, 
+                        {
+                         "name":"tipo",
+                         "type":"string",
+                         "value":"observador"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":2496,
+                 "y":448
+                }, 
+                {
+                 "height":0,
+                 "id":14,
+                 "name":"inimigo",
+                 "polygon":[
+                        {
+                         "x":-1516,
+                         "y":16
+                        }, 
+                        {
+                         "x":-1516,
+                         "y":336
+                        }, 
+                        {
+                         "x":1332,
+                         "y":336
+                        }, 
+                        {
+                         "x":1332,
+                         "y":16
+                        }],
+                 "properties":[
+                        {
+                         "name":"frame",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"sprite",
+                         "type":"string",
+                         "value":"monstro1"
+                        }, 
+                        {
+                         "name":"tipo",
+                         "type":"string",
+                         "value":"ouvinte"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1708,
+                 "y":112
+                }, 
+                {
+                 "height":0,
+                 "id":15,
+                 "name":"inimigo",
+                 "polygon":[
+                        {
+                         "x":0,
+                         "y":32
+                        }, 
+                        {
+                         "x":0,
+                         "y":320
+                        }, 
+                        {
+                         "x":2336,
+                         "y":320
+                        }, 
+                        {
+                         "x":2336,
+                         "y":-544
+                        }, 
+                        {
+                         "x":1344,
+                         "y":-544
+                        }, 
+                        {
+                         "x":1344,
+                         "y":32
+                        }],
+                 "properties":[
+                        {
+                         "name":"frame",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"sprite",
+                         "type":"string",
+                         "value":"monstro1"
+                        }, 
+                        {
+                         "name":"tipo",
+                         "type":"string",
+                         "value":"ouvinte"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":608,
+                 "y":2112
+                }, 
+                {
+                 "height":0,
+                 "id":16,
+                 "name":"inimigo",
+                 "polygon":[
+                        {
+                         "x":0,
+                         "y":32
+                        }, 
+                        {
+                         "x":0,
+                         "y":-64
+                        }, 
+                        {
+                         "x":32,
+                         "y":-64
+                        }, 
+                        {
+                         "x":96,
+                         "y":-64
+                        }, 
+                        {
+                         "x":96,
+                         "y":32
+                        }],
+                 "properties":[
+                        {
+                         "name":"frame",
+                         "type":"string",
+                         "value":"1"
+                        }, 
+                        {
+                         "name":"sprite",
+                         "type":"string",
+                         "value":"monstro3"
+                        }, 
+                        {
+                         "name":"tipo",
+                         "type":"string",
+                         "value":"vigia"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":2112,
+                 "y":928
+                }, 
+                {
+                 "height":0,
+                 "id":17,
+                 "name":"inimigo",
+                 "polygon":[
+                        {
+                         "x":0,
+                         "y":0
+                        }, 
+                        {
+                         "x":32,
+                         "y":0
+                        }, 
+                        {
+                         "x":64,
+                         "y":0
+                        }],
+                 "properties":[
+                        {
+                         "name":"frame",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"sprite",
+                         "type":"string",
+                         "value":"monstro3"
+                        }, 
+                        {
+                         "name":"tipo",
+                         "type":"string",
+                         "value":"vigia"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":64,
+                 "y":320
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -670,7 +628,7 @@
          "y":0
         }],
  "nextlayerid":4,
- "nextobjectid":38,
+ "nextobjectid":45,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

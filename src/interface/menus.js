@@ -111,7 +111,7 @@ export class MenuCreator extends Phaser.Scene {
         this.groupMenu.add(close);
         
         const inventarioBtn = this.add.text(this.w*0.11, this.h*0.025, "Inventario" , 
-        { fontSize: '2vmax', fill: '#fff', fontWeight: 'bold', fontFamily: 'Impact' })
+        { fontSize: '1rem', fill: '#fff', fontWeight: 'bold', fontFamily: 'Impact' })
             .setScrollFactor(0, 0)
             .setOrigin(0.5, 0.5)
             .setInteractive()
@@ -121,7 +121,7 @@ export class MenuCreator extends Phaser.Scene {
         this.groupMenu.add(inventarioBtn);
             
         const statusBtn = this.add.text(this.w*0.22, this.h*0.025, "Status" , 
-        { fontSize: '2vmax', fill: '#fff', fontWeight: 'bold', fontFamily: 'Impact' })
+        { fontSize: '1rem', fill: '#fff', fontWeight: 'bold', fontFamily: 'Impact' })
             .setScrollFactor(0, 0)
             .setOrigin(0.5, 0.5)
             .setInteractive()
@@ -131,7 +131,7 @@ export class MenuCreator extends Phaser.Scene {
         this.groupMenu.add(statusBtn);
 
         const historicoBtn = this.add.text(this.w*0.33, this.h*0.025, "Historico" , 
-        { fontSize: '2vmax', fill: '#fff', fontWeight: 'bold', fontFamily: 'Impact' })
+        { fontSize: '1rem', fill: '#fff', fontWeight: 'bold', fontFamily: 'Impact' })
             .setScrollFactor(0, 0)
             .setOrigin(0.5, 0.5)
             .setInteractive()
@@ -141,7 +141,7 @@ export class MenuCreator extends Phaser.Scene {
         this.groupMenu.add(historicoBtn);
 
         const questBtn = this.add.text(this.w*0.44, this.h*0.025, "Missoes" , 
-        { fontSize: '2vmax', fill: '#fff', fontWeight: 'bold', fontFamily: 'Impact' })
+        { fontSize: '1rem', fill: '#fff', fontWeight: 'bold', fontFamily: 'Impact' })
             .setScrollFactor(0, 0)
             .setOrigin(0.5, 0.5)
             .setInteractive()
@@ -349,17 +349,18 @@ export class MenuCreator extends Phaser.Scene {
                     padding: 10px;
                     width: ${this.w*0.45}px;
                     height: ${this.h*0.55}px;
-                    font: 2vmax Arial;
+                    font: 1rem Arial;
                     color: white;`;
 
                 HTML.innerHTML = `Nome: ${this.config.players[this.config.playerActive].name}`;
-    
+                document.getElementById('root').appendChild(HTML);
                 for (const key in this.config.players[this.config.playerActive].stats) {
                     if (Object.hasOwnProperty.call(this.config.players[this.config.playerActive].stats, key)) {
                         const element = this.config.players[this.config.playerActive].stats[key];
                         HTML.innerHTML += `<li>${key}: ${element}</li>`;
                     }
                 }
+                document.getElementById('root').appendChild(HTML);
                 const display = this.add.dom(this.w*0.02 ,this.h*0.025 ,HTML);
                 display.setOrigin(0,0);
                 this.groupSubMenu.add(display);
@@ -393,11 +394,12 @@ export class MenuCreator extends Phaser.Scene {
                     padding: 10px;
                     width: ${this.w*0.45}px;
                     height: ${this.h*0.55}px;
-                    font: 2vmax Arial;
+                    font: 1rem Arial;
                     color: white;`;
 
                 HTMLHistorico.innerHTML = `Quests:<br>`;
                 HTMLHistorico.innerHTML += manager.getQuests();
+                document.getElementById('root').appendChild(HTML);
 
                 const displayHist = this.add.dom(this.w*0.02 ,this.h*0.025 ,HTMLHistorico);
                 displayHist.setOrigin(0,0);
@@ -457,7 +459,7 @@ export class MenuCreator extends Phaser.Scene {
         HTML.innerHTML = data[this.fala][this.pos];
         HTML.style = `border: 1px solid white;
         width: ${this.w*0.77}px; height: ${this.h*0.18}px;
-         font: 2vmax Arial;color: white;`;
+         font: 1rem Arial;color: white;`;
          
         const text = this.add.dom(0 ,0 ,HTML);
         text.setOrigin(0,0);
@@ -502,8 +504,9 @@ export class MenuCreator extends Phaser.Scene {
         HTML.innerHTML = ITEMS.find(el => el.id == item.id).desc;
         HTML.style = `border: 1px solid white;
             width: ${this.w*0.25}px; height: ${this.h*0.28}px;
-            font: 2vmax Arial;color: white;`;
+            font: 1rem Arial;color: white;`;
         if(this.desc)this.desc.destroy();
+        document.getElementById('root').appendChild(HTML);
         this.desc = this.add.dom(this.w*0.01,this.h*0.4,HTML)
         this.desc.setOrigin(0,0)
         

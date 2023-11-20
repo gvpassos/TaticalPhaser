@@ -18,6 +18,7 @@ export class Cenario extends Phaser.Scene {
 
         this.load.spritesheet('monstro1', 'data/npc/guarda/mulher.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('monstro2', 'data/npc/guarda/homem.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('monstro3', 'data/npc/vendedor/vendedorhomem.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('humano3', 'data/npc/vendedor/vendedorMulher.png', { frameWidth: 32, frameHeight: 32 });
 
         this.load.spritesheet('estante', 'data/tileds/estante.png', { frameWidth: 32, frameHeight: 64 });
@@ -32,6 +33,7 @@ export class Cenario extends Phaser.Scene {
         this.load.spritesheet('fullscreen', 'data/ui/fullscreen.png', { frameWidth: 64, frameHeight: 64 });
 
         this.load.plugin('rexvirtualjoystickplugin', 'src/phaser/rexvirtualjoystickplugin.min.js', true);
+        this.load.plugin('rexbuttonplugin', 'src/phaser/rexbuttonplugin.min.js', true);
 
     }
 
@@ -40,8 +42,10 @@ export class Cenario extends Phaser.Scene {
         let map = this.make.tilemap({ key: this.mapaKey, tileWidth: 32, tileHeight: 32 });
         const tileset = map.addTilesetImage('Atlas', 'Atlas');
         this.groundLayer = map.createLayer('baixo', tileset, 0, 0)
-            .setInteractive()
-            .on('pointerup',  (pointer)=>{this.onLayerClick(pointer)} , this);
+        if(this.Config.touchMove){
+            this.groundLayer.setInteractive()
+            this.groundLayer.on('pointerup',  (pointer)=>{this.onLayerClick(pointer)} , this);
+        }
         
         map.setCollisionBetween(0, 2);
 
@@ -113,35 +117,9 @@ export class Cenario extends Phaser.Scene {
 
 
         /* BOTOES */
-        const fullscreenBtn = this.add.image(this.cameras.main.width*0.9, this.cameras.main.height*0.1, 'fullscreen', 0)
-        .setInteractive()
-        .setScrollFactor(0,0)
-
-        fullscreenBtn.on('pointerup', function ()
-        {
-            if (this.scale.isFullscreen)
-            {
-                fullscreenBtn.setFrame(0);
-                this.scale.stopFullscreen();
-            }
-            else
-            {
-                fullscreenBtn.setFrame(1);
-                this.scale.startFullscreen();
-            }
-        }, this);
+        
         this.addBotoes();
-        this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
-            x: this.cameras.main.width*0.08,
-            y: this.cameras.main.height*0.78,
-            radius: this.cameras.main.width*0.1,
-            base: this.add.circle(0, 0, 100, 0x888888,0.4).setStrokeStyle(1.5, 0xaa0000),
-            thumb: this.add.circle(0, 0, 50, 0xcccccc,0.2).setStrokeStyle(1.5, 0xaa0000),
-        })
-        this.joyStick.on('update', () => { this.player.joystickMove(this.joyStick) });
 
-        
-        
         //fim da criação
         manager.QuestVerificator({mapakey:this.mapaKey},this)
     }
@@ -174,6 +152,47 @@ export class Cenario extends Phaser.Scene {
             .setScrollFactor(0, 0)
             .setInteractive()
             .on('pointerup', this.callMenus['settings'])
+
+
+        const fullscreenBtn = this.add.image(this.cameras.main.width*0.8, this.cameras.main.height*0.1, 'fullscreen', 0)
+        .setInteractive()
+        .setScrollFactor(0,0)
+
+        fullscreenBtn.on('pointerup', function ()
+        {
+            if (this.scale.isFullscreen)
+            {
+                fullscreenBtn.setFrame(0);
+                this.scale.stopFullscreen();
+            }
+            else
+            {
+                fullscreenBtn.setFrame(1);
+                this.scale.startFullscreen();
+            }
+        }, this);
+        if(!this.Config.touchMove ){
+            this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
+                x: w*0.12,
+                y: h*0.78,
+                radius: w*0.08,
+                base: this.add.circle(0, 0, 100, 0x888888,0.4).setStrokeStyle(1.5, 0xaa0000),
+                thumb: this.add.circle(0, 0, 50, 0xcccccc,0.2).setStrokeStyle(1.5, 0xaa0000),
+            })
+            this.joyStick.on('update', () => { this.player.joystickMove(this.joyStick) });
+            
+            const buttonJoystick = this.add.circle(w*0.7, h*0.75, w*0.03, 0xffffff)
+            .setScrollFactor(0, 0)
+
+            const button = this.plugins.get('rexbuttonplugin').add(buttonJoystick);
+            button.on('down', function (button, gameObject, event) {
+               this.player.tecladoMove['x'](1)
+            }, this);
+            button.on('up', function (button, gameObject, event) {
+                this.player.tecladoMove['x'](0)
+            }, this);
+        }
+        
     }
 
     callMenus = {

@@ -23,7 +23,7 @@
                         'body':null,
                         'legs':null,
                         'hands':null,
-                        'weapon':null,
+                        'weapon':7,
                         'acessories1':null,
                         'acessories2':null,
                         'acessories3':null
@@ -47,8 +47,8 @@
                         'head':null,
                         'body':null,
                         'legs':null,
-                        'hands':null,
-                        'weapon':null,
+                        'hands':4,
+                        'weapon':8,
                         'acessories1':null,
                         'acessories2':null,
                         'acessories3':null
@@ -69,8 +69,9 @@
                 },
             ],
             playerActive:0,
+            touchMove:false
 
-
+            
           
         };
         const faseCombate = new FaseCombate(Config)
@@ -84,6 +85,13 @@
             dom: {
                 createContainer: true
             },
+            scale: {
+                mode: Phaser.Scale.FIT,
+                parent: 'root',
+                autoCenter: Phaser.Scale.CENTER_BOTH,
+                width: 800,
+                height: 600
+            },
             physics: {
                 default: 'arcade',
                 arcade: {
@@ -95,6 +103,7 @@
         }
         const Game = new Phaser.Game(config);
         Game.scene.start('Cenario');
+        Game.scale.fullScreenTarget = document.getElementById('root')
     </script>
     <style>
         canvas{

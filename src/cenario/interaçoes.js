@@ -5,7 +5,6 @@ export const criarInteracoes = function (scene,interacoes){
     let objs = [];
     //create a foreach loop for all the interacoes objects , and create a sprite for each one with a name 
     interacoes.forEach(object => {
-        console.log(object.name);
         const obj = make[object.name](scene,object);
         if(obj!=null)objs.push(obj);
         
@@ -37,13 +36,14 @@ const make = {
     },
     "inimigo": function (scene,object){
         
-        const spriteName = object.properties.find(el => el.name == "sprite")['value'];
-        let tweenIDLE=[];    
-    
+        const spriteName = object.properties.find(el => el.name == "sprite")['value'];   
     
         const inimigo = scene.add.sprite(object.x+16, object.y+16, spriteName);
         inimigo.setOrigin(0.5,0.5);
         inimigo.name = 'inimigo';
+        inimigo.id = object.id;
+        inimigo.idle = [];
+        inimigo.tipo = object.properties.find(el => el.name == "tipo")['value']
 
          /// animacoes do inimigo
          inimigo.anims.create({
@@ -73,25 +73,23 @@ const make = {
         inimigo.play('up');
         inimigo.stop();
         
-        inimigo.rodarAnimacao = (path,proximaPos)=>{
+        inimigo.rodarAnimacao = (angulo)=>{
             
-            if(proximaPos.x > path.x){
+            if(angulo == 0){
                 if(inimigo.anims.currentAnim.key!='right')inimigo.play('right');
                 if(!inimigo.anims.isPlaying)inimigo.play('right');
-            }else if(proximaPos.x < path.x){
+            }else if(angulo == 180){
                 if(inimigo.anims.currentAnim.key!='left')inimigo.play('left');
                 if(!inimigo.anims.isPlaying)inimigo.play('left');
-            }else if(proximaPos.y > path.y){
+            }else if(angulo == 90){
                 if(inimigo.anims.currentAnim.key!= 'down')inimigo.play('down');
                 if(!inimigo.anims.isPlaying)inimigo.play('down');
-            }else if(proximaPos.y < path.y){
+            }else if(angulo == -90){
                 if(inimigo.anims.currentAnim.key!='up')inimigo.play('up');
                 if(!inimigo.anims.isPlaying)inimigo.play('up');
-            }else {
-                inimigo.stop();
             }
         }
-    
+        /// cria o caminho do inimigo
         object.polygon.forEach((laco,ind) => {
             const dist = ind>0 ?
                 Phaser.Math.Distance.BetweenPoints(laco, object.polygon[ind-1]):
@@ -101,27 +99,30 @@ const make = {
                 Phaser.Math.Angle.Between(object.polygon[object.polygon.length-1].x,object.polygon[object.polygon.length-1].y,laco.x, laco.y,);
     
                 angulo = Phaser.Math.RadToDeg(angulo);
-            tweenIDLE.push({
+
+            console.log(inimigo.tipo,ind,angulo);   
+            inimigo.idle.push({
                 x: laco.x + object.x + 16,
                 y: laco.y + object.y + 16,
                 duration: dist*15,
-                onStart:()=>{
+                onActive:()=>{            
                     inimigo.angulo = angulo
-                    const anteriorPos = ind > 0? object.polygon[ind-1]:object.polygon[0];
-                    
-                    inimigo.rodarAnimacao(anteriorPos,laco);
-                }
+                    inimigo.rodarAnimacao(angulo);
+                },
+               
             })
+            
     
         });
     
-        inimigo.idle = tweenIDLE;
+        
         inimigo.track = false;
-        inimigo.tween = scene.tweens.chain({
+        inimigo.tween = !inimigo.tween ? scene.tweens.chain({
             targets: inimigo,
-            tweens:tweenIDLE,
-            loop: -1
-        });
+            tweens:inimigo.idle,
+            loop: -1,
+        }): scene.tweens.restart();
+        // CONRRENDO ATRAS DO PLAYER
         inimigo.followPlayer = () => {
             const path = pathFinder(inimigo,scene.player,scene.groundLayer,[]);
             if(path==null){
@@ -130,13 +131,16 @@ const make = {
                 inimigo.retorno();
                 return;
             }
-            path.forEach((laco) => {
+            path.forEach((laco,ind) => {
                 laco.x = laco.x *32 + 16;
                 laco.y = laco.y *32 + 16;
                 laco.duration =  200;
-                onStart: ()=>{
-                    const proximaPos = i < path.length-1?path[i+1]:path[i];
-                    inimigo.rodarAnimacao(path,proximaPos);
+                let angulo = ind>0 ?
+                Phaser.Math.Angle.Between(path[ind-1].x,path[ind-1].y,laco.x, laco.y):
+                Phaser.Math.Angle.Between(path[path.length-1].x,path[path.length-1].y,laco.x, laco.y,);
+                angulo = Phaser.Math.RadToDeg(angulo);
+                laco.onStart  = ()=>{
+                    inimigo.rodarAnimacao(angulo);
                 }
             });
             inimigo.tween = scene.tweens.chain({
@@ -155,20 +159,25 @@ const make = {
             });
         }
     
+        // RETORNO AO INICIO DO CAMINHO
         inimigo.retorno = () => {
             const path = pathFinder(
                 inimigo,inimigo.idle[0],
                 scene.groundLayer,[]
             );
-            path.forEach((laco) => {
+            path.forEach((laco,ind) => {
                 laco.x = laco.x *32 + 16;
                 laco.y = laco.y *32 + 16;
                 laco.duration =  200;
-                onStart: ()=>{
-                    const proximaPos = i < path.length-1?path[i+1]:path[i];
-                    inimigo.rodarAnimacao(path,proximaPos);
+                let angulo = ind>0 ?
+                Phaser.Math.Angle.Between(path[ind-1].x,path[ind-1].y,laco.x, laco.y,):
+                Phaser.Math.Angle.Between(path[path.length-1].x,path[path.length-1].y,laco.x, laco.y,);
+                angulo = Phaser.Math.RadToDeg(angulo);
+                laco.onActive = ()=>{
+                    inimigo.rodarAnimacao(angulo);
                 }
             });
+            if(inimigo.tween)inimigo.tween.stop();
             inimigo.tween = scene.tweens.chain({
                 targets: inimigo,
                 tweens:path,
@@ -246,14 +255,46 @@ const make = {
                     }
                     inimigo.triangle.x = inimigo.x;
                     inimigo.triangle.y = inimigo.y;
-                    inimigo.triangle.angle = inimigo.angulo           
+                    inimigo.triangle.angle = inimigo.angulo   
+
+                }
+                break;
+            case 'vigia':
+                const vigiaAngle = 30;
+                const vigiaDistance = 0;
+                inimigo.triangle = scene.add.triangle(200, 200, 0, 0, 300, 173, 300, -173, 0xff0000);
+                inimigo.triangle.setStrokeStyle(0.5, 0xaa0000);
+                inimigo.triangle.setOrigin(0,0);
+                inimigo.triangle.setAlpha(0.2);
+                inimigo.update = () => {
+                    if(!inimigo.track){
+                        const directionToPlayer = Phaser.Math.Angle.Between(inimigo.x, inimigo.y, scene.player.x, scene.player.y);
+                        const distanceToPlayer = Phaser.Math.Distance.Between(inimigo.x, inimigo.y, scene.player.x, scene.player.y);
+                            
+                        if (inimigo.angulo > Phaser.Math.RadToDeg(directionToPlayer) - vigiaAngle &&
+                            inimigo.angulo < Phaser.Math.RadToDeg(directionToPlayer) + vigiaAngle &&
+                            distanceToPlayer < vigiaDistance
+                            ) {
+                            const path = findPath(inimigo,scene.player,scene.groundLayer.culledTiles,scene.Objs);
+                            if(path) {
+                                inimigo.track = true;
+                                inimigo.tween.stop();
+                                inimigo.followPlayer();
+                                inimigo.triangle.setAlpha(0);
+                            }
+                        }else{
+                            inimigo.track = false;
+                            inimigo.triangle.setAlpha(0.2);
+                        }
+                    }
+                    inimigo.triangle.x = inimigo.x;
+                    inimigo.triangle.y = inimigo.y;
+                    inimigo.triangle.angle = inimigo.angulo                            
     
                 }
-                break;s
+                break;
+                
         }
-    
-       
-
         return inimigo;
     },
     "porta": function (scene,object){
@@ -324,7 +365,6 @@ const make = {
                 scene.groundLayer,[]);
             if(path.length>1){
                 path.pop();
-                console.info(path)
                 scene.player.move(path, scene.onMove,()=>{activeInteracoes({interactTigger:true},npc,scene)});
             }else{
                 activeInteracoes({interactTigger:true},npc,scene)
@@ -342,7 +382,6 @@ const make = {
         return null
     }
 }
-
 
 
 
