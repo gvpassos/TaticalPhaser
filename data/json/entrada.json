@@ -395,20 +395,40 @@
                 }, 
                 {
                  "height":0,
-                 "id":127,
+                 "id":128,
                  "name":"inimigo",
                  "polygon":[
                         {
-                         "x":0,
-                         "y":0
+                         "x":12,
+                         "y":-39.5
                         }, 
                         {
-                         "x":0,
-                         "y":64
+                         "x":12,
+                         "y":-6.5
                         }, 
                         {
-                         "x":0,
-                         "y":32
+                         "x":12,
+                         "y":24.5
+                        }, 
+                        {
+                         "x":-3.5,
+                         "y":24.5
+                        }, 
+                        {
+                         "x":-20,
+                         "y":24.5
+                        }, 
+                        {
+                         "x":-20,
+                         "y":-8.5
+                        }, 
+                        {
+                         "x":-20,
+                         "y":-39.5
+                        }, 
+                        {
+                         "x":-5,
+                         "y":-39
                         }],
                  "properties":[
                         {
@@ -430,8 +450,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":160,
-                 "y":1184
+                 "x":212,
+                 "y":1223.5
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -440,7 +460,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":128,
+ "nextobjectid":129,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",
