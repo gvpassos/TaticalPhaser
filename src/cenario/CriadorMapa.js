@@ -14,7 +14,7 @@ export class Cenario extends Phaser.Scene {
         
         this.load.tilemapTiledJSON(`${this.mapaKey}`, `data/json/${this.mapaKey}.json`);	
 
-        this.load.spritesheet('player', 'data/player/player.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('player', 'data/player/playerSprite.png', { frameWidth: 64, frameHeight: 64 });
 
         this.load.spritesheet('monstro1', 'data/npc/guarda/mulher.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('monstro2', 'data/npc/guarda/homem.png', { frameWidth: 32, frameHeight: 32 });

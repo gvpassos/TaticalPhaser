@@ -188,8 +188,12 @@ export function activeInteracoes(player, objeto, scene) {
 const listaActiveInteracoes = {
     "porta": (interacao, scene) => {
         if (interacao.isLock) {
-            manager.acao['falas']({dialog:"portaTrancada", pos:0, posFinal:1}, scene,false);
-            return;
+            if(scene.Config.inventario.some(item => item == interacao.keyCode)){
+                interacao.isLock == false;
+            }else{
+                manager.acao['falas']({dialog:"portaTrancada", pos:0, posFinal:1}, scene,false);
+                return;
+            }
         };
         if (interacao.isOpen) {
             interacao.setFrame(interacao.nFrame);
@@ -226,7 +230,6 @@ const listaActiveInteracoes = {
         }
     },
     'item': (interacao, scene) => {
-
     }
 
 }

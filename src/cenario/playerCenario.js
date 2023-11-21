@@ -6,9 +6,9 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
         config.scene.add.existing(this);
         config.scene.physics.add.existing(this);
         
-        this.setOrigin(0,0);
+        this.setOrigin(0.5,0.5);
         this.body.onWorldBounds = true;
-        this.body.setSize(25,25);
+        this.body.setSize(30,30);
         this.target = {x:0,y:0};
         
         this.name = config.name
@@ -196,25 +196,25 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
     animacoes(){
         this.up = this.anims.create({
             key: 'up',
-            frames: this.anims.generateFrameNumbers(this.name, { frames: [ 9, 10, 11] }),
+            frames: this.anims.generateFrameNumbers(this.name, { frames: [104, 105, 106, 107, 108, 109, 110, 111, 112] }),
             frameRate:18,
             repeat: -1
         });
         this.down = this.anims.create({
             key: 'down',
-            frames: this.anims.generateFrameNumbers(this.name, { frames: [ 0, 1, 2] }),
+            frames: this.anims.generateFrameNumbers(this.name, { frames:[130,131,132,133,134,135,136,137,138]  }),
             frameRate:18,
             repeat: -1
         });
         this.left = this.anims.create({
             key: 'left',
-            frames: this.anims.generateFrameNumbers(this.name, { frames: [ 3, 4, 5] }),
+            frames: this.anims.generateFrameNumbers(this.name, { frames: [117, 118, 119, 120, 121, 122, 123, 124, 125] }),
             frameRate:18,
             repeat: -1
         });
         this.right = this.anims.create({
             key: 'right',
-            frames: this.anims.generateFrameNumbers(this.name, { frames: [ 6, 7, 8] }),
+            frames: this.anims.generateFrameNumbers(this.name, { frames: [ 143, 144, 145, 146, 147, 148, 149, 150, 151 ] }),
             frameRate:18,
             repeat: -1
         })

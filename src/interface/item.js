@@ -71,5 +71,12 @@ export const ITEMS = [
         type: 'acessories',
         desc:' Livro sem nenhum tipo de efeito',
     },
+    {
+        id:10,
+        name: 'Chave',
+        sprite: 12,
+        type: 'keyItems',
+        desc:'Chave comum que deve abrir uma porta',
+    },
 ];
     
