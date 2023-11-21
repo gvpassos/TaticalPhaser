@@ -19,6 +19,7 @@ export class Cenario extends Phaser.Scene {
         this.load.spritesheet('monstro1', 'data/npc/guarda/mulher.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('monstro2', 'data/npc/guarda/homem.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('monstro3', 'data/npc/vendedor/vendedorhomem.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('humano1', 'data/npc/vendedor/mercadonegro.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('humano3', 'data/npc/vendedor/vendedorMulher.png', { frameWidth: 32, frameHeight: 32 });
 
         this.load.spritesheet('estante', 'data/tileds/estante.png', { frameWidth: 32, frameHeight: 64 });

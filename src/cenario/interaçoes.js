@@ -1,5 +1,5 @@
 import { pathFinder, findPath } from "../controles/pathFinder.js"
-import { activeInteracoes } from "../controles/manager.js";
+import {manager, activeInteracoes } from "../controles/manager.js";
 
 export const criarInteracoes = function (scene, interacoes) {
     let objs = [];
@@ -101,7 +101,6 @@ const make = {
 
                 angulo = Phaser.Math.RadToDeg(angulo);
 
-                console.log(inimigo.tipo, ind, angulo);
                 inimigo.idle.push({
                     x: laco.x + object.x + 16,
                     y: laco.y + object.y + 16,
@@ -305,9 +304,9 @@ const make = {
         porta.isOpen = isOpen;
         porta.name = 'porta';
         porta.nFrame = spriteN;
-        if(object.properties.some(el => el.name == "itemCode"))
+        if (object.properties.some(el => el.name == "itemCode"))
             porta.keyCode = object.properties.find(el => el.name == "itemCode")['value'];
-        
+
         porta.setOrigin(0, 0);
         porta.setInteractive();
 
@@ -335,17 +334,24 @@ const make = {
     "npc": function (scene, object) {
         const spriteName = object.properties.find(el => el.name == "sprite")['value'];
         const spriteFrame = object.properties.find(el => el.name == "frame")['value'];
+        const spriteQuestVisivel = object.properties.some(el => el.name == "somenteVisivel")? object.properties.find(el => el.name == "somenteVisivel")['value']: false;
+
+        if(spriteQuestVisivel){
+            if(manager.notMake(JSON.parse(spriteQuestVisivel))) return null;
+        }
 
         const tipo = object.properties.find(el => el.name == "tipo")['value'];
         let posInicial, posFinal, itemCode;
-        if (tipo.includes("Generic")) {
-            posInicial = object.properties.find(el => el.name == "posInicial")['value'];
-            posFinal = object.properties.find(el => el.name == "posFinal")['value'];
-        }
-        else if (tipo.includes("Item")) {
-            itemCode = object.properties.find(el => el.name == "itemCode")['value'];
-            posInicial = object.properties.find(el => el.name == "posInicial")['value'];
-            posFinal = object.properties.find(el => el.name == "posFinal")['value'];
+        if (tipo) {
+            if (tipo.includes("Generic")) {
+                posInicial = object.properties.find(el => el.name == "posInicial")['value'];
+                posFinal = object.properties.find(el => el.name == "posFinal")['value'];
+            }
+            else if (tipo.includes("Item")) {
+                itemCode = object.properties.find(el => el.name == "itemCode")['value'];
+                posInicial = object.properties.find(el => el.name == "posInicial")['value'];
+                posFinal = object.properties.find(el => el.name == "posFinal")['value'];
+            }
         }
 
         const npc = scene.add.sprite(object.x, object.y, spriteName);

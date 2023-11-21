@@ -176,14 +176,14 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
             if(this.x > objInteracted.x)
                 this.x = objInteracted.x+objInteracted.width+1;
             if(this.x < objInteracted.x)
-                this.x = objInteracted.x-33;            
+                this.x = objInteracted.x-this.width;            
         }
 
         if(this.x <= objInteracted.x+objInteracted.width && this.x >= objInteracted.x){
              if(this.y > objInteracted.y)
-                this.y = objInteracted.y+objInteracted.height+1;
+                this.y = objInteracted.y+objInteracted.height;
             if(this.y < objInteracted.y)
-                this.y = objInteracted.y-33;      
+                this.y = objInteracted.y-this.height;      
         }
     }
 

@@ -25,7 +25,6 @@ class gameManager {
 
         }
         if (dados.interacao && actualQuest.tipoTrigger == 'contact') {/// interacao por contato 
-            console.warn(dados.interacao, this.posicaoQuest);
             return false;
         }
         if (dados.activeInteracoes && actualQuest.tipoTrigger == 'activeContact') { /// interacao por contato Ativado
@@ -115,6 +114,15 @@ class gameManager {
         }
         
         return string;
+    }
+
+
+    notMake(limites){
+
+        if(this.posicaoQuest >= limites['inicio'] && this.posicaoQuest < limites['fim']){
+            return false;
+        }
+        return true
     }
 }
 
@@ -216,7 +224,6 @@ const listaActiveInteracoes = {
                 final = 1;
             }
             if(newdialogs.includes("Item")){
-                console.log(">",interacao.itemCode);
                 pos = 0;
                 final = 1;
                 if(!manager.entregador(interacao,scene)){// adicona item no inventario se ja tiver fala outra fala

@@ -61,6 +61,18 @@ export const progressJSON = {
         },
         {
             "pos": 4,
+            "name": "Quem é esse estranho na sala",
+            'tipoTrigger': 'activeContact',
+            "trigger": "npcMissao4",
+            "interacoes": [{
+                "tipo": "falas",
+                "dialog": "npcMissao4",
+                "pos": 0,
+                "posFinal": 5
+            }]
+        },
+        {
+            "pos": 5,
             "name": "fim",
             'tipoTrigger': null,
         }

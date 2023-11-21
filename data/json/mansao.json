@@ -297,25 +297,40 @@
                  "properties":[
                         {
                          "name":"frame",
+                         "type":"string",
+                         "value":"0"
+                        }, 
+                        {
+                         "name":"itemCode",
+                         "type":"int",
+                         "value":5
+                        }, 
+                        {
+                         "name":"posFinal",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"posInicial",
                          "type":"int",
                          "value":0
                         }, 
                         {
                          "name":"sprite",
                          "type":"string",
-                         "value":"mesaCentral"
+                         "value":"bau"
                         }, 
                         {
                          "name":"tipo",
                          "type":"string",
-                         "value":"false"
+                         "value":"bauN1"
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":736,
-                 "y":320
+                 "x":896,
+                 "y":192
                 }, 
                 {
                  "height":0,
@@ -486,11 +501,6 @@
                          "value":"0"
                         }, 
                         {
-                         "name":"itemCode",
-                         "type":"int",
-                         "value":5
-                        }, 
-                        {
                          "name":"posFinal",
                          "type":"int",
                          "value":1
@@ -501,21 +511,26 @@
                          "value":0
                         }, 
                         {
+                         "name":"somenteVisivel",
+                         "type":"string",
+                         "value":"{\"inicio\":4,\"fim\":5}"
+                        }, 
+                        {
                          "name":"sprite",
                          "type":"string",
-                         "value":"bau"
+                         "value":"humano1"
                         }, 
                         {
                          "name":"tipo",
                          "type":"string",
-                         "value":"bauN1"
+                         "value":"npcMissao4"
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":896,
-                 "y":192
+                 "x":736,
+                 "y":320
                 }, 
                 {
                  "height":0,
