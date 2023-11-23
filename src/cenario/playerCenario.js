@@ -15,24 +15,24 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
         this.graphics = this.scene.add.graphics();
         this.travaAndar = false;
 
-
         config.scene.input.keyboard.on('keydown', (input) => {
             if(this.tecladoMove[input.key])this.tecladoMove[input.key](800);
         })
-        config.scene.input.keyboard.on('keyup', (input) => {
-            
+        config.scene.input.keyboard.on('keyup', (input) => {            
             if(this.tecladoMove[input.key])this.tecladoMove[input.key](0);
-
         })
         this.animacoes();
 
-        this.interact = config.scene.add.rectangle(config.x, config.y,64,64,0xffffff);
+        this.interact = config.scene.add.sprite(0,0,'interact');
         this.interact.setAlpha(0); 
         this.interact.setOrigin(0,0);
-        
-        this.interactTigger = false;
 
         config.scene.physics.add.existing(this.interact);
+        this.interact.body.setSize(64,64);
+
+        this.posicaoPlayer = "up";
+
+        
     }
     move( path, mover, onFinish){
 
@@ -90,6 +90,7 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
     tecladoMove={
         "ArrowRight":(speed)=>{
             this.body.setVelocityX(speed);
+            this.posicaoPlayer = "right";
             if(this.anims.currentAnim.key!='right' && speed > 0)this.play('right');
             else if (!this.anims.isPlaying && speed > 0) this.play('right');
             else if(speed==0) this.anims.stop();
@@ -97,24 +98,33 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
         },
         "ArrowLeft":(speed)=>{
             this.body.setVelocityX(-speed);  
+            this.posicaoPlayer = "left";
             if(this.anims.currentAnim.key!='left' && speed > 0)this.play('left');
             else if (!this.anims.isPlaying && speed > 0) this.play('left');
             else if(speed==0) this.anims.stop();
         },
         "ArrowUp":(speed)=>{
             this.body.setVelocityY(-speed);    
+            this.posicaoPlayer = "up";
             if(this.anims.currentAnim.key!='up' && speed > 0)this.play('up');
             else if (!this.anims.isPlaying && speed > 0) this.play('up');
             else if(speed==0) this.anims.stop();
         },
         "ArrowDown":(speed)=>{
             this.body.setVelocityY(speed);
+            this.posicaoPlayer = "down";
             if(this.anims.currentAnim.key !='down' && speed > 0)this.play('down');
             else if (!this.anims.isPlaying && speed > 0) this.play('down');
             else if(speed==0) this.anims.stop();
         },
         "x":(speed)=>{
-            this.interactTigger = speed > 0;            
+            if(speed > 0){
+                   if(this.interact.body.touching.none){
+                       this.atacar();
+                   }else{
+                        this.interactTigger();
+                   }
+               }     
         }
     }
 
@@ -135,36 +145,12 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
 
     }
     joyStickMove={
-        "right":(speed)=>{
-            this.body.setVelocityX(speed);
-            if(this.anims.currentAnim.key!='right' && speed > 0)this.play('right');
-            else if (!this.anims.isPlaying && speed > 0) this.play('right');
-            else if(speed==0) this.anims.stop();
-            
-        },
-        "left":(speed)=>{
-            this.body.setVelocityX(-speed);  
-            if(this.anims.currentAnim.key!='left' && speed > 0)this.play('left');
-            else if (!this.anims.isPlaying && speed > 0) this.play('left');
-            else if(speed==0) this.anims.stop();
-        },
-        "up":(speed)=>{
-            this.body.setVelocityY(-speed);    
-            if(this.anims.currentAnim.key!='up' && speed > 0)this.play('up');
-            else if (!this.anims.isPlaying && speed > 0) this.play('up');
-            else if(speed==0) this.anims.stop();
-        },
-        "down":(speed)=>{
-            this.body.setVelocityY(speed);
-            if(this.anims.currentAnim.key !='down' && speed > 0)this.play('down');
-            else if (!this.anims.isPlaying && speed > 0) this.play('down');
-            else if(speed==0) this.anims.stop();
-        },
-        "x":(speed)=>{
-            this.interactTigger = speed > 0;            
-        }
+        "right":this.tecladoMove["ArrowRight"],
+        "left":this.tecladoMove["ArrowLeft"],
+        "up":this.tecladoMove["ArrowUp"],
+        "down":this.tecladoMove["ArrowDown"],
+        "x":this.tecladoMove["x"]
     }
-
 
     stopTween(objInteracted){
         this.graphics.clear();
@@ -187,6 +173,11 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
         }
     }
 
+    atacar(){
+        const tipoAtaque = this.posicaoPlayer + "Melee";
+        if( this.anims.currentAnim.key != tipoAtaque ) this.play(tipoAtaque);
+        else if ( !this.anims.isPlaying ) this.play(tipoAtaque)
+    }
 
     update(){
         this.interact.x = this.x-16;
@@ -194,26 +185,56 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
     }
 
     animacoes(){
-        this.up = this.anims.create({
+       this.anims.create({
             key: 'up',
             frames: this.anims.generateFrameNumbers(this.name, { frames: [104, 105, 106, 107, 108, 109, 110, 111, 112] }),
             frameRate:18,
             repeat: -1
         });
-        this.down = this.anims.create({
+        this.anims.create({
             key: 'down',
             frames: this.anims.generateFrameNumbers(this.name, { frames:[130,131,132,133,134,135,136,137,138]  }),
             frameRate:18,
             repeat: -1
         });
-        this.left = this.anims.create({
+       this.anims.create({
             key: 'left',
             frames: this.anims.generateFrameNumbers(this.name, { frames: [117, 118, 119, 120, 121, 122, 123, 124, 125] }),
             frameRate:18,
             repeat: -1
         });
-        this.right = this.anims.create({
+        this.anims.create({
             key: 'right',
+            frames: this.anims.generateFrameNumbers(this.name, { frames: [ 143, 144, 145, 146, 147, 148, 149, 150, 151 ] }),
+            frameRate:18,
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'upMelee',
+            frames: this.anims.generateFrameNumbers(this.name, { frames: [ 156, 157, 158, 159, 160, 161]}),
+            frameRate:18,
+            repeat: 0
+        });
+        this.anims.create({
+            key: 'downMelee',
+            frames: this.anims.generateFrameNumbers(this.name, { frames: [ 182, 183, 184, 185, 186, 187]}),
+            frameRate:18,
+            repeat: 0
+        });
+        this.anims.create({
+            key: 'rightMelee',
+            frames: this.anims.generateFrameNumbers(this.name, { frames: [ 195, 196, 197, 198, 199, 200]}),
+            frameRate:18,
+            repeat: 0
+        });
+        this.anims.create({
+            key: 'leftMelee',
+            frames: this.anims.generateFrameNumbers(this.name, { frames: [ 169,170,171,172,173,174]}),
+            frameRate:18,
+            repeat: 0
+        });
+        this.anims.create({
+            key: 'atacarMagic',
             frames: this.anims.generateFrameNumbers(this.name, { frames: [ 143, 144, 145, 146, 147, 148, 149, 150, 151 ] }),
             frameRate:18,
             repeat: -1

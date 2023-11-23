@@ -16,8 +16,8 @@ export class Cenario extends Phaser.Scene {
 
         this.load.spritesheet('player', 'data/player/playerSprite.png', { frameWidth: 64, frameHeight: 64 });
 
-        this.load.spritesheet('monstro1', 'data/npc/guarda/mulher.png', { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet('monstro2', 'data/npc/guarda/homem.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('monstro1', 'data/npc/monstro/monstro1.png', { frameWidth: 64, frameHeight: 64 });
+        this.load.spritesheet('monstro2', 'data/npc/monstro/monstro2.png', { frameWidth: 64, frameHeight: 64 });
         this.load.spritesheet('monstro3', 'data/npc/vendedor/vendedorhomem.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('humano1', 'data/npc/vendedor/mercadonegro.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('humano3', 'data/npc/vendedor/vendedorMulher.png', { frameWidth: 32, frameHeight: 32 });
@@ -48,9 +48,7 @@ export class Cenario extends Phaser.Scene {
             this.groundLayer.on('pointerup',  (pointer)=>{this.onLayerClick(pointer)} , this);
         }
         
-        map.setCollisionBetween(0, 2);
-
-        const detalhes = map.createLayer('detalhes', tileset, 0, 0);
+        map.setCollisionBetween(0, 2);        
 
         if(this.cameras.main.width < 600){
             this.cameras.main.setZoom(0.5);
@@ -63,8 +61,7 @@ export class Cenario extends Phaser.Scene {
 
         //* interações */
         this.interacoes = map.getObjectLayer("interacoes");
-        this.Objs = criarInteracoes(this,this.interacoes.objects);
-
+       
         /* PLAYER CREATION */
         let x = 23*32;
         let y = 42*32;
@@ -99,12 +96,15 @@ export class Cenario extends Phaser.Scene {
             x:x,
             y:y,
             name:"player"
-            
         })
         
         this.cameras.main.startFollow(this.player);
         this.onMove = false;
-
+        
+        //last map
+        
+        map.createLayer('detalhes', tileset, 0, 0)
+        this.Objs = criarInteracoes(this,this.interacoes.objects);
         /* COLISIONS */
         
         this.physics.add.collider(this.player, this.groundLayer);
@@ -112,17 +112,17 @@ export class Cenario extends Phaser.Scene {
             controladorInteracoes(objeto,this);
         });
         this.physics.add.overlap(this.player.interact, this.Objs, (player,objeto)=>{
-            activeInteracoes(this.player,objeto,this)
-        });
+            this.player.interactTigger = ()=>{activeInteracoes(this.player,objeto,this)};
 
-
-
+            this.player.interact.body.touching.none = false;
+        });        
         /* BOTOES */
         
         this.addBotoes();
 
         //fim da criação
         manager.QuestVerificator({mapakey:this.mapaKey},this)
+       
     }
     onLayerClick(pointer) {
             let path = pathFinder(
@@ -138,6 +138,7 @@ export class Cenario extends Phaser.Scene {
         this.Objs.forEach(element => {
             if(element.update) element.update()
         });
+        
     }
 
 
@@ -177,8 +178,8 @@ export class Cenario extends Phaser.Scene {
                 x: w*0.12,
                 y: h*0.78,
                 radius: w*0.08,
-                base: this.add.circle(0, 0, 100, 0x888888,0.4).setStrokeStyle(1.5, 0xaa0000),
-                thumb: this.add.circle(0, 0, 50, 0xcccccc,0.2).setStrokeStyle(1.5, 0xaa0000),
+                base: this.add.circle(0, 0, 100, 0x888888,0.4).setStrokeStyle(1.5, 0x250000),
+                thumb: this.add.circle(0, 0, 50, 0x256480,0.2).setStrokeStyle(1.5, 0xaaaabb),
             })
             this.joyStick.on('update', () => { this.player.joystickMove(this.joyStick) });
             

@@ -6,12 +6,13 @@ class gameManager {
         this.quests = json.quests;
     }
     QuestVerificator(dados, scene) {
-        console.warn(this.posicaoQuest);
+        this.visibilidadePelasQuests(scene.Objs);
         const actualQuest = this.quests[this.posicaoQuest];
         if (dados.mapakey && actualQuest.tipoTrigger == 'scenario') { /// interacao por Cenario 
             console.assert(dados.mapakey == actualQuest.trigger, `outro cenario aguardado, ${dados.mapakey} esperado ${actualQuest.trigger}`);
             if (dados.mapakey == actualQuest.trigger) {
                 this.posicaoQuest++;
+                
                 const interacts = actualQuest.interacoes;
                 let next = false
                 if(interacts.length > 1){
@@ -116,14 +117,22 @@ class gameManager {
         return string;
     }
 
-
-    notMake(limites){
-
-        if(this.posicaoQuest >= limites['inicio'] && this.posicaoQuest < limites['fim']){
-            return false;
-        }
-        return true
+    visibilidadePelasQuests(objs){ 
+        objs.forEach(npc => {
+            if(npc.name == 'npc'){
+                if(npc.somenteVisivel){
+                    const intervalo = JSON.parse(npc.somenteVisivel);                    
+                    if(intervalo['inicio'] <= this.posicaoQuest && intervalo['fim'] > this.posicaoQuest){
+                        npc.troggleVisible(true);                        
+                    }else{
+                        npc.troggleVisible(false);
+                    }
+                }   
+            }
+        });
     }
+
+
 }
 
 export const manager = new gameManager(progressJSON);
@@ -185,9 +194,7 @@ export function activeInteracoes(player, objeto, scene) {
     if (player.interactTigger) {
         player.interactTigger = false;
         const haveInter = manager.QuestVerificator({ activeInteracoes: objeto }, scene);
-        if (haveInter) return;
-
-        
+        if (haveInter) return true;        
         listaActiveInteracoes[objeto.name](objeto, scene);
     }
 

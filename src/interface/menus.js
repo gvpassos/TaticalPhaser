@@ -387,7 +387,7 @@ export class MenuCreator extends Phaser.Scene {
                 });
                 this.groupSubMenu.add(btnd2);
                 break;
-            case 'historico':
+            case 'quest':
                 const HTMLHistorico = document.createElement('div');
                 HTMLHistorico.style = 
                     `border: 1px solid white;
@@ -399,13 +399,12 @@ export class MenuCreator extends Phaser.Scene {
 
                 HTMLHistorico.innerHTML = `Quests:<br>`;
                 HTMLHistorico.innerHTML += manager.getQuests();
-                document.getElementById('root').appendChild(HTML);
 
                 const displayHist = this.add.dom(this.w*0.02 ,this.h*0.025 ,HTMLHistorico);
                 displayHist.setOrigin(0,0);
                 this.groupSubMenu.add(displayHist);
                 break;
-            case 'quest':
+            case 'historico':
                 break; 
 
         }

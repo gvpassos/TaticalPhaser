@@ -6,9 +6,11 @@ export const criarInteracoes = function (scene, interacoes) {
     //create a foreach loop for all the interacoes objects , and create a sprite for each one with a name 
     interacoes.forEach(object => {
         const obj = make[object.name](scene, object);
-        if (obj != null) objs.push(obj);
-
+        if (obj != null){
+            objs.push(obj);
+        }
     });
+    manager.visibilidadePelasQuests(objs);
     return objs;
 }
 
@@ -48,25 +50,25 @@ const make = {
         /// animacoes do inimigo
         inimigo.anims.create({
             key: 'up',
-            frames: inimigo.anims.generateFrameNumbers(spriteName, { frames: [9, 10, 11] }),
+            frames: inimigo.anims.generateFrameNumbers(spriteName, { frames: [104, 105, 106, 107, 108, 109, 110, 111, 112] }),
             frameRate: 8,
             repeat: -1
         });
         inimigo.anims.create({
             key: 'down',
-            frames: inimigo.anims.generateFrameNumbers(spriteName, { frames: [0, 1, 2] }),
+            frames: inimigo.anims.generateFrameNumbers(spriteName, { frames: [130,131,132,133,134,135,136,137,138] }),
             frameRate: 8,
             repeat: -1
         });
         inimigo.anims.create({
             key: 'left',
-            frames: inimigo.anims.generateFrameNumbers(spriteName, { frames: [3, 4, 5] }),
+            frames: inimigo.anims.generateFrameNumbers(spriteName, { frames: [117, 118, 119, 120, 121, 122, 123, 124, 125]  }),
             frameRate: 8,
             repeat: -1
         });
         inimigo.anims.create({
             key: 'right',
-            frames: inimigo.anims.generateFrameNumbers(spriteName, { frames: [6, 7, 8] }),
+            frames: inimigo.anims.generateFrameNumbers(spriteName, { frames: [ 143, 144, 145, 146, 147, 148, 149, 150, 151 ] }),
             frameRate: 8,
             repeat: -1
         });
@@ -238,7 +240,7 @@ const make = {
                             inimigo.angulo < Phaser.Math.RadToDeg(directionToPlayer) + visionAngle &&
                             distanceToPlayer < visionDistance
                         ) {
-                            const path = findPath(inimigo, scene.player, scene.groundLayer.culledTiles, scene.Objs);
+                            const path = findPath(inimigo, scene.player, scene.groundLayer.culledTiles, []);
                             if (path) {
                                 inimigo.track = true;
                                 inimigo.tween.stop();
@@ -334,14 +336,10 @@ const make = {
     "npc": function (scene, object) {
         const spriteName = object.properties.find(el => el.name == "sprite")['value'];
         const spriteFrame = object.properties.find(el => el.name == "frame")['value'];
-        const spriteQuestVisivel = object.properties.some(el => el.name == "somenteVisivel")? object.properties.find(el => el.name == "somenteVisivel")['value']: false;
-
-        if(spriteQuestVisivel){
-            if(manager.notMake(JSON.parse(spriteQuestVisivel))) return null;
-        }
-
+        const somenteVisivel = object.properties.some(el => el.name == "somenteVisivel")? 
+        object.properties.find(el => el.name == "somenteVisivel")['value'] : false;
         const tipo = object.properties.find(el => el.name == "tipo")['value'];
-        let posInicial, posFinal, itemCode;
+        let posInicial = false, posFinal = false, itemCode = false;
         if (tipo) {
             if (tipo.includes("Generic")) {
                 posInicial = object.properties.find(el => el.name == "posInicial")['value'];
@@ -355,7 +353,7 @@ const make = {
         }
 
         const npc = scene.add.sprite(object.x, object.y, spriteName);
-        npc.setOrigin(0, 0);
+        npc.setOrigin(0.5, 0.5);
         npc.setFrame(spriteFrame);
         npc.id = object.id;
         npc.name = 'npc';
@@ -363,7 +361,8 @@ const make = {
         npc.posInicial = posInicial;
         npc.tipo = tipo;
         npc.itemCode = itemCode;
-
+        npc.somenteVisivel = somenteVisivel;
+        
         npc.setInteractive();
         npc.on('pointerup', () => {
             let path = pathFinder(
@@ -381,7 +380,15 @@ const make = {
 
         scene.physics.add.existing(npc);
         npc.body.setImmovable();
-
+        npc.troggleVisible = function(show){
+            if(show){
+                npc.setAlpha(1);
+                npc.body.enable = true;
+            }else{
+                npc.setAlpha(0.0);
+                npc.body.enable = false;
+            }
+        }
         return npc;
     },
     "playerPoint": function (scene, object) {
