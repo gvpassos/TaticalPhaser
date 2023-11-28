@@ -53,6 +53,7 @@ export const ITEMS = [
         name: 'espada',
         sprite: 41,
         type: 'weapon',
+        anim:'melee',
         desc:' Espada velha',
         damage:25,
     },
@@ -61,6 +62,7 @@ export const ITEMS = [
         name: 'cajado',
         sprite: 46,
         type: 'weapon',
+        anim:'magic',
         desc:' Cajado velho',
         damage:1
     },

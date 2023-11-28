@@ -9,7 +9,7 @@ export const progressJSON = {
                 "tipo": "falas",
                 "dialog": "quest1",
                 "pos": 0,
-                "posFinal": 5
+                "posFinal": 1
             }]
         },
         {
@@ -68,6 +68,10 @@ export const progressJSON = {
                 "tipo": "falas",
                 "dialog": "npcMissao4",
                 "pos": 0,
+                "posFinal": 5
+            }, {
+                "tipo": "bossFight",
+                "mapa": "bossFight1",
                 "posFinal": 5
             }]
         },

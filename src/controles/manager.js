@@ -12,14 +12,14 @@ class gameManager {
             console.assert(dados.mapakey == actualQuest.trigger, `outro cenario aguardado, ${dados.mapakey} esperado ${actualQuest.trigger}`);
             if (dados.mapakey == actualQuest.trigger) {
                 this.posicaoQuest++;
-                
+
                 const interacts = actualQuest.interacoes;
                 let next = false
-                if(interacts.length > 1){
+                if (interacts.length > 1) {
                     next = interacts.slice(1);
                 }
-                this.acao[interacts[0].tipo](interacts[0],scene,next);
-                
+                this.acao[interacts[0].tipo](interacts[0], scene, next);
+
                 return true;
             }
             return false
@@ -30,15 +30,15 @@ class gameManager {
         }
         if (dados.activeInteracoes && actualQuest.tipoTrigger == 'activeContact') { /// interacao por contato Ativado
             console.assert(dados.activeInteracoes.tipo == actualQuest.trigger, `outro objeto aguardado, ${dados.activeInteracoes.tipo} esperado ${actualQuest.trigger}`);
-            
+
             if (dados.activeInteracoes.tipo == actualQuest.trigger) {
                 this.posicaoQuest++;
                 const interacts = actualQuest.interacoes;
                 let next = false;
-                if(interacts.length > 1){
+                if (interacts.length > 1) {
                     next = interacts.slice(1);
                 }
-                this.acao[interacts[0].tipo](interacts[0],scene,next);
+                this.acao[interacts[0].tipo](interacts[0], scene, next);
                 return true;
             }
             return false
@@ -46,8 +46,8 @@ class gameManager {
 
     }
     picked = [];
-    entregador(object,scene) {
-        if(this.picked.some(e => e == object.id)){
+    entregador(object, scene) {
+        if (this.picked.some(e => e == object.id)) {
             return false;
         }
         scene.Config.inventario.push(object.itemCode);
@@ -56,8 +56,8 @@ class gameManager {
     }
 
     acao = {
-        'falas':(interact,scene,next)=>{
-            const onFinish = this.acao['repeat'](next,scene);
+        'falas': (interact, scene, next) => {
+            const onFinish = this.acao['repeat'](next, scene);
             scene.scene.pause();
             scene.scene.manager.scenes.find(el => el.id == 'menuCreator').ui = "dialog";
             scene.scene.manager.scenes.find(el => el.id == 'menuCreator').fala = interact.dialog;
@@ -66,43 +66,52 @@ class gameManager {
             scene.scene.manager.scenes.find(el => el.id == 'menuCreator').onDialogFinish = onFinish;
             scene.scene.launch('MenuCreator');
         },
-        'movimento':(interact,scene,next)=>{
+        'movimento': (interact, scene, next) => {
             let target;
-            if(interact.target == 'player'){
+            if (interact.target == 'player') {
                 target = scene.player;
-            }else if(interact.target.includes('inimigo')){
+            } else if (interact.target.includes('inimigo')) {
                 const pos = interact.target.split(',')[1];
                 target = scene.inimigo[pos];
-            }else if(interact.target.includes('objeto')){
+            } else if (interact.target.includes('objeto')) {
                 const pos = interact.target.split(',')[1];
                 target = scene.Objs[pos];
             }
-            let path = pathFinder(target, interact.posFinal, scene.groundLayer,scene.interacoes.objects);
-            const onFinish = this.acao['repeat'](next,scene);
-            target.move(path,false,onFinish);
+            let path = pathFinder(target, interact.posFinal, scene.groundLayer, scene.interacoes.objects);
+
+            const onFinish = this.acao['repeat'](next, scene);
+            target.move(path, false, onFinish);
 
         },
-        'item':(interact,scene,next)=>{
-            const onFinish = this.acao['repeat'](next,scene);
+        'item': (interact, scene, next) => {
+            const onFinish = this.acao['repeat'](next, scene);
 
-            if(this.entregador(interact,scene)){
-                this
-            }
+            this.entregador(interact, scene);
             onFinish();
         },
+        "bossFight": (interact, scene, next) => {  /// Obrigatorio ser a Ultima ao fazer
+            console.log(scene.scene.manager.scenes);
+            scene.scene.stop();
 
-        'repeat':(actual,scene)=>{
+            scene.scene.manager.scenes.find(el => el.id == 'bossFight1').playerSpawn = { x: scene.player.x, y: scene.player.y };
+            scene.scene.launch('bossFight1');
+
+        },
+        'repeat': (actual, scene) => {
+            if (!actual) {
+                return false
+            }
+
             let next = false;
-            if(actual.length > 1){
+            if (actual.length > 1) {
                 next = actual.slice(1);
             }
-            return (() => {this.acao[actual[0].tipo](actual[0], scene,next)});
-           
+            return (() => { this.acao[actual[0].tipo](actual[0], scene, next) });
+
         }
-
         
-    }
 
+    }
 
     getQuests() {
         let string = "";
@@ -110,34 +119,31 @@ class gameManager {
             string += `Quest ${i}: ${this.quests[i].name}<br>`;
         }
 
-        if(this.posicaoQuest == this.quests.length-1){
+        if (this.posicaoQuest == this.quests.length - 1) {
             string += 'Você completou todas as quests,Parabens<br>';
         }
-        
+
         return string;
     }
 
-    visibilidadePelasQuests(objs){ 
+    visibilidadePelasQuests(objs) {
         objs.forEach(npc => {
-            if(npc.name == 'npc'){
-                if(npc.somenteVisivel){
-                    const intervalo = JSON.parse(npc.somenteVisivel);                    
-                    if(intervalo['inicio'] <= this.posicaoQuest && intervalo['fim'] > this.posicaoQuest){
-                        npc.troggleVisible(true);                        
-                    }else{
+            if (npc.name == 'npc') {
+                if (npc.somenteVisivel) {
+                    const intervalo = JSON.parse(npc.somenteVisivel);
+                    if (intervalo['inicio'] <= this.posicaoQuest && intervalo['fim'] > this.posicaoQuest) {
+                        npc.troggleVisible(true);
+                    } else {
                         npc.troggleVisible(false);
                     }
-                }   
+                }
             }
         });
     }
 
-
 }
 
 export const manager = new gameManager(progressJSON);
-
-
 
 
 export function controladorInteracoes(interador, scene) {
@@ -147,30 +153,15 @@ export function controladorInteracoes(interador, scene) {
 }
 const Colide = {
     inimigo: (scene, inimigo) => {
-        scene.Config['inimigos'] =
-            [
-                {
-                    name: 'monstro',
-                    stats: {
-                        vida: 10,
-                    },
-                    acoes: [
-                        { name: 'Atacar', dados: { damage: 1 } },
-                        { name: 'Andar', dados: { speed: 3 } },
-                    ]
-                }
-            ];
 
-        scene.scene.pause();
-        scene.scene.manager.scenes.find(el => el.scene.key == 'faseCombate').Config = scene.Config;
-        scene.scene.launch('faseCombate');
-        inimigo.tween.stop();
         scene.player.stopTween(inimigo);
-        if(inimigo.area)inimigo.area.destroy();
-        if(inimigo.triangle)inimigo.triangle.destroy();
+        if (inimigo.area) inimigo.area.destroy();
+        if (inimigo.triangle) inimigo.triangle.destroy();
+        inimigo.tween.stop();
+        inimigo.stop();
         inimigo.destroy();
 
-        
+
     },
     portal: (scene, interacao) => {
         scene.ultimoMapa = [scene.mapaKey];
@@ -194,7 +185,7 @@ export function activeInteracoes(player, objeto, scene) {
     if (player.interactTigger) {
         player.interactTigger = false;
         const haveInter = manager.QuestVerificator({ activeInteracoes: objeto }, scene);
-        if (haveInter) return true;        
+        if (haveInter) return true;
         listaActiveInteracoes[objeto.name](objeto, scene);
     }
 
@@ -203,10 +194,13 @@ export function activeInteracoes(player, objeto, scene) {
 const listaActiveInteracoes = {
     "porta": (interacao, scene) => {
         if (interacao.isLock) {
-            if(scene.Config.inventario.some(item => item == interacao.keyCode)){
+            if (scene.Config.inventario.some(item => item == interacao.keyCode)) {
                 interacao.isLock == false;
-            }else{
-                manager.acao['falas']({dialog:"portaTrancada", pos:0, posFinal:1}, scene,false);
+                interacao.setFrame(interacao.nFrame + 1);
+                interacao.isOpen = true;
+                return;
+            } else {
+                manager.acao['falas']({ dialog: "portaTrancada", pos: 0, posFinal: 1 }, scene, false);
                 return;
             }
         };
@@ -225,29 +219,42 @@ const listaActiveInteracoes = {
             let pos = interacao.posInicial;
             let final = interacao.posFinal;
 
-            if(newdialogs.includes("N")){
-                newdialogs = newdialogs.split("N")[0]+"Generica";
+            if (newdialogs.includes("N")) {
+                newdialogs = newdialogs.split("N")[0] + "Generica";
                 pos = 0;
                 final = 1;
             }
-            if(newdialogs.includes("Item")){
+            if (newdialogs.includes("Item")) {
                 pos = 0;
                 final = 1;
-                if(!manager.entregador(interacao,scene)){// adicona item no inventario se ja tiver fala outra fala
+                if (!manager.entregador(interacao, scene)) {// adicona item no inventario se ja tiver fala outra fala
                     pos = 1;
                     final = 2;
                 }
             }
-            manager.acao['falas']({dialog:newdialogs, pos:pos,posFinal:final}, scene,false);
+            manager.acao['falas']({ dialog: newdialogs, pos: pos, posFinal: final }, scene, false);
 
-            
+
         }
     },
     'item': (interacao, scene) => {
+    },
+    "inimigo": (interacao, scene) => {
+        scene.player.atacar();
     }
 
 }
 
 
 
+export function ataqueInteracao(objeto, player, scene) {
+    console.log(objeto);
 
+    if (objeto.name == "inimigo") {
+        let angle = Phaser.Math.Angle.Between(player.x, player.y, objeto.x, objeto.y);
+        angle = Phaser.Math.RadToDeg(angle);
+        angle = Math.floor(angle/90);
+        objeto.morte(angle);
+    }
+
+}

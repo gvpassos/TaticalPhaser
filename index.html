@@ -9,6 +9,7 @@
         import { FaseCombate } from "./src/combate/faseCombate.js";
         import { Cenario } from "./src/cenario/CriadorMapa.js";
         import { MenuCreator } from "./src/interface/menus.js";
+        import { BossFight } from "./src/cenario/bossFight1.js";
 
         ///instancia de fase de combate
         var Config = {
@@ -77,6 +78,7 @@
         const faseCombate = new FaseCombate(Config)
         const Jogo = new Cenario(Config,"entrada");
         const Menus = new MenuCreator(Config);
+        const bossFight = new BossFight(Config);
 
         const config = {
             type: Phaser.AUTO,
@@ -98,7 +100,7 @@
                     debug: true
                 }
             },
-            scene: [Jogo,Menus,faseCombate],
+            scene: [Jogo,faseCombate,bossFight,Menus],
             parent: 'root',
         }
         const Game = new Phaser.Game(config);
