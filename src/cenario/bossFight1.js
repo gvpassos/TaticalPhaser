@@ -43,21 +43,24 @@ export class BossFight extends Phaser.Scene {
         }
         
         map.setCollisionBetween(0, 2);        
-
+        
         if(this.cameras.main.width < 600){
             this.cameras.main.setZoom(0.5);
             this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-
+            
         }else if(this.cameras.main.width < 800){
             this.cameras.main.setZoom(0.7);
             this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         }
-
+        
         //* interações */
-        this.interacoes = map.getObjectLayer("interacoes");
-       
-        /* PLAYER CREATION */
+        
+        this.interacoes = map.getObjectLayer("interacoesForBoss");
+        this.ataques = this.interacoes.objects.filter(i =>  i.name == "ataque")
 
+        console.log(this.ataques)
+        /* PLAYER CREATION */
+        
         this.player = new PlayerCenario({
             scene:this,
             x:this.playerSpawn.x,
@@ -70,6 +73,7 @@ export class BossFight extends Phaser.Scene {
         
         //last map
         map.createLayer('detalhes', tileset, 0, 0)
+        map.createLayer('forBoss',tileset, 0, 0);
         
         /* COLISIONS */
         
@@ -78,12 +82,20 @@ export class BossFight extends Phaser.Scene {
         /* BOTOES */
         
         this.addBotoes();
+
+        setInterval (function () {  
+            const rand = Math.random()*this.ataques.length
+        },800);
+
+        
       
     }
   
-    update() {
+    update(time,delta) {
         this.player.update()    
-    
+        
+        
+
     }
 
 

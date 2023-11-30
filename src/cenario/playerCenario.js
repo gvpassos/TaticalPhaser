@@ -118,10 +118,10 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
             else if (!this.anims.isPlaying && speed > 0) this.play('down');
             else if (speed == 0) this.anims.stop();
         },
-        "x": (speed, ataqueTipo) => {
-            if (speed > 0) {
+        "x": (speed) => {
+            if (speed == 0) {
                 if (this.interact.body.touching.none) {
-                    this.atacar(ataqueTipo);
+                    this.atacar();
                 } else {
                     this.interactTigger();
                 }
@@ -161,7 +161,7 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
         }
         if (this.y <= objInteracted.y + objInteracted.height && this.y >= objInteracted.y) {
             if (this.x > objInteracted.x)
-                this.x = objInteracted.x + objInteracted.width + 1;
+                this.x = objInteracted.x + objInteracted.width;
             if (this.x < objInteracted.x)
                 this.x = objInteracted.x - this.width;
         }
@@ -186,7 +186,7 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
 
         let ataqueposX = this.x;
         let angle = this.angle;
-        if (this.posicaoPlayer == "left"){
+        if (this.posicaoPlayer == "left") {
             ataqueposX -= 32;
             angle = 270;
         }
@@ -195,9 +195,9 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
             angle = 90;
         }
         let ataqueposY = this.y;
-        if (this.posicaoPlayer == "up") 
+        if (this.posicaoPlayer == "up")
             ataqueposY -= 32;
-        if (this.posicaoPlayer == "down"){
+        if (this.posicaoPlayer == "down") {
             ataqueposY += 32;
             angle = 180;
         }
@@ -218,6 +218,27 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
 
     }
 
+    receberDano(total, angle) {
+        angle = Math.abs(angle)
+
+        if (angle > 45 && angle <= 135) {
+            this.body.setVelocityY(-100);
+        }
+        else if (angle > 135 && angle <= 225) {
+            this.body.setVelocityX(-500);
+        }
+        else if (angle > 225 && angle <= 315) {
+            this.body.setVelocityY(100);
+        }
+        else {
+            this.body.setVelocityX(100);
+        }
+
+        setTimeout(()=>{ this.body.setVelocity(0,0);},300)
+
+        if (this.scene.Config.players[this.scene.Config.playerActive].stats['vida'] > 0)
+            this.scene.Config.players[this.scene.Config.playerActive].stats['vida'] -= total;
+    }
     update() {
         this.interact.x = this.x - 16;
         this.interact.y = this.y - 16;
@@ -250,25 +271,25 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
         })
         this.anims.create({
             key: 'upMelee',
-            frames: this.anims.generateFrameNumbers(this.name, { frames: [156, 157, 158, 159, 160, 161,104] }),
+            frames: this.anims.generateFrameNumbers(this.name, { frames: [156, 157, 158, 159, 160, 161, 104] }),
             frameRate: 18,
             repeat: 0
         });
         this.anims.create({
             key: 'downMelee',
-            frames: this.anims.generateFrameNumbers(this.name, { frames: [182, 183, 184, 185, 186, 187,130] }),
+            frames: this.anims.generateFrameNumbers(this.name, { frames: [182, 183, 184, 185, 186, 187, 130] }),
             frameRate: 18,
             repeat: 0
         });
         this.anims.create({
             key: 'rightMelee',
-            frames: this.anims.generateFrameNumbers(this.name, { frames: [195, 196, 197, 198, 199, 200,143] }),
+            frames: this.anims.generateFrameNumbers(this.name, { frames: [195, 196, 197, 198, 199, 200, 143] }),
             frameRate: 18,
             repeat: 0
         });
         this.anims.create({
             key: 'leftMelee',
-            frames: this.anims.generateFrameNumbers(this.name, { frames: [169, 170, 171, 172, 173, 174,117] }),
+            frames: this.anims.generateFrameNumbers(this.name, { frames: [169, 170, 171, 172, 173, 174, 117] }),
             frameRate: 18,
             repeat: 0
         });

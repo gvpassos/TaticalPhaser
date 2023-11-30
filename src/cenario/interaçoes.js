@@ -39,6 +39,7 @@ const make = {
     "inimigo": function (scene, object) {
 
         const spriteName = object.properties.find(el => el.name == "sprite")['value'];
+        const health = object.properties.find(el => el.name == "health")['value'];
 
         const inimigo = scene.add.sprite(object.x + 16, object.y + 16, spriteName);
         inimigo.setOrigin(0.5, 0.5);
@@ -46,6 +47,7 @@ const make = {
         inimigo.id = object.id;
         inimigo.idle = [];
         inimigo.tipo = object.properties.find(el => el.name == "tipo")['value']
+        inimigo.health = health;
 
         /// animacoes do inimigo
         inimigo.anims.create({
@@ -77,6 +79,30 @@ const make = {
             frames: inimigo.anims.generateFrameNumbers(spriteName, { frames: [260, 261, 262, 263, 264, 265] }),
             frameRate: 8,
         })
+        inimigo.anims.create({
+            key: 'upMelee',
+            frames: inimigo.anims.generateFrameNumbers(spriteName, { frames: [156, 157, 158, 159, 160, 161,104] }),
+            frameRate: 18,
+            repeat: 0
+        });
+        inimigo.anims.create({
+            key: 'downMelee',
+            frames: inimigo.anims.generateFrameNumbers(spriteName, { frames: [182, 183, 184, 185, 186, 187,130] }),
+            frameRate: 18,
+            repeat: 0
+        });
+        inimigo.anims.create({
+            key: 'rightMelee',
+            frames: inimigo.anims.generateFrameNumbers(spriteName, { frames: [195, 196, 197, 198, 199, 200,143] }),
+            frameRate: 18,
+            repeat: 0
+        });
+        inimigo.anims.create({
+            key: 'leftMelee',
+            frames: inimigo.anims.generateFrameNumbers(spriteName, { frames: [169, 170, 171, 172, 173, 174,117] }),
+            frameRate: 18,
+            repeat: 0
+        });
         inimigo.play('up');
         inimigo.stop();
 
@@ -197,18 +223,54 @@ const make = {
 
         }
         //morreu
-        inimigo.morte = (angle) => {
-            if (inimigo.track) return;
+        inimigo.receberDano = (angle) => {
+            angle = Math.abs(angle)
+            console.log(angle);
 
+            inimigo.tween.stop();
+            if (angle > 45 && angle <= 135) {
+                inimigo.body.setVelocityY(-115)
+            }
+            else if (angle > 135 && angle <= 225) {
+                console.log('x-')
+                inimigo.body.setVelocityX(-115)
+            }
+            else if (angle > 225 && angle <= 315) {
+                inimigo.body.setVelocityY(115)
+            }
+            else {
+                inimigo.body.setVelocityX(115)
+            }
+
+            if (inimigo.health > 0) inimigo.health--;
+
+
+            setTimeout(()=>{
+                inimigo.body.setVelocity(0,0)
+                if (inimigo.health == 0) {
+                    inimigo.morte();
+                }else {
+                    inimigo.followPlayer();
+                }
+            },600);
+           
+        }
+
+        inimigo.morte = () => {
             inimigo.track = true;
             inimigo.tween.stop();
             inimigo.stop();
-            inimigo.angle = angle;
             inimigo.play("attacked")
             if (inimigo.area) {
                 inimigo.area.destroy();
             }
+
+            inimigo.body.enable = false;
         };
+
+        inimigo.atacarPlayer = (angle)=>{
+            scene.player.receberDano(1,angle)
+        }
         scene.physics.add.existing(inimigo);
 
 

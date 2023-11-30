@@ -109,7 +109,7 @@ class gameManager {
             return (() => { this.acao[actual[0].tipo](actual[0], scene, next) });
 
         }
-        
+
 
     }
 
@@ -155,13 +155,12 @@ const Colide = {
     inimigo: (scene, inimigo) => {
 
         scene.player.stopTween(inimigo);
-        if (inimigo.area) inimigo.area.destroy();
-        if (inimigo.triangle) inimigo.triangle.destroy();
-        inimigo.tween.stop();
-        inimigo.stop();
-        inimigo.destroy();
 
+        let angle = Phaser.Math.Angle.Between(inimigo.x, inimigo.y, scene.player.x, scene.player.y);
+        angle = Phaser.Math.RadToDeg(angle);
 
+        inimigo.atacarPlayer(angle);
+        
     },
     portal: (scene, interacao) => {
         scene.ultimoMapa = [scene.mapaKey];
@@ -248,13 +247,10 @@ const listaActiveInteracoes = {
 
 
 export function ataqueInteracao(objeto, player, scene) {
-    console.log(objeto);
-
-    if (objeto.name == "inimigo") {
+    if (objeto.name == "inimigo" && !player.disable) {
         let angle = Phaser.Math.Angle.Between(player.x, player.y, objeto.x, objeto.y);
         angle = Phaser.Math.RadToDeg(angle);
-        angle = Math.floor(angle/90);
-        objeto.morte(angle);
+        objeto.receberDano(angle);
     }
-
+    player.disable = true;
 }

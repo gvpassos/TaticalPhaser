@@ -27,7 +27,7 @@ export class Cenario extends Phaser.Scene {
         this.load.spritesheet('estante', 'data/tileds/estante.png', { frameWidth: 32, frameHeight: 64 });
         this.load.spritesheet('mesaCentral', 'data/tileds/mesaCentral.png', { frameWidth: 128, frameHeight: 256 });
         this.load.spritesheet('bau', 'data/tileds/bau.png', { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet('porta', 'data/tileds/portaMadeira.png', { frameWidth: 32, frameHeight: 64 });
+        this.load.spritesheet('porta', 'data/tileds/portaMadeira.png', { frameWidth: 64, frameHeight: 64 });
         this.load.spritesheet('cama', 'data/tileds/cama.png', { frameWidth: 32, frameHeight: 96 });
         this.load.spritesheet('janela', 'data/tileds/janela.png', { frameWidth: 27, frameHeight: 42 });
 
@@ -110,6 +110,7 @@ export class Cenario extends Phaser.Scene {
         /* COLISIONS */
 
         this.physics.add.collider(this.player, this.groundLayer);
+        this.physics.add.collider(this.Objs, this.groundLayer);
         this.physics.add.overlap(this.player, this.Objs,
             (player, objeto) => {
                 controladorInteracoes(objeto, this);
