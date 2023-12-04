@@ -275,6 +275,11 @@
                          "value":0
                         }, 
                         {
+                         "name":"health",
+                         "type":"int",
+                         "value":3
+                        }, 
+                        {
                          "name":"sprite",
                          "type":"string",
                          "value":"monstro1"
@@ -317,6 +322,11 @@
                          "name":"frame",
                          "type":"int",
                          "value":0
+                        }, 
+                        {
+                         "name":"health",
+                         "type":"int",
+                         "value":5
                         }, 
                         {
                          "name":"sprite",
@@ -424,12 +434,17 @@
                         {
                          "name":"isLock",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }, 
                         {
                          "name":"isOpen",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"itemCode",
+                         "type":"string",
+                         "value":"10"
                         }, 
                         {
                          "name":"pos",
@@ -2253,12 +2268,7 @@
                         {
                          "name":"mapa",
                          "type":"string",
-                         "value":"alaDireita2"
-                        }, 
-                        {
-                         "name":"spawnNumber",
-                         "type":"int",
-                         "value":1
+                         "value":"tower1"
                         }],
                  "rotation":0,
                  "type":"",

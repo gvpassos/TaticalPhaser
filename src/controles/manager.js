@@ -1,5 +1,6 @@
 import { pathFinder } from "./pathFinder.js";
 import { progressJSON } from "./quests.js";
+import {ITEMS} from "../interface/item.js"
 class gameManager {
     constructor(json) {
         this.posicaoQuest = 0;
@@ -248,9 +249,13 @@ const listaActiveInteracoes = {
 
 export function ataqueInteracao(objeto, player, scene) {
     if (objeto.name == "inimigo" && !player.disable) {
-        let angle = Phaser.Math.Angle.Between(player.x, player.y, objeto.x, objeto.y);
+        let angle = Phaser.Math.Angle.Between(scene.player.x, scene.player.y, objeto.x, objeto.y);
         angle = Phaser.Math.RadToDeg(angle);
-        objeto.receberDano(angle);
+        const player =  scene.Config.players[scene.Config.playerActive]
+        const arma = player.equip['weapon'] ?  ITEMS[player.equip['weapon']].damage : 0;
+        const dano = arma + player.stats.damage;
+
+        objeto.receberDano(dano,angle);
     }
     player.disable = true;
 }

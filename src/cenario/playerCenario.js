@@ -1,3 +1,4 @@
+import { ITEMS } from "../interface/item.js";
 
 export class PlayerCenario extends Phaser.GameObjects.Sprite {
     constructor(config) {
@@ -175,9 +176,10 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
     }
 
     atacar() {
-        let typeAnims = "Melee"
+        let typeAnims = "ataqueMelee"
         if (this.scene.Config.players[this.scene.Config.playerActive].equip['weapon']) {
-            typeAnims = this.scene.Config.players[this.scene.Config.playerActive].equip['weapon'].anims
+            const arma = ITEMS[this.scene.Config.players[this.scene.Config.playerActive].equip['weapon']]
+            typeAnims = "ataque"+  arma.anim
         }
 
         const tipoAtaque = this.posicaoPlayer + "Melee";
@@ -202,19 +204,19 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
             angle = 180;
         }
 
-        const projectile = this.projectiles.create(ataqueposX, ataqueposY, 'ataqueMelee');
+        const projectile = this.projectiles.create(ataqueposX, ataqueposY, typeAnims);
         projectile.angle = angle;
         projectile.setScale(2)
         projectile.anims.create({
-            key: 'ataqueMelee',
-            frames: this.anims.generateFrameNumbers('ataqueMelee', { frames: [0, 1, 2, 3, 4, 5, 6] }),
+            key: typeAnims,
+            frames: this.anims.generateFrameNumbers(typeAnims, { frames: [0, 1, 2, 3, 4, 5, 6] }),
             frameRate: 18,
         })
-        projectile.on('animationcomplete-ataqueMelee', function () {
+        projectile.on('animationcomplete-'+typeAnims, function () {
             projectile.destroy();
         }, this);
 
-        projectile.play('ataqueMelee');
+        projectile.play(typeAnims);
 
     }
 

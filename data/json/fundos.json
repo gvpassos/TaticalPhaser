@@ -421,6 +421,11 @@
                          "value":0
                         }, 
                         {
+                         "name":"health",
+                         "type":"int",
+                         "value":5
+                        }, 
+                        {
                          "name":"sprite",
                          "type":"string",
                          "value":"monstro2"
@@ -465,6 +470,11 @@
                          "value":0
                         }, 
                         {
+                         "name":"health",
+                         "type":"int",
+                         "value":5
+                        }, 
+                        {
                          "name":"sprite",
                          "type":"string",
                          "value":"monstro1"
@@ -479,7 +489,7 @@
                  "visible":true,
                  "width":0,
                  "x":1708,
-                 "y":112
+                 "y":108
                 }, 
                 {
                  "height":0,
@@ -488,7 +498,7 @@
                  "polygon":[
                         {
                          "x":0,
-                         "y":32
+                         "y":0
                         }, 
                         {
                          "x":0,
@@ -508,13 +518,18 @@
                         }, 
                         {
                          "x":1344,
-                         "y":32
+                         "y":0
                         }],
                  "properties":[
                         {
                          "name":"frame",
                          "type":"int",
                          "value":0
+                        }, 
+                        {
+                         "name":"health",
+                         "type":"int",
+                         "value":5
                         }, 
                         {
                          "name":"sprite",
@@ -531,7 +546,7 @@
                  "visible":true,
                  "width":0,
                  "x":608,
-                 "y":2112
+                 "y":2080
                 }, 
                 {
                  "height":0,
@@ -563,6 +578,11 @@
                          "name":"frame",
                          "type":"string",
                          "value":"1"
+                        }, 
+                        {
+                         "name":"health",
+                         "type":"int",
+                         "value":5
                         }, 
                         {
                          "name":"sprite",
@@ -628,7 +648,7 @@
          "y":0
         }],
  "nextlayerid":4,
- "nextobjectid":45,
+ "nextobjectid":47,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

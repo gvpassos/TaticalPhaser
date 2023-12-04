@@ -223,7 +223,7 @@ const make = {
 
         }
         //morreu
-        inimigo.receberDano = (angle) => {
+        inimigo.receberDano = (dano,angle) => {
             angle = Math.abs(angle)
             console.log(angle);
 
@@ -242,12 +242,12 @@ const make = {
                 inimigo.body.setVelocityX(115)
             }
 
-            if (inimigo.health > 0) inimigo.health--;
+            if (inimigo.health > 0) inimigo.health-=dano ;
 
 
             setTimeout(()=>{
                 inimigo.body.setVelocity(0,0)
-                if (inimigo.health == 0) {
+                if (inimigo.health <= 0) {
                     inimigo.morte();
                 }else {
                     inimigo.followPlayer();
