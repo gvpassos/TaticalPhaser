@@ -547,7 +547,7 @@
                  "y":1120
                 }, 
                 {
-                 "height":32,
+                 "height":160,
                  "id":51,
                  "name":"portal",
                  "properties":[
@@ -561,15 +561,15 @@
                          "type":"int",
                          "value":0
                         }],
-                 "rotation":270,
+                 "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":160,
+                 "width":32,
                  "x":160,
-                 "y":1184
+                 "y":1024
                 }, 
                 {
-                 "height":32,
+                 "height":160,
                  "id":52,
                  "name":"portal",
                  "properties":[
@@ -583,11 +583,11 @@
                          "type":"int",
                          "value":1
                         }],
-                 "rotation":90,
+                 "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":160,
-                 "x":1408,
+                 "width":32,
+                 "x":1376,
                  "y":1024
                 }, 
                 {

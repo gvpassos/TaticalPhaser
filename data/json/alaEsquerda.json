@@ -1016,8 +1016,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":608,
-                 "y":992
+                 "x":672,
+                 "y":960
                 }, 
                 {
                  "height":0,
@@ -1853,6 +1853,82 @@
                  "width":0,
                  "x":770,
                  "y":128
+                }, 
+                {
+                 "height":0,
+                 "id":130,
+                 "name":"npc",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"frame",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"posFinal",
+                         "type":"int",
+                         "value":2
+                        }, 
+                        {
+                         "name":"posInicial",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"sprite",
+                         "type":"string",
+                         "value":"estante"
+                        }, 
+                        {
+                         "name":"tipo",
+                         "type":"string",
+                         "value":"estanteGenerica"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1280,
+                 "y":960
+                }, 
+                {
+                 "height":0,
+                 "id":132,
+                 "name":"npc",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"frame",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"posFinal",
+                         "type":"int",
+                         "value":2
+                        }, 
+                        {
+                         "name":"posInicial",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"sprite",
+                         "type":"string",
+                         "value":"estante"
+                        }, 
+                        {
+                         "name":"tipo",
+                         "type":"string",
+                         "value":"estanteGenerica"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1216,
+                 "y":960
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1861,7 +1937,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":130,
+ "nextobjectid":133,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

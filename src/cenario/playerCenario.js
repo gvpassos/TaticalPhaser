@@ -34,8 +34,8 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
         this.interact.body.setSize(64, 64);
 
         this.posicaoPlayer = "up";
-
-    }
+        this.cooldownAtaque = true;
+    }   
     move(path, mover, onFinish) {
 
         const color = 0x000050;
@@ -160,63 +160,77 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
             this.tweens.stop();
             this.anims.stop();
         }
-        if (this.y <= objInteracted.y + objInteracted.height && this.y >= objInteracted.y) {
-            if (this.x > objInteracted.x)
-                this.x = objInteracted.x + objInteracted.width;
-            if (this.x < objInteracted.x)
-                this.x = objInteracted.x - this.width;
-        }
 
-        if (this.x <= objInteracted.x + objInteracted.width && this.x >= objInteracted.x) {
-            if (this.y > objInteracted.y)
-                this.y = objInteracted.y + objInteracted.height;
+        if (this.y < objInteracted.y + objInteracted.height && this.y >= objInteracted.y) {
+            if (this.x > objInteracted.x) {
+                this.x = objInteracted.x + objInteracted.width + this.width / 2;
+            } else if (this.x < objInteracted.x) {
+                this.x = objInteracted.x - this.width / 2;
+
+            }
+        }
+        if (this.x < objInteracted.x + objInteracted.width && this.x >= objInteracted.x) {
+            if (this.y > objInteracted.y) {
+                this.y = objInteracted.y + objInteracted.height + this.height / 2;
+            }
             if (this.y < objInteracted.y)
-                this.y = objInteracted.y - this.height;
+                this.y = objInteracted.y - this.height / 2;
         }
     }
 
     atacar() {
-        let typeAnims = "ataqueMelee"
-        if (this.scene.Config.players[this.scene.Config.playerActive].equip['weapon']) {
-            const arma = ITEMS[this.scene.Config.players[this.scene.Config.playerActive].equip['weapon']]
-            typeAnims = "ataque"+  arma.anim
-        }
 
-        const tipoAtaque = this.posicaoPlayer + "Melee";
-        if (this.anims.currentAnim.key != tipoAtaque) this.play(tipoAtaque);
-        else if (!this.anims.isPlaying) this.play(tipoAtaque)
+        if (this.cooldownAtaque) {
+            let typeAnims = "ataqueMelee"
+            if (this.scene.Config.players[this.scene.Config.playerActive].equip['weapon']) {
+                const arma = ITEMS[this.scene.Config.players[this.scene.Config.playerActive].equip['weapon']]
+                typeAnims = "ataque" + arma.anim
+            }
 
-        let ataqueposX = this.x;
-        let angle = this.angle;
-        if (this.posicaoPlayer == "left") {
-            ataqueposX -= 32;
-            angle = 270;
-        }
-        if (this.posicaoPlayer == "right") {
-            ataqueposX += 32;
-            angle = 90;
-        }
-        let ataqueposY = this.y;
-        if (this.posicaoPlayer == "up")
-            ataqueposY -= 32;
-        if (this.posicaoPlayer == "down") {
-            ataqueposY += 32;
-            angle = 180;
-        }
+            const tipoAtaque = this.posicaoPlayer + "Melee";
+            if (this.anims.currentAnim.key != tipoAtaque) this.play(tipoAtaque);
+            else if (!this.anims.isPlaying) this.play(tipoAtaque)
 
-        const projectile = this.projectiles.create(ataqueposX, ataqueposY, typeAnims);
-        projectile.angle = angle;
-        projectile.setScale(2)
-        projectile.anims.create({
-            key: typeAnims,
-            frames: this.anims.generateFrameNumbers(typeAnims, { frames: [0, 1, 2, 3, 4, 5, 6] }),
-            frameRate: 18,
-        })
-        projectile.on('animationcomplete-'+typeAnims, function () {
-            projectile.destroy();
-        }, this);
+            let ataqueposX = this.x;
+            let angle = this.angle;
 
-        projectile.play(typeAnims);
+            if (this.posicaoPlayer == "left") {
+                ataqueposX -= 32;
+                angle = 270;
+            }
+            if (this.posicaoPlayer == "right") {
+                ataqueposX += 32;
+                angle = 90;
+            }
+            let ataqueposY = this.y;
+            if (this.posicaoPlayer == "up") {
+                ataqueposY -= 32;
+            }
+            if (this.posicaoPlayer == "down") {
+                ataqueposY += 32;
+                angle = 180;
+            }
+
+            const projectile = this.projectiles.create(ataqueposX, ataqueposY, typeAnims);
+            projectile.angle = angle;
+            projectile.setScale(2)
+            projectile.anims.create({
+                key: typeAnims,
+                frames: this.anims.generateFrameNumbers(typeAnims, { frames: [0, 1, 2, 3, 4, 5, 6] }),
+                frameRate: 18,
+            })
+            projectile.on('animationcomplete-' + typeAnims, function () {
+                projectile.destroy();
+            }, this);
+
+            projectile.play(typeAnims);
+
+            this.cooldownAtaque = false;
+            setTimeout(()=> {
+                this.cooldownAtaque = true;
+                console.log("carregou")
+            },600)
+        }
 
     }
 
@@ -236,7 +250,7 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
             this.body.setVelocityX(100);
         }
 
-        setTimeout(()=>{ this.body.setVelocity(0,0);},300)
+        setTimeout(() => { this.body.setVelocity(0, 0); }, 300)
 
         if (this.scene.Config.players[this.scene.Config.playerActive].stats['vida'] > 0)
             this.scene.Config.players[this.scene.Config.playerActive].stats['vida'] -= total;
