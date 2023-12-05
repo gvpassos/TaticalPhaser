@@ -192,6 +192,7 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
             else if (!this.anims.isPlaying) this.play(tipoAtaque)
 
             let ataqueposX = this.x;
+            let ataqueposY = this.y;
             let angle = this.angle;
 
             if (this.posicaoPlayer == "left") {
@@ -202,7 +203,6 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
                 ataqueposX += 32;
                 angle = 90;
             }
-            let ataqueposY = this.y;
             if (this.posicaoPlayer == "up") {
                 ataqueposY -= 32;
             }
@@ -214,17 +214,43 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
             const projectile = this.projectiles.create(ataqueposX, ataqueposY, typeAnims);
             projectile.angle = angle;
             projectile.setScale(2)
-            projectile.anims.create({
-                key: typeAnims,
-                frames: this.anims.generateFrameNumbers(typeAnims, { frames: [0, 1, 2, 3, 4, 5, 6] }),
-                frameRate: 18,
-            })
+            
+           
+
+            if(typeAnims.includes("Arrow")){
+                if (this.posicaoPlayer == "left") {
+                    projectile.setVelocityX(-200)
+                }
+                if (this.posicaoPlayer == "right") {
+                    projectile.setVelocityX(200)
+
+                }
+                if (this.posicaoPlayer == "up") {
+                    projectile.setVelocityY(-200)
+
+                }
+                if (this.posicaoPlayer == "down") {
+                    projectile.setVelocityY(200)
+
+                }
+                projectile.anims.create({
+                    key: typeAnims,
+                    frames: this.anims.generateFrameNumbers(typeAnims, { frames: [0, 1, 2, 3, 4, 5, 6] }),
+                    frameRate: 18,
+                    repeat:5
+                })
+            }else{
+                projectile.anims.create({
+                    key: typeAnims,
+                    frames: this.anims.generateFrameNumbers(typeAnims, { frames: [0, 1, 2, 3, 4, 5, 6] }),
+                    frameRate: 18,
+                })
+            }
+            
             projectile.on('animationcomplete-' + typeAnims, function () {
                 projectile.destroy();
             }, this);
-
             projectile.play(typeAnims);
-
             this.cooldownAtaque = false;
             setTimeout(()=> {
                 this.cooldownAtaque = true;
@@ -310,10 +336,24 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
             repeat: 0
         });
         this.anims.create({
-            key: 'atacarMagic',
-            frames: this.anims.generateFrameNumbers(this.name, { frames: [143, 144, 145, 146, 147, 148, 149, 150, 151] }),
+            key: 'upArrow',
+            frames: this.anims.generateFrameNumbers(this.name, { frames: [208,209,210,211,212,213,214,215,216,217,218,219,220] }),
             frameRate: 18,
-            repeat: -1
+        });
+        this.anims.create({
+            key: 'leftArrow',
+            frames: this.anims.generateFrameNumbers(this.name, { frames: [221,222,223,224,225,226,227,228,229,230,231,232,233] }),
+            frameRate: 18,
+        });
+        this.anims.create({
+            key: 'downArrow',
+            frames: this.anims.generateFrameNumbers(this.name, { frames: [234,235,236,237,238,239,240,241,242,243,244,245,246] }),
+            frameRate: 18,
+        })
+        this.anims.create({
+            key: 'rightArrow',
+            frames: this.anims.generateFrameNumbers(this.name, { frames: [247,248,249,250,251,252,253,254,255,256,257,258,259] }),
+            frameRate: 18,
         })
         this.play('up');
         this.anims.stop()

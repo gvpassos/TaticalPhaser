@@ -256,6 +256,8 @@ export function ataqueInteracao(objeto, player, scene) {
         const dano = arma + player.stats.damage;
 
         objeto.receberDano(dano,angle);
+
     }
     player.disable = true;
+    player.destroy()
 }

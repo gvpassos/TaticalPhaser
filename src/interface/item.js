@@ -80,5 +80,14 @@ export const ITEMS = [
         type: 'keyItems',
         desc:'Chave comum que deve abrir uma porta',
     },
+    {
+        id:11,
+        name: 'Arco',
+        sprite: 43,
+        type: 'weapon',
+        anim:'Arrow',
+        desc:'Arco velho',
+        damage:2
+    },
 ];
     

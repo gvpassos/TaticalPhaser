@@ -18,6 +18,7 @@ export class Cenario extends Phaser.Scene {
         this.load.spritesheet('player', 'data/player/playerSprite.png', { frameWidth: 64, frameHeight: 64 });
         this.load.spritesheet('ataqueMelee', 'data/tileds/ataqueMelee.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('ataqueSpear', 'data/tileds/ataqueSpear.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('ataqueArrow', 'data/tileds/ataqueArrow.png', { frameWidth: 32, frameHeight: 32 });
 
         this.load.spritesheet('monstro1', 'data/npc/monstro/monstro1.png', { frameWidth: 64, frameHeight: 64 });
         this.load.spritesheet('monstro2', 'data/npc/monstro/monstro2.png', { frameWidth: 64, frameHeight: 64 });
@@ -125,10 +126,12 @@ export class Cenario extends Phaser.Scene {
         });/// PLAYER x OBJS Interacao com o botao
         this.physics.add.collider(this.player.projectiles, this.Objs, (player, objeto) => {
             ataqueInteracao(player, objeto, this)
-
             //this.player.projectiles.body.touching.none = false;
         }); /// PLAYER ATACANDO INIMIGO 
-
+        this.physics.add.collider(this.player.projectiles, this.groundLayer, (ataque, objeto) => {
+            //ataqueInteracao(player, objeto, this)
+            ataque.destroy();
+        });
         /* BOTOES */
 
         this.addBotoes();

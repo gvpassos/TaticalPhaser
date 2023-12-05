@@ -377,6 +377,11 @@
                          "value":0
                         }, 
                         {
+                         "name":"health",
+                         "type":"int",
+                         "value":10
+                        }, 
+                        {
                          "name":"sprite",
                          "type":"string",
                          "value":"monstro2"
@@ -607,22 +612,27 @@
                  "name":"inimigo",
                  "polygon":[
                         {
-                         "x":0,
-                         "y":0
-                        }, 
-                        {
                          "x":32,
-                         "y":0
+                         "y":-224
                         }, 
                         {
                          "x":64,
-                         "y":0
+                         "y":-224
+                        }, 
+                        {
+                         "x":96,
+                         "y":-224
                         }],
                  "properties":[
                         {
                          "name":"frame",
                          "type":"int",
                          "value":0
+                        }, 
+                        {
+                         "name":"health",
+                         "type":"int",
+                         "value":6
                         }, 
                         {
                          "name":"sprite",
@@ -648,7 +658,7 @@
          "y":0
         }],
  "nextlayerid":4,
- "nextobjectid":47,
+ "nextobjectid":48,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

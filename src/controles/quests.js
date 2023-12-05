@@ -51,7 +51,7 @@ export const progressJSON = {
             "interacoes": [{
                 "tipo": "item",
                 "id": "Q2",
-                "itemCode": 7
+                "itemCode": 11
             }, {
                 "tipo": "falas",
                 "dialog": "quest1",
