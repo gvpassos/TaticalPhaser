@@ -130,8 +130,8 @@ export class Cenario extends Phaser.Scene {
         }); /// PLAYER ATACANDO INIMIGO 
         this.physics.add.collider(this.player.projectiles, this.groundLayer, (ataque, objeto) => {
             //ataqueInteracao(player, objeto, this)
-            ataque.destroy();
-        });
+            //ataque.destroy();
+        });// PROJETEIS e MAPA
         /* BOTOES */
 
         this.addBotoes();
@@ -149,8 +149,8 @@ export class Cenario extends Phaser.Scene {
         this.onMove = this.player.move(path, this.onMove, false);
     }
 
-    update() {
-        this.player.update()
+    update(time,delta) {
+        this.player.update(time,delta)
         this.Objs.forEach(element => {
             if (element.update) element.update()
         });
@@ -196,7 +196,7 @@ export class Cenario extends Phaser.Scene {
             })
             this.joyStick.on('update', () => { this.player.joystickMove(this.joyStick) });
 
-            const buttonJoystick = this.add.circle(w * 0.7, h * 0.75, w * 0.03, 0x256480)
+            const buttonJoystick = this.add.circle(w * 0.7, h * 0.75, w * 0.05, 0x256480)
                 .setAlpha(0.4)
                 .setScrollFactor(0, 0)
                 .setStrokeStyle(1.5, 0x250000);

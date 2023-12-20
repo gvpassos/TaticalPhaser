@@ -33,6 +33,7 @@ const make = {
         });
 
         scene.physics.add.existing(portal);
+        portal.body.setImmovable();
 
         return portal;
     },
@@ -480,4 +481,36 @@ const make = {
 }
 
 
+export function inimigoPerseguidor(scene,object){
+   
+    const inimigo = make["inimigo"](scene,object)
+
+    inimigo.goTo = () => {
+        const path = pathFinder(inimigo, scene.player, scene.groundLayer, []);
+        if (path == null) {
+            path = pathFinder(inimigo, {x:768,y:672}, scene.groundLayer, []);
+        }
+        path.forEach((laco, ind) => {
+            laco.x = laco.x * 32 + 16;
+            laco.y = laco.y * 32 + 16;
+            laco.duration = 200;
+            let angulo = ind > 0 ?
+                Phaser.Math.Angle.Between(path[ind - 1].x, path[ind - 1].y, laco.x, laco.y) :
+                Phaser.Math.Angle.Between(path[path.length - 1].x, path[path.length - 1].y, laco.x, laco.y,);
+            angulo = Phaser.Math.RadToDeg(angulo);
+            laco.onStart = () => {
+                inimigo.rodarAnimacao(angulo);
+            }
+        });
+        inimigo.tween = scene.tweens.chain({
+            targets: inimigo,
+            tweens: path,
+            onComplete: () => {
+                inimigo.destroy();
+            },
+        });
+    }
+
+    return inimigo;
+}
 

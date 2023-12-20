@@ -261,3 +261,34 @@ export function ataqueInteracao(objeto, player, scene) {
     player.disable = true;
     player.destroy()
 }
+
+
+export function saveGame(config,scene){
+    const saveConfig = JSON.stringify(config);
+    localStorage.setItem('config',saveConfig);
+
+    console.log(scene);    
+    const saveScene = JSON.stringify(
+        {
+            x:scene.player.x,
+            y:scene.player.y,
+            mapa:scene.mapaKey,
+        });
+    localStorage.setItem('scene',saveScene);
+
+    const saveQuest = JSON.stringify(manager.posicaoQuest);
+    localStorage.setItem('quest',saveQuest);
+}
+
+export function loadGame(scene){
+    scene.Config = JSON.parse(localStorage.getItem('config'));
+    const saveScene = JSON.parse(localStorage.getItem('scene'));
+    scene.player.x = saveScene.x;
+    scene.player.y = saveScene.y;
+    scene.mapaKey = saveScene.mapa;
+    manager.posicaoQuest = JSON.parse(localStorage.getItem('quest'));
+
+    scene.scene.restart();
+
+
+}

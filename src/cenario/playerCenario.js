@@ -12,12 +12,14 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
         this.body.setSize(30, 30);
         this.target = { x: 0, y: 0 };
 
+        this.speedWalk = 18 // Velocidade de andar
+
         this.name = config.name
         this.graphics = this.scene.add.graphics();
         this.travaAndar = false;
 
         config.scene.input.keyboard.on('keydown', (input) => {
-            if (this.tecladoMove[input.key]) this.tecladoMove[input.key](800);
+            if (this.tecladoMove[input.key]) this.tecladoMove[input.key](this.speedWalk*this.deltaTime);
         })
         config.scene.input.keyboard.on('keyup', (input) => {
             if (this.tecladoMove[input.key]) this.tecladoMove[input.key](0);
@@ -44,7 +46,7 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
         for (let i = 0; i < path.length; i++) {
             path[i].x = path[i].x * 32;
             path[i].y = path[i].y * 32;
-            path[i].duration = 20;
+            path[i].duration = 200;
             path[i].onStart = () => {
                 this.ultimaPos = { x: this.x, y: this.y };
                 const proximaPos = i < path.length - 1 ? path[i + 1] : path[i];
@@ -134,7 +136,7 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
         let cursorKeys = joyStick.createCursorKeys();
         for (let name in cursorKeys) {
             if (cursorKeys[name].isDown) {
-                this.joyStickMove[name](600);
+                this.joyStickMove[name](this.speedWalk*this.deltaTime);
                 break;
 
             }
@@ -281,9 +283,11 @@ export class PlayerCenario extends Phaser.GameObjects.Sprite {
         if (this.scene.Config.players[this.scene.Config.playerActive].stats['vida'] > 0)
             this.scene.Config.players[this.scene.Config.playerActive].stats['vida'] -= total;
     }
-    update() {
+    update(time,delta) {
         this.interact.x = this.x - 16;
         this.interact.y = this.y - 16;
+        this.deltaTime = delta;
+        
     }
 
     animacoes() {

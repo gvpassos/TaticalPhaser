@@ -1,4 +1,4 @@
-import { manager } from "../controles/manager.js";
+import { loadGame, manager, saveGame } from "../controles/manager.js";
 import { ITEMS } from "./item.js";
 
 export class MenuCreator extends Phaser.Scene {
@@ -60,7 +60,8 @@ export class MenuCreator extends Phaser.Scene {
             .setOrigin(0.5, 0.5)
             .setInteractive()
             .on('pointerup', () => {
-                console.log("salvar");
+                console.log()
+                saveGame(this.config,this.scene.manager.keys[this.sceneActive]);
 
             });
         const botaoCarregar = this.add.text(box.width / 2, box.height * 0.50, "Carregar",
@@ -69,7 +70,8 @@ export class MenuCreator extends Phaser.Scene {
             .setOrigin(0.5, 0.5)
             .setInteractive()
             .on('pointerup', () => {
-                console.log("salvar");
+                loadGame(this.scene.manager.keys[this.sceneActive]);
+                this.scene.resume(this.sceneActive);
 
             });
         const botaoConfiguracoes = this.add.text(box.width / 2, box.height * 0.60, "Configurações",
@@ -361,7 +363,6 @@ export class MenuCreator extends Phaser.Scene {
                         HTML.innerHTML += `<li>${key}: ${element}</li>`;
                     }
                 }
-                document.getElementById('root').appendChild(HTML);
                 const display = this.add.dom(this.w * 0.02, this.h * 0.025, HTML);
                 display.setOrigin(0, 0);
                 this.groupSubMenu.add(display);
@@ -459,6 +460,7 @@ export class MenuCreator extends Phaser.Scene {
             font: 1rem Arial;color: white;`;
 
         const text = this.add.dom(0, 0, HTML);
+
         text.setOrigin(0, 0);
 
         dialog.add(text);
