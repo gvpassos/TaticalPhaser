@@ -1,6 +1,6 @@
 import { pathFinder } from "./pathFinder.js";
 import { progressJSON } from "./quests.js";
-import {ITEMS} from "../interface/item.js"
+import { ITEMS } from "../interface/item.js"
 class gameManager {
     constructor(json) {
         this.posicaoQuest = 0;
@@ -142,6 +142,11 @@ class gameManager {
         });
     }
 
+    endBossBattle(){
+        this.posicaoQuest++;
+    }
+
+
 }
 
 export const manager = new gameManager(progressJSON);
@@ -161,7 +166,7 @@ const Colide = {
         angle = Phaser.Math.RadToDeg(angle);
 
         inimigo.atacarPlayer(angle);
-        
+
     },
     portal: (scene, interacao) => {
         scene.ultimoMapa = [scene.mapaKey];
@@ -251,11 +256,20 @@ export function ataqueInteracao(objeto, player, scene) {
     if (objeto.name == "inimigo" && !player.disable) {
         let angle = Phaser.Math.Angle.Between(scene.player.x, scene.player.y, objeto.x, objeto.y);
         angle = Phaser.Math.RadToDeg(angle);
-        const player =  scene.Config.players[scene.Config.playerActive]
-        const arma = player.equip['weapon'] ?  ITEMS[player.equip['weapon']].damage : 0;
+        const player = scene.Config.players[scene.Config.playerActive]
+        const arma = player.equip['weapon'] ? ITEMS[player.equip['weapon']].damage : 0;
         const dano = arma + player.stats.damage;
 
-        objeto.receberDano(dano,angle);
+        objeto.receberDano(dano, angle);
+
+    }
+    if (objeto.name == "boss1" && !player.disable) {
+
+        const player = scene.Config.players[scene.Config.playerActive]
+        const arma = player.equip['weapon'] ? ITEMS[player.equip['weapon']].damage : 0;
+        const dano = arma + player.stats.damage;
+
+        objeto.receberDano(dano);
 
     }
     player.disable = true;
@@ -263,32 +277,41 @@ export function ataqueInteracao(objeto, player, scene) {
 }
 
 
-export function saveGame(config,scene){
+export function saveGame(config, scene) {
+    if (scene.id == "bossFight1") return;
     const saveConfig = JSON.stringify(config);
-    localStorage.setItem('config',saveConfig);
+    localStorage.setItem('config', saveConfig);
 
-    console.log(scene);    
+
     const saveScene = JSON.stringify(
         {
-            x:scene.player.x,
-            y:scene.player.y,
-            mapa:scene.mapaKey,
+            x: scene.player.x,
+            y: scene.player.y,
+            mapa: scene.mapaKey,
         });
-    localStorage.setItem('scene',saveScene);
+    localStorage.setItem('scene', saveScene);
 
     const saveQuest = JSON.stringify(manager.posicaoQuest);
-    localStorage.setItem('quest',saveQuest);
+    localStorage.setItem('quest', saveQuest);
 }
 
-export function loadGame(scene){
-    scene.Config = JSON.parse(localStorage.getItem('config'));
+export function loadGame(scene) {
+
     const saveScene = JSON.parse(localStorage.getItem('scene'));
-    scene.player.x = saveScene.x;
-    scene.player.y = saveScene.y;
     scene.mapaKey = saveScene.mapa;
     manager.posicaoQuest = JSON.parse(localStorage.getItem('quest'));
 
-    scene.scene.restart();
+    setTimeout(() => {
+        scene.player.x = saveScene.x;
+        scene.player.y = saveScene.y;
 
+        const config = JSON.parse(localStorage.getItem('config'));
+        scene.scene.manager.scenes.forEach(el => {
+            el.Config = config;
+        });
+
+    }, 300);
+
+    scene.scene.restart();
 
 }

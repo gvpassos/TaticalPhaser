@@ -192,7 +192,7 @@
                  "y":96
                 }, 
                 {
-                 "height":32,
+                 "height":34.25,
                  "id":5,
                  "name":"portal",
                  "properties":[
@@ -221,7 +221,7 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":32,
+                 "width":34,
                  "x":0,
                  "y":320
                 }, 
@@ -238,9 +238,9 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":32,
-                 "x":1568,
-                 "y":640
+                 "width":35.0909090909092,
+                 "x":1564.72727272727,
+                 "y":640.363636363636
                 }, 
                 {
                  "height":128,
@@ -255,7 +255,7 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":32,
+                 "width":33.5,
                  "x":0,
                  "y":1152
                 }, 
@@ -279,6 +279,11 @@
                          "name":"posInicial",
                          "type":"int",
                          "value":0
+                        }, 
+                        {
+                         "name":"somenteVisivel",
+                         "type":"string",
+                         "value":"{\"inicio\":2,\"fim\":20}"
                         }, 
                         {
                          "name":"sprite",
@@ -338,6 +343,11 @@
                          "value":3
                         }, 
                         {
+                         "name":"somenteVisivel",
+                         "type":"string",
+                         "value":"{\"inicio\":2,\"fim\":20}"
+                        }, 
+                        {
                          "name":"sprite",
                          "type":"string",
                          "value":"monstro1"
@@ -387,6 +397,11 @@
                          "value":3
                         }, 
                         {
+                         "name":"somenteVisivel",
+                         "type":"string",
+                         "value":"{\"inicio\":2,\"fim\":20}"
+                        }, 
+                        {
                          "name":"sprite",
                          "type":"string",
                          "value":"monstro2"
@@ -434,6 +449,11 @@
                          "name":"health",
                          "type":"int",
                          "value":3
+                        }, 
+                        {
+                         "name":"somenteVisivel",
+                         "type":"string",
+                         "value":"{\"inicio\":2,\"fim\":20}"
                         }, 
                         {
                          "name":"sprite",

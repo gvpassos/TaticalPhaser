@@ -42,6 +42,9 @@ const make = {
         const spriteName = object.properties.find(el => el.name == "sprite")['value'];
         const health = object.properties.find(el => el.name == "health")['value'];
 
+        const somenteVisivel = object.properties.some(el => el.name == "somenteVisivel") ?
+            object.properties.find(el => el.name == "somenteVisivel")['value'] : false;
+
         const inimigo = scene.add.sprite(object.x + 16, object.y + 16, spriteName);
         inimigo.setOrigin(0.5, 0.5);
         inimigo.name = 'inimigo';
@@ -49,6 +52,7 @@ const make = {
         inimigo.idle = [];
         inimigo.tipo = object.properties.find(el => el.name == "tipo")['value']
         inimigo.health = health;
+        inimigo.somenteVisivel = somenteVisivel;
 
         /// animacoes do inimigo
         inimigo.anims.create({
@@ -180,7 +184,9 @@ const make = {
                 tweens: path,
                 onComplete: () => {
                     const distancia = Phaser.Math.Distance.BetweenPoints(inimigo, scene.player);
-                    if (distancia > 450) {
+                    if (distancia > 40) {
+                        inimigo.destroy();
+                    } else if (distancia > 450) {
                         inimigo.tween.stop();
                         inimigo.track = false;
                         inimigo.retorno();
@@ -482,7 +488,6 @@ const make = {
 
 
 export function inimigoPerseguidor(scene,object){
-   
     const inimigo = make["inimigo"](scene,object)
 
     inimigo.goTo = () => {
@@ -493,7 +498,7 @@ export function inimigoPerseguidor(scene,object){
         path.forEach((laco, ind) => {
             laco.x = laco.x * 32 + 16;
             laco.y = laco.y * 32 + 16;
-            laco.duration = 200;
+            laco.duration = 400;
             let angulo = ind > 0 ?
                 Phaser.Math.Angle.Between(path[ind - 1].x, path[ind - 1].y, laco.x, laco.y) :
                 Phaser.Math.Angle.Between(path[path.length - 1].x, path[path.length - 1].y, laco.x, laco.y,);
