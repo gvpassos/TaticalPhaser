@@ -97,15 +97,12 @@
 
 /**
  * @author       Richard Davey <rich@photonstorm.com>
-<<<<<<< HEAD
  * @copyright    2018 Photon Storm Ltd.
  * @license      {@link https://github.com/photonstorm/phaser/blob/master/license.txt|MIT License}
  */
 
 /**
  * @author       Richard Davey <rich@photonstorm.com>
-=======
->>>>>>> cf7665ef5b5622b76c472abd3fddd06144e39eb2
  * @copyright    2021 Photon Storm Ltd.
  * @license      {@link https://opensource.org/licenses/MIT|MIT License}
  */
