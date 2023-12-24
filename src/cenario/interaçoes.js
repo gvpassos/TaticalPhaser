@@ -181,6 +181,8 @@ const make = {
                 onComplete: () => {
                     const distancia = Phaser.Math.Distance.BetweenPoints(inimigo, scene.player);
                     if (distancia > 450) {
+                        inimigo.tween.stop();                    
+                    }else if (distancia > 450) {
                         inimigo.tween.stop();
                         inimigo.track = false;
                         inimigo.retorno();

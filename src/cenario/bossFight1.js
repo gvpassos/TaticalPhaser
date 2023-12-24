@@ -2,6 +2,8 @@ import { PlayerCenario } from "./playerCenario.js";
 import { pathFinder } from "../controles/pathFinder.js"
 import { criarInteracoes,inimigoPerseguidor, } from "./interaçoes.js";
 import { controladorInteracoes, activeInteracoes,ataqueInteracao,  manager } from "../controles/manager.js";
+import { addBotoes } from "../interface/menus.js";
+
 
 export class BossFight extends Phaser.Scene {
     constructor(config,mapa) {
@@ -73,7 +75,6 @@ export class BossFight extends Phaser.Scene {
             name:"player"
         })
 
-
         /// BOOSSS /// 
         this.boss = new BossSprite({
             scene:this,
@@ -93,6 +94,7 @@ export class BossFight extends Phaser.Scene {
         /* COLISIONS */
         
         this.physics.add.collider(this.player, this.groundLayer);
+        this.physics.add.collider(this.boss, this.groundLayer);
         this.physics.add.collider(this.player.projectiles, this.monstros, (player, objeto) => {
             //ataqueInteracao(player, objeto, this)
             //this.player.projectiles.body.touching.none = false;
@@ -102,7 +104,7 @@ export class BossFight extends Phaser.Scene {
       
         /* BOTOES */
         
-        this.addBotoes();
+        addBotoes(this);
 
         setInterval (() =>{  
             const rand =Math.floor( Math.random()*this.spawners.length);
@@ -120,78 +122,6 @@ export class BossFight extends Phaser.Scene {
     update(time,delta) {
         this.player.update(time,delta)    
         this.boss.update(this.player)
-    }
-
-
-    addBotoes(){
-        let w = this.cameras.main.width;
-        let h = this.cameras.main.height;
-
-        this.add.sprite(w*0.8, h*0.2, 'espada')
-            .setScrollFactor(0, 0)
-            .setInteractive()
-            .on('pointerup', this.callMenus['playerManager']);
-        this.add.circle(w*0.7, h*0.2, 25, 0xff0000)
-            .setScrollFactor(0, 0)
-            .setInteractive()
-            .on('pointerup', this.callMenus['settings'])
-
-
-        const fullscreenBtn = this.add.image(this.cameras.main.width*0.8, this.cameras.main.height*0.1, 'fullscreen', 0)
-        .setInteractive()
-        .setScrollFactor(0,0)
-
-        fullscreenBtn.on('pointerup', function ()
-        {
-            if (this.scale.isFullscreen)
-            {
-                fullscreenBtn.setFrame(0);
-                this.scale.stopFullscreen();
-            }
-            else
-            {
-                fullscreenBtn.setFrame(1);
-                this.scale.startFullscreen();
-            }
-        }, this);
-        if(!this.Config.touchMove ){
-            this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
-                x: w*0.12,
-                y: h*0.78,
-                radius: w*0.08,
-                base: this.add.circle(0, 0, 100, 0x888888,0.4).setStrokeStyle(1.5, 0x250000),
-                thumb: this.add.circle(0, 0, 50, 0x256480,0.2).setStrokeStyle(1.5, 0xaaaabb),
-            })
-            this.joyStick.on('update', () => { this.player.joystickMove(this.joyStick) });
-            
-            const buttonJoystick = this.add.circle(w*0.7, h*0.75, w*0.03, 0xffffff)
-            .setScrollFactor(0, 0)
-
-            const button = this.plugins.get('rexbuttonplugin').add(buttonJoystick);
-            button.on('down', function (button, gameObject, event) {
-                this.player.tecladoMove['x'](1)
-            }, this);
-            button.on('up', function (button, gameObject, event) {
-                this.player.tecladoMove['x'](0)
-            }, this);
-        }
-        
-    }
-
-    callMenus = {
-        "settings": ()=>{
-            this.scene.pause();
-            this.scene.manager.scenes.find(el => el.id == 'menuCreator').ui =  "settings";
-            this.scene.manager.scenes.find(el => el.id == 'menuCreator').sceneActive =  "bossFight1";
-            this.scene.launch('MenuCreator');
-        },
-        "playerManager": ()=>{
-            this.scene.pause();
-            this.scene.manager.scenes.find(el => el.id == 'menuCreator').ui =  "playerManager";
-            this.scene.manager.scenes.find(el => el.id == 'menuCreator').sceneActive =  "bossFight1";
-            this.scene.launch('MenuCreator');
-        }
-
     }
 }
 export class BossSprite extends Phaser.GameObjects.Sprite {

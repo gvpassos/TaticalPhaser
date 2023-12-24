@@ -776,7 +776,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
+         "visible":false,
          "x":0,
          "y":0
         }, 
@@ -957,206 +957,6 @@
                 }, 
                 {
                  "height":0,
-                 "id":78,
-                 "name":"npc",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"frame",
-                         "type":"string",
-                         "value":"0"
-                        }, 
-                        {
-                         "name":"itemCode",
-                         "type":"int",
-                         "value":5
-                        }, 
-                        {
-                         "name":"posFinal",
-                         "type":"int",
-                         "value":1
-                        }, 
-                        {
-                         "name":"posInicial",
-                         "type":"int",
-                         "value":0
-                        }, 
-                        {
-                         "name":"sprite",
-                         "type":"string",
-                         "value":"bau"
-                        }, 
-                        {
-                         "name":"tipo",
-                         "type":"string",
-                         "value":"bauN1"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":960,
-                 "y":192
-                }, 
-                {
-                 "height":0,
-                 "id":80,
-                 "name":"npc",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"frame",
-                         "type":"string",
-                         "value":"0"
-                        }, 
-                        {
-                         "name":"posFinal",
-                         "type":"int",
-                         "value":1
-                        }, 
-                        {
-                         "name":"posInicial",
-                         "type":"int",
-                         "value":0
-                        }, 
-                        {
-                         "name":"sprite",
-                         "type":"string",
-                         "value":"bau"
-                        }, 
-                        {
-                         "name":"tipo",
-                         "type":"string",
-                         "value":"bauGenerica"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":640,
-                 "y":192
-                }, 
-                {
-                 "height":0,
-                 "id":81,
-                 "name":"npc",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"frame",
-                         "type":"string",
-                         "value":"0"
-                        }, 
-                        {
-                         "name":"posFinal",
-                         "type":"int",
-                         "value":1
-                        }, 
-                        {
-                         "name":"posInicial",
-                         "type":"int",
-                         "value":0
-                        }, 
-                        {
-                         "name":"sprite",
-                         "type":"string",
-                         "value":"bau"
-                        }, 
-                        {
-                         "name":"tipo",
-                         "type":"string",
-                         "value":"bauGenerica"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":736,
-                 "y":192
-                }, 
-                {
-                 "height":0,
-                 "id":82,
-                 "name":"npc",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"frame",
-                         "type":"string",
-                         "value":"0"
-                        }, 
-                        {
-                         "name":"itemCode",
-                         "type":"int",
-                         "value":6
-                        }, 
-                        {
-                         "name":"posFinal",
-                         "type":"int",
-                         "value":1
-                        }, 
-                        {
-                         "name":"posInicial",
-                         "type":"int",
-                         "value":0
-                        }, 
-                        {
-                         "name":"sprite",
-                         "type":"string",
-                         "value":"bau"
-                        }, 
-                        {
-                         "name":"tipo",
-                         "type":"string",
-                         "value":"bauItem"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":832,
-                 "y":192
-                }, 
-                {
-                 "height":0,
-                 "id":83,
-                 "name":"npc",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"frame",
-                         "type":"string",
-                         "value":"0"
-                        }, 
-                        {
-                         "name":"posFinal",
-                         "type":"int",
-                         "value":1
-                        }, 
-                        {
-                         "name":"posInicial",
-                         "type":"int",
-                         "value":0
-                        }, 
-                        {
-                         "name":"sprite",
-                         "type":"string",
-                         "value":"bau"
-                        }, 
-                        {
-                         "name":"tipo",
-                         "type":"string",
-                         "value":"bauGenerica"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":896,
-                 "y":192
-                }, 
-                {
-                 "height":0,
                  "id":84,
                  "name":"npc",
                  "point":true,
@@ -1179,7 +979,7 @@
                         {
                          "name":"somenteVisivel",
                          "type":"string",
-                         "value":"{\"inicio\":3,\"fim\":5}"
+                         "value":"{\"inicio\":1,\"fim\":3}"
                         }, 
                         {
                          "name":"sprite",
@@ -1594,7 +1394,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }],
