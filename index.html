@@ -1,84 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="./src/phaser/phaser.min.js"></script>
-    <script type="module" >
+    <script src="dist/bundle.js"></script>
+
+    <script type="module">
+
+        //import VirtualJoystickPlugin from './node_modules/phaser3-rex-plugins/plugins/virtualjoystick-plugin.js';
+        //import ButtonPlugin from './node_modules/phaser3-rex-plugins/plugins/button-plugin.js';
+
+
         import { FaseCombate } from "./src/combate/faseCombate.js";
         import { Cenario } from "./src/cenario/CriadorMapa.js";
         import { MenuCreator } from "./src/interface/menus.js";
         import { BossFight } from "./src/cenario/bossFight1.js";
 
+
         ///instancia de fase de combate
         var Config = {
             marcadorEtapa: "escolhaDoJogador",
             quantJogadasP: 3,
-            inventario:[0,1,2,3,4,5,6,6,7,8,0,0,9],
+            inventario: [0, 1, 2, 3, 4, 5, 6, 6, 7, 8, 0, 0, 9],
             players: [
-                { 
+                {
                     name: 'player1',
-                    equip:{
-                        'head':null,
-                        'body':null,
-                        'legs':null,
-                        'hands':null,
-                        'weapon':7,
-                        'acessories1':null,
-                        'acessories2':null,
-                        'acessories3':null
+                    equip: {
+                        'head': null,
+                        'body': null,
+                        'legs': null,
+                        'hands': null,
+                        'weapon': 7,
+                        'acessories1': null,
+                        'acessories2': null,
+                        'acessories3': null
                     },
                     stats: {
-                        vida: 25,vidaMax:25,
-                        mana: 5,manaMax:15,
+                        vida: 25, vidaMax: 25,
+                        mana: 5, manaMax: 15,
                         defesa: 3,
-                        damage:1
+                        damage: 1
                     },
                     acoes: [
-                        { tipo:'Atacar', name: 'Atacar', dados:{ damage :2}},
-                        { tipo:'Magia', name: 'Magia de Raio', dados:{ raio:2, damage :2}},    
-                        { tipo:'Andar', name: 'Andar', dados: { speed :70}},
-                        { tipo:'Defender', name: 'Defender', dados:{ defesa :5}},
+                        { tipo: 'Atacar', name: 'Atacar', dados: { damage: 2 } },
+                        { tipo: 'Magia', name: 'Magia de Raio', dados: { raio: 2, damage: 2 } },
+                        { tipo: 'Andar', name: 'Andar', dados: { speed: 70 } },
+                        { tipo: 'Defender', name: 'Defender', dados: { defesa: 5 } },
 
                     ],
                 },
-                { 
+                {
                     name: 'player2',
-                    equip:{
-                        'head':null,
-                        'body':null,
-                        'legs':null,
-                        'hands':4,
-                        'weapon':8,
-                        'acessories1':null,
-                        'acessories2':null,
-                        'acessories3':null
+                    equip: {
+                        'head': null,
+                        'body': null,
+                        'legs': null,
+                        'hands': 4,
+                        'weapon': 8,
+                        'acessories1': null,
+                        'acessories2': null,
+                        'acessories3': null
                     },
                     stats: {
-                        vida: 15,vidaMax:15,
-                        mana: 25,manaMax:25,
+                        vida: 15, vidaMax: 15,
+                        mana: 25, manaMax: 25,
                         defesa: 1,
-                        damage:1,
+                        damage: 1,
                     },
                     acoes: [
-                        { tipo:'Atacar',    name: 'Atacar',         dados:  { damage: 1}},
-                        { tipo:'Magia',     name: 'Magia de Gelo',  dados:  { raio:3, damage : 6}},
-                        { tipo:'Magia',     name: 'Magia de Fogo',  dados:  { raio:4, damage : 10}},   
-                        { tipo:'Andar',     name: 'Andar',          dados:  { speed :5}},
-                        { tipo:'Defender',  name: 'Defender',       dados:  { defesa :10}},
+                        { tipo: 'Atacar', name: 'Atacar', dados: { damage: 1 } },
+                        { tipo: 'Magia', name: 'Magia de Gelo', dados: { raio: 3, damage: 6 } },
+                        { tipo: 'Magia', name: 'Magia de Fogo', dados: { raio: 4, damage: 10 } },
+                        { tipo: 'Andar', name: 'Andar', dados: { speed: 5 } },
+                        { tipo: 'Defender', name: 'Defender', dados: { defesa: 10 } },
 
                     ]
                 },
             ],
-            playerActive:0,
-            touchMove:false
+            playerActive: 0,
+            touchMove: false
 
-            
-          
+
+
         };
         const faseCombate = new FaseCombate(Config)
-        const Jogo = new Cenario(Config,"entrada");
+        const Jogo = new Cenario(Config, "entrada");
         const Menus = new MenuCreator(Config);
         const bossFight = new BossFight(Config);
 
@@ -102,7 +110,21 @@
                     debug: true
                 }
             },
-            scene: [Jogo,faseCombate,bossFight,Menus],
+            plugins: {
+                global: [{
+                    key: 'rexButton',
+                    plugin: ButtonPlugin,
+                    start: true
+                },
+                {
+                    key: 'rexVirtualJoystick',
+                    plugin: VirtualJoystickPlugin,
+                    start: true
+                },
+
+                ]
+            },
+            scene: [Jogo, faseCombate, bossFight, Menus],
             parent: 'root',
         }
         const Game = new Phaser.Game(config);
@@ -110,13 +132,15 @@
         Game.scale.fullScreenTarget = document.getElementById('root')
     </script>
     <style>
-        canvas{
+        canvas {
             width: 100%;
             height: auto;
         }
     </style>
 </head>
+
 <body>
     <div id="root"></div>
 </body>
+
 </html>
