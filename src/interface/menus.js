@@ -531,6 +531,22 @@ export class MenuCreator extends Phaser.Scene {
 
 }
 
+var callMenus = {
+    "settings": (scene) => {
+        scene.scene.pause();
+        scene.scene.manager.scenes.find(el => el.id == 'menuCreator').ui = "settings";
+        scene.scene.manager.scenes.find(el => el.id == 'menuCreator').sceneActive = "Cenario";
+        scene.scene.launch('MenuCreator');
+    },
+    "playerManager": (scene) => {
+        scene.scene.pause();
+        scene.scene.manager.scenes.find(el => el.id == 'menuCreator').ui = "playerManager";
+        scene.scene.manager.scenes.find(el => el.id == 'menuCreator').sceneActive = "Cenario";
+        scene.scene.launch('MenuCreator');
+    }
+
+}
+
 
 export function addBotoes(scene) {
     let w = scene.cameras.main.width;
@@ -539,11 +555,11 @@ export function addBotoes(scene) {
     scene.add.sprite(w * 0.8, h * 0.2, 'espada')
         .setScrollFactor(0, 0)
         .setInteractive()
-        .on('pointerup',()=>{ scene.callMenus['playerManager'] });
+        .on('pointerup',()=>{ callMenus['playerManager'](scene) });
     scene.add.circle(w * 0.7, h * 0.2, 25, 0xff0000)
         .setScrollFactor(0, 0)
         .setInteractive()
-        .on('pointerup', ()=>{scene.callMenus['settings']})
+        .on('pointerup', ()=>{callMenus['settings'](scene)})
 
 
     const fullscreenBtn = scene.add.image(scene.cameras.main.width * 0.8, scene.cameras.main.height * 0.1, 'fullscreen', 0)
@@ -582,22 +598,6 @@ export function addBotoes(scene) {
         button.on('up', function (button, gameObject, event) {
             scene.player.tecladoMove['x'](0)
         }, scene);
-    }
-
-}
-
-const callMenus = {
-    "settings": (scene) => {
-        scene.scene.pause();
-        scene.scene.manager.scenes.find(el => el.id == 'menuCreator').ui = "settings";
-        scene.scene.manager.scenes.find(el => el.id == 'menuCreator').sceneActive = "Cenario";
-        scene.scene.launch('MenuCreator');
-    },
-    "playerManager": (scene) => {
-        scene.scene.pause();
-        scene.scene.manager.scenes.find(el => el.id == 'menuCreator').ui = "playerManager";
-        scene.scene.manager.scenes.find(el => el.id == 'menuCreator').sceneActive = "Cenario";
-        scene.scene.launch('MenuCreator');
     }
 
 }

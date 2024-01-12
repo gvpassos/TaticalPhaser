@@ -47,6 +47,7 @@ export const ITEMS = [
         sprite: 26,
         type: 'acessories',
         desc:' Anel sem nenhum tipo de efeito',
+        type:"none"
     },
     {
         id:7,
@@ -88,6 +89,16 @@ export const ITEMS = [
         anim:'Arrow',
         desc:'Arco velho',
         damage:2
+    },
+    {
+        id:12,
+        name: 'Anel da Forca',
+        sprite: 26,
+        type: 'acessories',
+        desc:' Usar esse anel aumenta o atributo de ataque',
+        type:"status",
+        effect: {damage:5,mana:-1}
+        
     },
 ];
     
